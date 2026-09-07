@@ -26,6 +26,26 @@ model User {
   persona       String?
   website       String?
   joinedAt      String?
+  work          String?
+  homeTown      String?
+  // Privacy (IG/FB-style): everyone | followers | off
+  privateAccount     Boolean @default(false)
+  postsVisibility    String  @default("everyone")
+  threadsVisibility  String  @default("everyone")
+  reelsVisibility    String  @default("everyone")
+  whoCanMessage      String  @default("everyone")
+  whoCanFollow       String  @default("everyone")
+  // Social links
+  instagramUrl  String?
+  facebookUrl   String?
+  threadsUrl    String?
+  tiktokUrl     String?
+  youtubeUrl    String?
+  // Notification prefs (stubs)
+  notifyLikes     Boolean @default(true)
+  notifyComments  Boolean @default(true)
+  notifyFollows   Boolean @default(true)
+  notifyMessages  Boolean @default(true)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

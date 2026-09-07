@@ -31,7 +31,29 @@ type UserRow = {
   persona: string | null;
   website: string | null;
   joinedAt: string | null;
+  work: string | null;
+  homeTown: string | null;
+  privateAccount: boolean;
+  postsVisibility: string;
+  threadsVisibility: string;
+  reelsVisibility: string;
+  whoCanMessage: string;
+  whoCanFollow: string;
+  instagramUrl: string | null;
+  facebookUrl: string | null;
+  threadsUrl: string | null;
+  tiktokUrl: string | null;
+  youtubeUrl: string | null;
+  notifyLikes: boolean;
+  notifyComments: boolean;
+  notifyFollows: boolean;
+  notifyMessages: boolean;
 };
+
+function asAudience(v: string | null | undefined): TravelerProfile["postsVisibility"] {
+  if (v === "followers" || v === "off" || v === "everyone") return v;
+  return "everyone";
+}
 
 export function mapProfile(u: UserRow): TravelerProfile {
   return {
@@ -47,7 +69,24 @@ export function mapProfile(u: UserRow): TravelerProfile {
     isOfficialAi: u.isOfficialAi || undefined,
     persona: u.persona ?? undefined,
     website: u.website ?? undefined,
-    joinedAt: u.joinedAt ?? undefined
+    joinedAt: u.joinedAt ?? undefined,
+    work: u.work ?? undefined,
+    homeTown: u.homeTown ?? undefined,
+    privateAccount: u.privateAccount || undefined,
+    postsVisibility: asAudience(u.postsVisibility),
+    threadsVisibility: asAudience(u.threadsVisibility),
+    reelsVisibility: asAudience(u.reelsVisibility),
+    whoCanMessage: asAudience(u.whoCanMessage),
+    whoCanFollow: asAudience(u.whoCanFollow),
+    instagramUrl: u.instagramUrl ?? undefined,
+    facebookUrl: u.facebookUrl ?? undefined,
+    threadsUrl: u.threadsUrl ?? undefined,
+    tiktokUrl: u.tiktokUrl ?? undefined,
+    youtubeUrl: u.youtubeUrl ?? undefined,
+    notifyLikes: u.notifyLikes,
+    notifyComments: u.notifyComments,
+    notifyFollows: u.notifyFollows,
+    notifyMessages: u.notifyMessages
   };
 }
 
