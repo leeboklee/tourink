@@ -1,11 +1,13 @@
-import { meetups } from "@/data/mock";
+import { dbListMeetups } from "@/lib/catalog";
 import { SectionHero } from "@/components/ui";
 import { RsvpButton } from "@/components/RsvpButton";
 import Link from "next/link";
 
 export const metadata = { title: "Hangouts" };
 
-export default function HangoutsPage() {
+export default async function HangoutsPage() {
+  const meetups = await dbListMeetups();
+
   return (
     <div>
       <SectionHero
@@ -38,7 +40,7 @@ export default function HangoutsPage() {
               ))}
             </div>
             <div className="mt-4">
-              <RsvpButton spots={m.spots} going={m.going} />
+              <RsvpButton meetupId={m.id} spots={m.spots} going={m.going} />
             </div>
           </article>
         ))}

@@ -8,11 +8,26 @@ export default function ComposeThreadPage() {
   const router = useRouter();
   const [body, setBody] = useState("");
   const [note, setNote] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
-  function publish(e: React.FormEvent) {
+  async function publish(e: React.FormEvent) {
     e.preventDefault();
-    setNote(true);
-    setTimeout(() => router.push("/profile?tab=threads"), 900);
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/compose/thread", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ body })
+      });
+      if (!res.ok) throw new Error("Failed");
+      setNote(true);
+      setTimeout(() => router.push("/profile?tab=threads"), 700);
+    } catch {
+      setError("Could not publish thread.");
+      setBusy(false);
+    }
   }
 
   return (
@@ -24,7 +39,7 @@ export default function ComposeThreadPage() {
         </Link>
       </div>
       <p className="mb-4 text-sm text-white/50">
-        Threads-style text timeline — tips, takes, and local notes (mock).
+        Threads-style text timeline — tips, takes, and local notes saved to your profile.
       </p>
       <form onSubmit={publish} className="space-y-4 rounded-2xl border border-white/10 bg-ink-900/50 p-4">
         <label className="block space-y-1.5 text-sm">
@@ -38,9 +53,11 @@ export default function ComposeThreadPage() {
             required
           />
         </label>
+        {error ? <p className="text-sm text-neon-pink">{error}</p> : null}
         <button
           type="submit"
-          className="w-full rounded-xl bg-neon-cyan/90 px-4 py-3 text-sm font-semibold text-ink-950 transition hover:brightness-110"
+          disabled={busy}
+          className="w-full rounded-xl bg-neon-cyan/90 px-4 py-3 text-sm font-semibold text-ink-950 transition hover:brightness-110 disabled:opacity-60"
         >
           {note ? "Posted · opening Threads…" : "Post thread"}
         </button>

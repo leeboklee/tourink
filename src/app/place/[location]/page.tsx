@@ -1,12 +1,17 @@
 import Link from "next/link";
-import { getPostsByLocation } from "@/data/mock";
+import { dbGetPostsByLocation } from "@/lib/catalog";
 import { FeedCard } from "@/components/FeedCard";
 import { SectionHero } from "@/components/ui";
+
+export async function generateMetadata({ params }: { params: Promise<{ location: string }> }) {
+  const { location } = await params;
+  return { title: decodeURIComponent(location) };
+}
 
 export default async function PlacePage({ params }: { params: Promise<{ location: string }> }) {
   const { location } = await params;
   const label = decodeURIComponent(location);
-  const posts = getPostsByLocation(label);
+  const posts = await dbGetPostsByLocation(label);
 
   return (
     <div>

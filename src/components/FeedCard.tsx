@@ -10,11 +10,37 @@ import { OfficialAiBadge } from "@/components/OfficialAiBadge";
 
 export function FeedCard({ post }: { post: FeedPost }) {
   const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes);
   const [saved, setSaved] = useState(false);
   const [shareNote, setShareNote] = useState(false);
-  const likes = post.likes + (liked ? 1 : 0);
+  const [likeBusy, setLikeBusy] = useState(false);
   const isAi = isOfficialAiHandle(post.author);
   const isOwn = post.author === CURRENT_USER_HANDLE;
+
+  async function toggleLike() {
+    if (likeBusy) return;
+    setLikeBusy(true);
+    try {
+      const res = await fetch("/api/likes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: post.id })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setLiked(!!data.liked);
+        setLikeCount(data.likes ?? likeCount);
+      } else {
+        setLiked((v) => !v);
+      }
+    } catch {
+      /* offline fallback */
+      setLiked((v) => !v);
+      setLikeCount((c) => c + (liked ? -1 : 1));
+    } finally {
+      setLikeBusy(false);
+    }
+  }
 
   async function share() {
     const url = typeof window !== "undefined" ? `${window.location.origin}/post/${post.id}` : `/post/${post.id}`;
@@ -78,12 +104,13 @@ export function FeedCard({ post }: { post: FeedPost }) {
         <div className="flex items-center gap-4">
           <button
             type="button"
-            onClick={() => setLiked((v) => !v)}
-            className="flex items-center gap-1.5 text-sm"
+            disabled={likeBusy}
+            onClick={toggleLike}
+            className="flex items-center gap-1.5 text-sm disabled:opacity-60"
             aria-label="Like"
           >
             <Heart size={22} className={liked ? "fill-neon-pink text-neon-pink" : ""} />
-            {likes.toLocaleString()}
+            {likeCount.toLocaleString()}
           </button>
           <Link href={`/post/${post.id}#comments`} className="flex items-center gap-1.5 text-sm text-white/70">
             <MessageCircle size={22} />

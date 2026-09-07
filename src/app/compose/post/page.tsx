@@ -9,11 +9,29 @@ export default function ComposePostPage() {
   const [caption, setCaption] = useState("");
   const [location, setLocation] = useState("");
   const [note, setNote] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
-  function publish(e: React.FormEvent) {
+  async function publish(e: React.FormEvent) {
     e.preventDefault();
-    setNote(true);
-    setTimeout(() => router.push("/profile?tab=posts"), 900);
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/compose/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          caption,
+          location: location || "Seoul, Korea"
+        })
+      });
+      if (!res.ok) throw new Error("Failed to publish");
+      setNote(true);
+      setTimeout(() => router.push("/profile?tab=posts"), 700);
+    } catch {
+      setError("Could not publish. Try again.");
+      setBusy(false);
+    }
   }
 
   return (
@@ -25,11 +43,11 @@ export default function ComposePostPage() {
         </Link>
       </div>
       <p className="mb-4 text-sm text-white/50">
-        Mock composer — shares into your Instagram-style Posts grid.
+        Shares into your Instagram-style Posts grid and persists to the database.
       </p>
       <form onSubmit={publish} className="space-y-4 rounded-2xl border border-white/10 bg-ink-900/50 p-4">
         <div className="flex aspect-[4/5] items-center justify-center rounded-xl border border-dashed border-white/20 bg-ink-800/60 text-sm text-white/40">
-          Photo / still (mock)
+          Cover image uses a Korea travel placeholder until media upload is wired
         </div>
         <label className="block space-y-1.5 text-sm">
           <span className="text-white/55">Caption</span>
@@ -51,9 +69,11 @@ export default function ComposePostPage() {
             className="w-full rounded-xl border border-white/10 bg-ink-950/60 px-3 py-2 text-sm outline-none ring-neon-cyan/40 focus:ring-2"
           />
         </label>
+        {error ? <p className="text-sm text-neon-pink">{error}</p> : null}
         <button
           type="submit"
-          className="w-full rounded-xl bg-neon-pink px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-neon-pink/25 transition hover:brightness-110"
+          disabled={busy}
+          className="w-full rounded-xl bg-neon-pink px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-neon-pink/25 transition hover:brightness-110 disabled:opacity-60"
         >
           {note ? "Posted · opening My Page…" : "Share post"}
         </button>

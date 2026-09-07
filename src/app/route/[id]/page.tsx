@@ -1,11 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { routes } from "@/data/mock";
-import { BookButton } from "@/components/ui";
+import { dbListRoutes } from "@/lib/catalog";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const routes = await dbListRoutes();
+  const route = routes.find((r) => r.id === id);
+  return { title: route?.title ?? "Route" };
+}
 
 export default async function RoutePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const routes = await dbListRoutes();
   const route = routes.find((r) => r.id === id);
   if (!route) notFound();
 
@@ -27,20 +34,17 @@ export default async function RoutePage({ params }: { params: Promise<{ id: stri
             ))}
           </ol>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <div className="flex-1">
-              <BookButton label="Use this route (demo)" />
-            </div>
             <Link
               href="/hotels"
-              className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
+              className="flex-1 rounded-xl bg-neon-pink px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-neon-pink/25 hover:brightness-110"
             >
-              Find hotels
+              Book hotels on this route
             </Link>
             <Link
               href="/experiences"
               className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
             >
-              Add tickets
+              Add experiences
             </Link>
           </div>
         </div>

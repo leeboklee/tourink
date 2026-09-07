@@ -1,13 +1,28 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { forumThreads, getForumReplies } from "@/data/mock";
+import { dbGetForumReplies, dbListForumThreads } from "@/lib/catalog";
 import { ForumReplyList } from "@/components/ForumReplyList";
+import { prisma } from "@/lib/db";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const threads = await dbListForumThreads();
+  const thread = threads.find((t) => t.id === id);
+  return { title: thread?.title ?? "Forum thread" };
+}
 
 export default async function ForumThreadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const thread = forumThreads.find((t) => t.id === id);
+  const threads = await dbListForumThreads();
+  const thread = threads.find((t) => t.id === id);
   if (!thread) notFound();
-  const replies = getForumReplies(thread.id);
+
+  await prisma.forumThread.update({
+    where: { id: thread.id },
+    data: { views: { increment: 1 } }
+  });
+
+  const replies = await dbGetForumReplies(thread.id);
 
   return (
     <div className="px-4 pb-8 pt-6 lg:px-0">
@@ -26,7 +41,7 @@ export default async function ForumThreadPage({ params }: { params: Promise<{ id
       </div>
       <h1 className="mt-2 font-display text-3xl leading-tight">{thread.title}</h1>
       <p className="mt-2 text-xs text-white/45">
-        by @{thread.author} · {thread.createdAt} · {thread.views.toLocaleString()} views
+        by @{thread.author} · {thread.createdAt} · {(thread.views + 1).toLocaleString()} views
       </p>
       <p className="mt-4 rounded-2xl border border-white/10 bg-ink-900/50 p-4 text-sm text-white/80">
         {thread.body}

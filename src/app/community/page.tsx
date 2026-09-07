@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { communityPosts, meetups } from "@/data/mock";
+import { dbListCommunity, dbListMeetups } from "@/lib/catalog";
 import { SectionHero } from "@/components/ui";
 import { RsvpButton } from "@/components/RsvpButton";
 
 export const metadata = { title: "Community" };
 
-export default function CommunityPage() {
+export default async function CommunityPage() {
+  const [communityPosts, meetups] = await Promise.all([dbListCommunity(), dbListMeetups()]);
   const askLocals = communityPosts.filter((p) => p.kind === "ask-local");
   const boards = communityPosts.filter((p) => p.kind !== "ask-local");
 
@@ -53,7 +54,7 @@ export default function CommunityPage() {
                 ))}
               </div>
               <div className="mt-3">
-                <RsvpButton spots={m.spots} going={m.going} />
+                <RsvpButton meetupId={m.id} spots={m.spots} going={m.going} />
               </div>
             </article>
           ))}

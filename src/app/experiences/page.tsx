@@ -1,15 +1,17 @@
-import { experiences } from "@/data/mock";
+import { dbListExperiences } from "@/lib/catalog";
 import { CardLink, SectionHero } from "@/components/ui";
 
 export const metadata = { title: "Experiences" };
 
-export default function ExperiencesPage() {
+export default async function ExperiencesPage() {
+  const experiences = await dbListExperiences();
+
   return (
     <div>
       <SectionHero
         eyebrow="Klook-style"
         title="Book experiences"
-        subtitle="Day trips, palace photo walks, passes, and food tours — tap to reserve (demo)."
+        subtitle="Day trips, palace photo walks, passes, and food tours — checkout saves a real order record."
       />
       <div className="grid gap-4 px-4 pb-8 sm:grid-cols-2 lg:px-0">
         {experiences.map((e) => (

@@ -1,11 +1,16 @@
 import Link from "next/link";
-import { getPostsByTag } from "@/data/mock";
+import { dbGetPostsByTag } from "@/lib/catalog";
 import { FeedCard } from "@/components/FeedCard";
 import { SectionHero } from "@/components/ui";
 
+export async function generateMetadata({ params }: { params: Promise<{ tag: string }> }) {
+  const { tag } = await params;
+  return { title: `#${tag}` };
+}
+
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
   const { tag } = await params;
-  const posts = getPostsByTag(tag);
+  const posts = await dbGetPostsByTag(tag);
 
   return (
     <div>
