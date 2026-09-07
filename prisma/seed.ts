@@ -22,6 +22,7 @@ import {
   savedPostIds,
   threadPosts
 } from "../src/data/mock";
+import { licenseFromUrl } from "../src/data/media-license";
 
 const prisma = new PrismaClient();
 
@@ -60,12 +61,15 @@ async function main() {
 
   for (const p of profiles) {
     const email = `${p.handle.replace(/\./g, "_")}@tourink.local`;
+    const avatarMeta = licenseFromUrl(p.avatar);
     const user = await prisma.user.create({
       data: {
         handle: p.handle,
         name: p.name,
         email,
         image: p.avatar,
+        imageLicense: p.avatarLicense ?? avatarMeta.license,
+        imageAttribution: p.avatarAttribution ?? avatarMeta.attribution,
         bio: p.bio,
         city: p.city,
         followers: p.followers,
@@ -84,12 +88,16 @@ async function main() {
   }
 
   // Staff admin — login with handle or email admin@tourink
+  const adminAvatar = "https://api.dicebear.com/9.x/bottts-neutral/png?seed=admin.tourink&size=128";
+  const adminMeta = licenseFromUrl(adminAvatar);
   const adminUser = await prisma.user.create({
     data: {
       handle: "admin@tourink",
       name: "Tourink Admin",
       email: "admin@tourink",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+      image: adminAvatar,
+      imageLicense: adminMeta.license,
+      imageAttribution: adminMeta.attribution,
       bio: "Staff CMS operator",
       city: "Seoul",
       role: "ADMIN",
@@ -103,12 +111,16 @@ async function main() {
   const ensureUser = async (handle: string) => {
     let id = handleToId.get(handle);
     if (id) return id;
+    const avatar = `https://api.dicebear.com/9.x/bottts-neutral/png?seed=${encodeURIComponent(handle)}&size=128`;
+    const meta = licenseFromUrl(avatar);
     const created = await prisma.user.create({
       data: {
         handle,
         name: handle,
         email: `${handle.replace(/\./g, "_")}@tourink.local`,
-        image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop",
+        image: avatar,
+        imageLicense: meta.license,
+        imageAttribution: meta.attribution,
         bio: "Tourink traveler"
       }
     });
@@ -118,12 +130,15 @@ async function main() {
 
   for (const post of feedPosts) {
     const authorId = await ensureUser(post.author);
+    const imgMeta = licenseFromUrl(post.image);
     await prisma.feedPost.create({
       data: {
         id: post.id,
         authorId,
         location: post.location,
         image: post.image,
+        imageLicense: post.imageLicense ?? imgMeta.license,
+        imageAttribution: post.imageAttribution ?? imgMeta.attribution,
         caption: post.caption,
         likes: post.likes,
         comments: post.comments,
@@ -198,6 +213,8 @@ async function main() {
         currency: h.currency,
         rating: h.rating,
         image: h.image,
+        imageLicense: licenseFromUrl(h.image).license,
+        imageAttribution: licenseFromUrl(h.image).attribution,
         amenitiesJson: JSON.stringify(h.amenities),
         description: h.description,
         active: true
@@ -217,6 +234,8 @@ async function main() {
         rating: e.rating,
         reviews: e.reviews,
         image: e.image,
+        imageLicense: licenseFromUrl(e.image).license,
+        imageAttribution: licenseFromUrl(e.image).attribution,
         category: e.category,
         description: e.description,
         active: true
@@ -232,6 +251,8 @@ async function main() {
         days: r.days,
         citiesJson: JSON.stringify(r.cities),
         image: r.image,
+        imageLicense: licenseFromUrl(r.image).license,
+        imageAttribution: licenseFromUrl(r.image).attribution,
         highlightsJson: JSON.stringify(r.highlights),
         summary: r.summary,
         active: true
@@ -249,6 +270,8 @@ async function main() {
         city: n.city,
         vibe: n.vibe,
         image: n.image,
+        imageLicense: licenseFromUrl(n.image).license,
+        imageAttribution: licenseFromUrl(n.image).attribution,
         cover: n.cover,
         openUntil: n.openUntil,
         rating: n.rating,
