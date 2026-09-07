@@ -1,14 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { nightlife, getReviewsForPlace } from "@/data/mock";
+import { dbGetReviewsForPlace, dbListNightlife } from "@/lib/catalog";
 import { ReviewComposer, ReviewList } from "@/components/Reviews";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const nightlife = await dbListNightlife();
+  const spot = nightlife.find((n) => n.id === id);
+  return { title: spot?.name ?? "Nightlife" };
+}
 
 export default async function NightlifeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const nightlife = await dbListNightlife();
   const spot = nightlife.find((n) => n.id === id);
   if (!spot) notFound();
-  const reviews = getReviewsForPlace(spot.id);
+  const reviews = await dbGetReviewsForPlace(spot.id);
 
   return (
     <div className="px-4 pb-8 pt-4 lg:px-0">

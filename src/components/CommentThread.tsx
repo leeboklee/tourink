@@ -16,6 +16,27 @@ export function CommentThread({
 }) {
   const [items, setItems] = useState(initial);
   const [draft, setDraft] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!draft.trim() || busy) return;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId, body: draft.trim() })
+      });
+      const data = await res.json();
+      if (res.ok && data.comment) {
+        setItems((prev) => [...prev, data.comment]);
+        setDraft("");
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
     <div id="comments" className="space-y-4">
@@ -26,7 +47,7 @@ export function CommentThread({
         {items.map((c) => (
           <li key={c.id} className="flex gap-3">
             <Image
-              src={c.avatar}
+              src={c.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop"}
               alt={c.author}
               width={36}
               height={36}
@@ -50,26 +71,7 @@ export function CommentThread({
           </li>
         ))}
       </ul>
-      <form
-        className="flex gap-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!draft.trim()) return;
-          setItems((prev) => [
-            ...prev,
-            {
-              id: `local-${Date.now()}`,
-              postId,
-              author: "you.traveler",
-              avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop",
-              body: draft.trim(),
-              likes: 0,
-              createdAt: "now"
-            }
-          ]);
-          setDraft("");
-        }}
-      >
+      <form className="flex gap-2" onSubmit={onSubmit}>
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
@@ -78,7 +80,8 @@ export function CommentThread({
         />
         <button
           type="submit"
-          className="rounded-xl bg-neon-pink px-4 py-2.5 text-sm font-semibold text-white hover:brightness-110"
+          disabled={busy}
+          className="rounded-xl bg-neon-pink px-4 py-2.5 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60"
         >
           Post
         </button>

@@ -13,6 +13,27 @@ export function ForumReplyList({
 }) {
   const [items, setItems] = useState(initial);
   const [draft, setDraft] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!draft.trim() || busy) return;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/forum/replies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ threadId, body: draft.trim() })
+      });
+      const data = await res.json();
+      if (res.ok && data.reply) {
+        setItems((prev) => [...prev, data.reply]);
+        setDraft("");
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -40,25 +61,7 @@ export function ForumReplyList({
           </li>
         ))}
       </ul>
-      <form
-        className="space-y-2 rounded-2xl border border-white/10 bg-ink-900/40 p-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!draft.trim()) return;
-          setItems((prev) => [
-            ...prev,
-            {
-              id: `fr-local-${Date.now()}`,
-              threadId,
-              author: "you.traveler",
-              body: draft.trim(),
-              likes: 0,
-              createdAt: "now"
-            }
-          ]);
-          setDraft("");
-        }}
-      >
+      <form className="space-y-2 rounded-2xl border border-white/10 bg-ink-900/40 p-4" onSubmit={onSubmit}>
         <label className="text-xs uppercase tracking-wider text-white/45">Your answer</label>
         <textarea
           value={draft}
@@ -69,7 +72,8 @@ export function ForumReplyList({
         />
         <button
           type="submit"
-          className="rounded-xl bg-neon-pink px-4 py-2.5 text-sm font-semibold text-white hover:brightness-110"
+          disabled={busy}
+          className="rounded-xl bg-neon-pink px-4 py-2.5 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60"
         >
           Post answer
         </button>

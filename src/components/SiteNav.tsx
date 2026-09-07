@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Bell,
   Compass,
   Hotel,
   Map,
   MessageSquare,
   MoonStar,
   Newspaper,
+  Search,
   Ticket,
   UserRound,
   Users
@@ -18,6 +20,8 @@ import { clsx } from "clsx";
 const links = [
   { href: "/", label: "Feed", icon: Newspaper },
   { href: "/profile", label: "My Page", icon: UserRound },
+  { href: "/search", label: "Search", icon: Search },
+  { href: "/notifications", label: "Alerts", icon: Bell },
   { href: "/experiences", label: "Experiences", icon: Ticket },
   { href: "/routes", label: "Routes", icon: Map },
   { href: "/hotels", label: "Hotels", icon: Hotel },
@@ -60,20 +64,41 @@ export function SiteNav() {
             })}
           </nav>
         </div>
-        <p className="text-xs text-white/35">MVP · mock booking</p>
+        <div className="space-y-2 text-xs text-white/45">
+          <Link href="/auth/signin" className="block text-neon-cyan hover:underline">
+            Sign in
+          </Link>
+          <p>Bookings · community · hangouts</p>
+        </div>
       </aside>
 
       <header className="sticky top-0 z-30 border-b border-white/10 bg-ink-950/80 px-4 py-3 backdrop-blur lg:hidden">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-3">
           <Link href="/" className="font-display text-2xl text-paper">
             Tourink
           </Link>
-          <Link
-            href="/profile"
-            className="rounded-full border border-neon-pink/40 px-2.5 py-1 text-[11px] uppercase tracking-wider text-neon-pink"
-          >
-            My Page
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/search"
+              className="rounded-full border border-white/15 p-2 text-white/70"
+              aria-label="Search"
+            >
+              <Search size={16} />
+            </Link>
+            <Link
+              href="/notifications"
+              className="rounded-full border border-white/15 p-2 text-white/70"
+              aria-label="Notifications"
+            >
+              <Bell size={16} />
+            </Link>
+            <Link
+              href="/profile"
+              className="rounded-full border border-neon-pink/40 px-2.5 py-1 text-[11px] uppercase tracking-wider text-neon-pink"
+            >
+              My Page
+            </Link>
+          </div>
         </div>
       </header>
 
