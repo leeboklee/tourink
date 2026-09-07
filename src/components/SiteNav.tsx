@@ -47,7 +47,11 @@ export function SiteNav() {
               const active =
                 pathname === href ||
                 (href !== "/" && pathname.startsWith(href)) ||
-                (href === "/profile" && (pathname.startsWith("/compose") || pathname.startsWith("/reel")));
+                (href === "/profile" &&
+                (pathname.startsWith("/compose") ||
+                  pathname.startsWith("/reel") ||
+                  pathname.startsWith("/settings") ||
+                  pathname.startsWith("/profile/")));
               return (
                 <Link
                   key={href}
@@ -108,7 +112,11 @@ export function SiteNav() {
             const active =
               pathname === href ||
               (href !== "/" && pathname.startsWith(href)) ||
-              (href === "/profile" && (pathname.startsWith("/compose") || pathname.startsWith("/reel")));
+              (href === "/profile" &&
+                (pathname.startsWith("/compose") ||
+                  pathname.startsWith("/reel") ||
+                  pathname.startsWith("/settings") ||
+                  pathname.startsWith("/profile/")));
             return (
               <Link
                 key={href}

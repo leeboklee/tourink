@@ -131,6 +131,8 @@ export type Meetup = {
   description: string;
 };
 
+export type VisibilityAudience = "everyone" | "followers" | "off";
+
 export type TravelerProfile = {
   handle: string;
   name: string;
@@ -147,6 +149,25 @@ export type TravelerProfile = {
   persona?: string;
   website?: string;
   joinedAt?: string;
+  /** About: workplace / role for normal travelers. */
+  work?: string;
+  /** About: hometown for normal travelers. */
+  homeTown?: string;
+  privateAccount?: boolean;
+  postsVisibility?: VisibilityAudience;
+  threadsVisibility?: VisibilityAudience;
+  reelsVisibility?: VisibilityAudience;
+  whoCanMessage?: VisibilityAudience;
+  whoCanFollow?: VisibilityAudience;
+  instagramUrl?: string;
+  facebookUrl?: string;
+  threadsUrl?: string;
+  tiktokUrl?: string;
+  youtubeUrl?: string;
+  notifyLikes?: boolean;
+  notifyComments?: boolean;
+  notifyFollows?: boolean;
+  notifyMessages?: boolean;
 };
 
 /** Handles for official AI creators that seed the Korea travel feed. */
@@ -1249,7 +1270,11 @@ export const profiles: TravelerProfile[] = [
     followers: 1540,
     following: 190,
     posts: 19,
-    joinedAt: "Jul 2025"
+    joinedAt: "Jul 2025",
+    work: "Travel writer",
+    homeTown: "Mexico City",
+    website: "tourink.kr/@sofia.mx",
+    instagramUrl: "https://instagram.com/sofia.mx"
   },
   {
     handle: "mia.uk",

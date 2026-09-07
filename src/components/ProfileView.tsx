@@ -6,10 +6,12 @@ import {
   Grid3X3,
   Heart,
   Bookmark,
+  Lock,
   MessageCircle,
   MapPin,
   Pencil,
   Plus,
+  Settings,
   UserRound,
   Users
 } from "lucide-react";
@@ -52,7 +54,9 @@ export function ProfileView({
   reels,
   saved,
   hangouts,
-  community
+  community,
+  contentLocked = false,
+  followDisabled = false
 }: {
   profile: TravelerProfile;
   tab: ProfileTab;
@@ -64,6 +68,9 @@ export function ProfileView({
   saved: FeedPost[];
   hangouts: Meetup[];
   community: CommunityPost[];
+  /** Public viewer cannot see posts/threads/reels due to privacy. */
+  contentLocked?: boolean;
+  followDisabled?: boolean;
 }) {
   const hrefFor = (next: ProfileTab) =>
     next === "posts" ? basePath : `${basePath}?tab=${next}`;
@@ -92,6 +99,11 @@ export function ProfileView({
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="font-display text-2xl leading-none">@{profile.handle}</h1>
               {profile.isOfficialAi ? <OfficialAiBadge /> : null}
+              {profile.privateAccount ? (
+                <span className="inline-flex items-center gap-1 rounded bg-white/10 px-1.5 py-0.5 text-[10px] uppercase text-white/70">
+                  <Lock size={10} /> Private
+                </span>
+              ) : null}
               {profile.isLocal && !profile.isOfficialAi ? (
                 <span className="rounded bg-neon-amber/20 px-1.5 py-0.5 text-[10px] uppercase text-neon-amber">
                   local
@@ -104,7 +116,7 @@ export function ProfileView({
             ) : null}
             <div className="mt-3 flex gap-5 text-sm">
               <span>
-                <strong>{posts.length || profile.posts}</strong>{" "}
+                <strong>{contentLocked ? "—" : posts.length || profile.posts}</strong>{" "}
                 <span className="text-white/45">posts</span>
               </span>
               <span>
@@ -139,7 +151,14 @@ export function ProfileView({
                 className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-paper sm:flex-none"
               >
                 <Pencil size={14} />
-                Edit profile
+                Edit
+              </Link>
+              <Link
+                href="/settings"
+                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-neon-cyan/40 bg-neon-cyan/10 px-3 py-2 text-xs font-semibold text-neon-cyan sm:flex-none"
+              >
+                <Settings size={14} />
+                Settings
               </Link>
               <Link
                 href="/compose/post"
@@ -150,7 +169,7 @@ export function ProfileView({
               </Link>
               <Link
                 href="/compose/thread"
-                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-neon-cyan/40 bg-neon-cyan/10 px-3 py-2 text-xs font-semibold text-neon-cyan sm:flex-none"
+                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 sm:flex-none"
               >
                 <MessageCircle size={14} />
                 New thread
@@ -158,7 +177,13 @@ export function ProfileView({
             </>
           ) : (
             <>
-              <FollowButton handle={profile.handle} />
+              {followDisabled ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/45">
+                  Follows closed
+                </span>
+              ) : (
+                <FollowButton handle={profile.handle} />
+              )}
               <Link
                 href="/hangouts"
                 className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/75"
@@ -195,14 +220,33 @@ export function ProfileView({
       </nav>
 
       <div className="mt-4">
-        {tab === "posts" ? <PostsGrid posts={posts} /> : null}
-        {tab === "threads" ? <ThreadsTimeline threads={threads} isOwn={isOwn} /> : null}
-        {tab === "reels" ? <ReelsGrid reels={reels} /> : null}
+        {contentLocked && (tab === "posts" || tab === "threads" || tab === "reels") ? (
+          <PrivateLockState privateAccount={!!profile.privateAccount} />
+        ) : null}
+        {!contentLocked && tab === "posts" ? <PostsGrid posts={posts} /> : null}
+        {!contentLocked && tab === "threads" ? (
+          <ThreadsTimeline threads={threads} isOwn={isOwn} />
+        ) : null}
+        {!contentLocked && tab === "reels" ? <ReelsGrid reels={reels} /> : null}
         {tab === "saved" ? <SavedFeed saved={saved} isOwn={isOwn} /> : null}
         {tab === "about" ? (
           <AboutPanel profile={profile} hangouts={hangouts} community={community} posts={posts} />
         ) : null}
       </div>
+    </div>
+  );
+}
+
+function PrivateLockState({ privateAccount }: { privateAccount: boolean }) {
+  return (
+    <div className="mx-4 rounded-2xl border border-dashed border-white/15 px-4 py-12 text-center lg:mx-0">
+      <Lock className="mx-auto text-neon-cyan" size={28} />
+      <p className="mt-3 font-display text-xl">This account is private</p>
+      <p className="mt-2 text-sm text-white/50">
+        {privateAccount
+          ? "Follow to see posts, threads, and reels."
+          : "This content is limited to followers."}
+      </p>
     </div>
   );
 }
@@ -311,7 +355,7 @@ function ReelsGrid({ reels }: { reels: ReelPost[] }) {
 
   return (
     <div className="grid grid-cols-2 gap-1 px-1 sm:grid-cols-3 lg:px-0">
-          {reels.map((reel) => (
+      {reels.map((reel) => (
         <Link
           key={reel.id}
           href={`/reel/${reel.id}`}
@@ -374,6 +418,14 @@ function AboutPanel({
   community: CommunityPost[];
   posts: FeedPost[];
 }) {
+  const socials = [
+    { label: "Instagram", url: profile.instagramUrl },
+    { label: "Facebook", url: profile.facebookUrl },
+    { label: "Threads", url: profile.threadsUrl },
+    { label: "TikTok", url: profile.tiktokUrl },
+    { label: "YouTube", url: profile.youtubeUrl }
+  ].filter((s) => s.url);
+
   return (
     <div className="space-y-4 px-4 lg:px-0">
       <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
@@ -391,6 +443,18 @@ function AboutPanel({
             <div className="flex justify-between gap-3">
               <dt className="text-white/45">Joined</dt>
               <dd>{profile.joinedAt}</dd>
+            </div>
+          ) : null}
+          {!profile.isOfficialAi && profile.work ? (
+            <div className="flex justify-between gap-3">
+              <dt className="text-white/45">Work</dt>
+              <dd className="text-right">{profile.work}</dd>
+            </div>
+          ) : null}
+          {!profile.isOfficialAi && profile.homeTown ? (
+            <div className="flex justify-between gap-3">
+              <dt className="text-white/45">Hometown</dt>
+              <dd className="text-right">{profile.homeTown}</dd>
             </div>
           ) : null}
           <div className="flex justify-between gap-3">
@@ -423,6 +487,27 @@ function AboutPanel({
         ) : null}
         <p className="mt-3 text-sm leading-relaxed text-white/70">{profile.bio}</p>
       </section>
+
+      {socials.length ? (
+        <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
+          <h2 className="text-sm font-semibold">Social</h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            {socials.map((s) => (
+              <li key={s.label} className="flex justify-between gap-3">
+                <span className="text-white/45">{s.label}</span>
+                <a
+                  href={s.url!.startsWith("http") ? s.url! : `https://${s.url}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="truncate text-neon-cyan hover:underline"
+                >
+                  {s.url}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
         <div className="flex items-center justify-between">

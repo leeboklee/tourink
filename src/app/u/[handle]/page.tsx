@@ -8,8 +8,9 @@ import {
   dbGetSavedPostsForUser,
   dbGetThreadsByAuthor
 } from "@/lib/catalog";
-import { CURRENT_USER_HANDLE, isOfficialAiHandle } from "@/data/mock";
+import { isOfficialAiHandle } from "@/data/mock";
 import { parseProfileTab, ProfileView } from "@/components/ProfileView";
+import { canRequestFollow, canViewContent, resolveViewerAccess } from "@/lib/privacy";
 
 export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
@@ -31,41 +32,41 @@ export default async function PublicProfilePage({
   const { tab: tabRaw } = await searchParams;
   const tab = parseProfileTab(tabRaw);
   const profile = await dbGetProfile(handle);
-  const posts = await dbGetPostsByAuthor(handle);
 
   if (isOfficialAiHandle(handle) && !profile) {
     notFound();
   }
 
-  const p = profile ?? {
-    handle,
-    name: handle,
-    avatar:
-      posts[0]?.avatar ??
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop",
-    bio: "Tourink traveler.",
-    city: posts[0]?.location.split(",").pop()?.trim() ?? "Korea",
-    followers: 120,
-    following: 80,
-    posts: posts.length
-  };
+  if (!profile) {
+    notFound();
+  }
 
-  const isOwn = p.handle === CURRENT_USER_HANDLE;
+  const { isOwn, isFollower } = await resolveViewerAccess(profile.handle);
   const effectiveTab = tab === "saved" && !isOwn ? "posts" : tab;
 
-  const [threads, reels, saved, hangouts, community] = await Promise.all([
-    dbGetThreadsByAuthor(p.handle),
-    dbGetReelsByAuthor(p.handle),
-    dbGetSavedPostsForUser(p.handle),
-    dbGetHangoutsByHost(p.handle),
-    dbGetCommunityByAuthor(p.handle)
+  const postsVisible = canViewContent(profile, "posts", { isOwn, isFollower });
+  const threadsVisible = canViewContent(profile, "threads", { isOwn, isFollower });
+  const reelsVisible = canViewContent(profile, "reels", { isOwn, isFollower });
+
+  const contentLockedForTab =
+    (effectiveTab === "posts" && !postsVisible) ||
+    (effectiveTab === "threads" && !threadsVisible) ||
+    (effectiveTab === "reels" && !reelsVisible);
+
+  const [posts, threads, reels, saved, hangouts, community] = await Promise.all([
+    postsVisible ? dbGetPostsByAuthor(profile.handle) : Promise.resolve([]),
+    threadsVisible ? dbGetThreadsByAuthor(profile.handle) : Promise.resolve([]),
+    reelsVisible ? dbGetReelsByAuthor(profile.handle) : Promise.resolve([]),
+    isOwn ? dbGetSavedPostsForUser(profile.handle) : Promise.resolve([]),
+    dbGetHangoutsByHost(profile.handle),
+    dbGetCommunityByAuthor(profile.handle)
   ]);
 
   return (
     <ProfileView
-      profile={p}
+      profile={profile}
       tab={effectiveTab}
-      basePath={`/u/${p.handle}`}
+      basePath={`/u/${profile.handle}`}
       isOwn={isOwn}
       posts={posts}
       threads={threads}
@@ -73,6 +74,8 @@ export default async function PublicProfilePage({
       saved={saved}
       hangouts={hangouts}
       community={community}
+      contentLocked={contentLockedForTab}
+      followDisabled={!canRequestFollow(profile, { isOwn })}
     />
   );
 }

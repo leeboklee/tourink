@@ -74,6 +74,19 @@ async function main() {
         persona: p.persona,
         website: p.website,
         joinedAt: p.joinedAt,
+        work: p.work,
+        homeTown: p.homeTown,
+        privateAccount: !!p.privateAccount,
+        postsVisibility: p.postsVisibility ?? "everyone",
+        threadsVisibility: p.threadsVisibility ?? "everyone",
+        reelsVisibility: p.reelsVisibility ?? "everyone",
+        whoCanMessage: p.whoCanMessage ?? "everyone",
+        whoCanFollow: p.whoCanFollow ?? "everyone",
+        instagramUrl: p.instagramUrl || null,
+        facebookUrl: p.facebookUrl || null,
+        threadsUrl: p.threadsUrl || null,
+        tiktokUrl: p.tiktokUrl || null,
+        youtubeUrl: p.youtubeUrl || null,
         passwordHash: p.handle === CURRENT_USER_HANDLE ? demoPassword : null
       }
     });
