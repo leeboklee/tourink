@@ -4,14 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bookmark, Heart, MessageCircle, Send, MapPin } from "lucide-react";
 import { useState } from "react";
-import type { FeedPost } from "@/data/mock";
+import { CURRENT_USER_HANDLE, isOfficialAiHandle, type FeedPost } from "@/data/mock";
 import { FollowButton } from "@/components/FollowButton";
+import { OfficialAiBadge } from "@/components/OfficialAiBadge";
 
 export function FeedCard({ post }: { post: FeedPost }) {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [shareNote, setShareNote] = useState(false);
   const likes = post.likes + (liked ? 1 : 0);
+  const isAi = isOfficialAiHandle(post.author);
+  const isOwn = post.author === CURRENT_USER_HANDLE;
 
   async function share() {
     const url = typeof window !== "undefined" ? `${window.location.origin}/post/${post.id}` : `/post/${post.id}`;
@@ -31,21 +34,30 @@ export function FeedCard({ post }: { post: FeedPost }) {
   return (
     <article className="overflow-hidden border-b border-white/10 bg-ink-900/40 lg:rounded-2xl lg:border lg:shadow-feed">
       <div className="flex items-center gap-3 px-4 py-3">
-        <Link href={`/u/${post.author}`}>
-          <Image
-            src={post.avatar}
-            alt={post.author}
-            width={40}
-            height={40}
-            className="h-10 w-10 rounded-full object-cover"
-          />
+        <Link href={`/u/${post.author}`} className="relative shrink-0">
+          <span
+            className={
+              isAi
+                ? "block rounded-full bg-gradient-to-tr from-neon-cyan to-neon-cyan/40 p-[2px]"
+                : "block"
+            }
+          >
+            <Image
+              src={post.avatar}
+              alt={post.author}
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+          </span>
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Link href={`/u/${post.author}`} className="truncate text-sm font-semibold hover:text-neon-cyan">
               {post.author}
             </Link>
-            <FollowButton handle={post.author} compact />
+            {isAi ? <OfficialAiBadge compact /> : null}
+            {!isOwn ? <FollowButton handle={post.author} compact /> : null}
           </div>
           <Link
             href={`/place/${encodeURIComponent(post.location)}`}
