@@ -4,6 +4,8 @@ import { nightlife, getReviewsForPlace } from "@/data/mock";
 import { SectionHero } from "@/components/ui";
 import { ReviewComposer, ReviewList } from "@/components/Reviews";
 
+export const metadata = { title: "Nightlife" };
+
 export default function NightlifePage() {
   return (
     <div>

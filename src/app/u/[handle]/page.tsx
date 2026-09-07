@@ -1,22 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { feedPosts, getProfile } from "@/data/mock";
 import { FollowButton } from "@/components/FollowButton";
 import { FeedCard } from "@/components/FeedCard";
+
+export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params;
+  const profile = getProfile(handle);
+  return { title: `@${profile?.handle ?? handle}` };
+}
 
 export default async function ProfilePage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
   const profile = getProfile(handle);
   const posts = feedPosts.filter((p) => p.author === handle);
 
-  if (!profile && posts.length === 0) notFound();
-
   const p = profile ?? {
     handle,
     name: handle,
     avatar: posts[0]?.avatar ?? "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop",
-    bio: "Tourink traveler",
+    bio: "Tourink traveler — profile stub for demo.",
     city: posts[0]?.location.split(",").pop()?.trim() ?? "Korea",
     followers: 120,
     following: 80,

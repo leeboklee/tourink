@@ -3,6 +3,8 @@ import { communityPosts, meetups } from "@/data/mock";
 import { SectionHero } from "@/components/ui";
 import { RsvpButton } from "@/components/RsvpButton";
 
+export const metadata = { title: "Community" };
+
 export default function CommunityPage() {
   const askLocals = communityPosts.filter((p) => p.kind === "ask-local");
   const boards = communityPosts.filter((p) => p.kind !== "ask-local");
@@ -33,7 +35,12 @@ export default function CommunityPage() {
               </div>
               <h3 className="mt-2 text-base font-semibold">{m.title}</h3>
               <p className="mt-1 text-sm text-white/65">{m.description}</p>
-              <p className="mt-2 text-xs text-white/40">Host @{m.host}</p>
+              <p className="mt-2 text-xs text-white/40">
+                Host{" "}
+                <Link href={`/u/${m.host}`} className="text-neon-cyan hover:underline">
+                  @{m.host}
+                </Link>
+              </p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {m.tags.map((t) => (
                   <Link
@@ -66,7 +73,9 @@ export default function CommunityPage() {
             <h3 className="mt-2 text-base font-semibold">{post.title}</h3>
             <p className="mt-1 text-sm text-white/70">{post.body}</p>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-white/45">@{post.author}</span>
+              <Link href={`/u/${post.author}`} className="text-white/45 hover:text-neon-cyan">
+                @{post.author}
+              </Link>
               {post.tags.map((t) => (
                 <Link key={t} href={`/tag/${t}`} className="rounded-full bg-white/5 px-2 py-1 text-neon-cyan">
                   #{t}
@@ -83,7 +92,9 @@ export default function CommunityPage() {
         {boards.map((post) => (
           <article key={post.id} className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
             <div className="flex items-center justify-between gap-3 text-xs text-white/45">
-              <span>@{post.author}</span>
+              <Link href={`/u/${post.author}`} className="hover:text-neon-cyan">
+                @{post.author}
+              </Link>
               <span>{post.createdAt}</span>
             </div>
             <h3 className="mt-2 text-base font-semibold">{post.title}</h3>

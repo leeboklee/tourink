@@ -2,6 +2,8 @@ import Link from "next/link";
 import { forumThreads } from "@/data/mock";
 import { SectionHero } from "@/components/ui";
 
+export const metadata = { title: "Forum" };
+
 export default function ForumPage() {
   return (
     <div>
@@ -37,7 +39,11 @@ export default function ForumPage() {
                     {t.title}
                   </Link>
                   <p className="text-xs text-white/40">
-                    by {t.author} · {t.createdAt}
+                    by{" "}
+                    <Link href={`/u/${t.author}`} className="hover:text-neon-cyan">
+                      @{t.author}
+                    </Link>{" "}
+                    · {t.createdAt}
                   </p>
                 </td>
                 <td className="hidden px-4 py-3 sm:table-cell">{t.replies}</td>
