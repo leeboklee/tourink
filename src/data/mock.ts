@@ -776,7 +776,7 @@ export const hotels: Hotel[] = [
     priceFrom: 420,
     currency: "USD",
     rating: 4.9,
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&h=700&fit=crop",
+    image: "https://images.unsplash.com/photo-1631049552057-403cdb8f0658?w=900&h=700&fit=crop"
     amenities: ["Pool", "Sky lounge", "Spa", "Airport transfer"],
     description: "Iconic tower stay with Han River views — for a landmark Seoul night."
   },

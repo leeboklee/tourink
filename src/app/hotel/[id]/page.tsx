@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { dbGetHotel } from "@/lib/catalog";
-import { BookButton } from "@/components/ui";
+import { HotelAvailabilityPanel } from "@/components/HotelAvailabilityPanel";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -36,7 +36,11 @@ export default async function HotelPage({ params }: { params: Promise<{ id: stri
           <p className="text-xl font-semibold text-neon-amber">
             From {hotel.currency} {hotel.priceFrom} / night
           </p>
-          <BookButton label="Check availability" href={`/book/hotel/${hotel.id}`} />
+          <HotelAvailabilityPanel
+            hotelId={hotel.id}
+            currency={hotel.currency}
+            priceFrom={hotel.priceFrom}
+          />
         </div>
       </div>
     </div>
