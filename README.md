@@ -41,3 +41,10 @@ Demo login: `sofia.mx` / `tourink-demo`
 ## Product surfaces
 
 Feed (live weather) · My Page · Search (Nominatim geo) · Notifications · Routes · Nightlife · Hangouts · Community · Forum · Hotels / Experiences (Coming soon until partner keys) · Bookings (when enabled) · Staff Admin
+
+## Safety & feed ranking
+
+- Moderation (spam / report / block): `docs/MODERATION.md`
+- Feed algorithm: `docs/FEED_ALGORITHM.md`
+- Security & PII: `docs/SECURITY.md`
+- Smoke tests: `npm run test:moderation`

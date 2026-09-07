@@ -60,6 +60,19 @@ export default async function AdminDashboardPage() {
         <span className="text-sm text-neon-cyan">Open →</span>
       </Link>
 
+      <Link
+        href="/admin/moderation"
+        className="mt-3 flex items-start justify-between gap-3 rounded-xl border border-neon-pink/25 bg-neon-pink/5 px-4 py-4 transition hover:border-neon-pink/50"
+      >
+        <div>
+          <p className="text-sm font-semibold text-paper">콘텐츠 모더레이션 · Moderation</p>
+          <p className="mt-1 text-xs text-white/55">
+            Report queue · shadow-hide spam · remove abusive posts
+          </p>
+        </div>
+        <span className="text-sm text-neon-pink">Open →</span>
+      </Link>
+
       <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {ADMIN_NAV.map((item) => (
           <Link

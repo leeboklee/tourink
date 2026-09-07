@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { moderateTextClient } from "@/lib/moderation/client";
 
 export default function ComposePostPage() {
   const router = useRouter();
@@ -16,6 +17,12 @@ export default function ComposePostPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    const clientCheck = moderateTextClient(caption);
+    if (!clientCheck.ok) {
+      setError(clientCheck.error ?? "Content blocked");
+      setBusy(false);
+      return;
+    }
     try {
       const res = await fetch("/api/compose/post", {
         method: "POST",
@@ -25,11 +32,12 @@ export default function ComposePostPage() {
           location: location || "Seoul, Korea"
         })
       });
-      if (!res.ok) throw new Error("Failed to publish");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Failed to publish");
       setNote(true);
       setTimeout(() => router.push("/profile?tab=posts"), 700);
-    } catch {
-      setError("Could not publish. Try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not publish. Try again.");
       setBusy(false);
     }
   }
@@ -43,7 +51,8 @@ export default function ComposePostPage() {
         </Link>
       </div>
       <p className="mb-4 text-sm text-white/50">
-        Shares into your Instagram-style Posts grid and persists to the database.
+        Shares into your Instagram-style Posts grid and persists to the database. Spam, abuse, and
+        personal data are filtered before publish.
       </p>
       <form onSubmit={publish} className="space-y-4 rounded-2xl border border-white/10 bg-ink-900/50 p-4">
         <div className="flex aspect-[4/5] items-center justify-center rounded-xl border border-dashed border-white/20 bg-ink-800/60 text-sm text-white/40">

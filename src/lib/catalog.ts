@@ -67,9 +67,9 @@ export async function dbGetOfficialAiProfiles() {
 
 export async function dbListFeedPosts(): Promise<FeedPost[]> {
   const rows = await prisma.feedPost.findMany({
-    where: { active: true },
+    where: { active: true, shadowHidden: false },
     include: { author: true },
-    orderBy: { id: "asc" }
+    orderBy: { publishedAt: "desc" }
   });
   return rows.map((p) => ({
     id: p.id,
