@@ -141,6 +141,34 @@ export type TravelerProfile = {
   following: number;
   posts: number;
   isLocal?: boolean;
+  website?: string;
+  joinedAt?: string;
+};
+
+/** Logged-in demo user for My Page (`/profile`). */
+export const CURRENT_USER_HANDLE = "mina.seoul";
+
+export type ThreadPost = {
+  id: string;
+  author: string;
+  avatar: string;
+  body: string;
+  likes: number;
+  replies: number;
+  createdAt: string;
+  tags?: string[];
+};
+
+export type ReelPost = {
+  id: string;
+  author: string;
+  avatar: string;
+  cover: string;
+  caption: string;
+  views: number;
+  likes: number;
+  createdAt: string;
+  location?: string;
 };
 
 export const feedPosts: FeedPost[] = [
@@ -191,8 +219,191 @@ export const feedPosts: FeedPost[] = [
     comments: 51,
     tags: ["food", "market"],
     createdAt: "1d"
+  },
+  {
+    id: "p5",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    location: "Seongsu, Seoul",
+    image: "https://images.unsplash.com/photo-1517154428103-8fe2e841f3c0?w=900&h=1100&fit=crop",
+    caption: "Warehouse cafes + blue hour. Seongsu roll.",
+    likes: 940,
+    comments: 31,
+    tags: ["seoul", "cafe", "seongsu"],
+    createdAt: "3d"
+  },
+  {
+    id: "p6",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    location: "Itaewon, Seoul",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=900&h=1100&fit=crop",
+    caption: "Cocktail map for first-timers. Soft lights, loud music.",
+    likes: 2011,
+    comments: 88,
+    tags: ["nightlife", "itaewon"],
+    createdAt: "4d"
+  },
+  {
+    id: "p7",
+    author: "busan.wave",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    location: "Gwangalli, Busan",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&h=1100&fit=crop",
+    caption: "Bridge glow after a late paddle.",
+    likes: 674,
+    comments: 19,
+    tags: ["busan", "night"],
+    createdAt: "2d"
+  },
+  {
+    id: "p8",
+    author: "jeju.trail",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    location: "Udo, Jeju",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=1100&fit=crop",
+    caption: "Udo peanut ice cream stop. Ferry tips in comments.",
+    likes: 1320,
+    comments: 44,
+    tags: ["jeju", "island"],
+    createdAt: "6d"
   }
 ];
+
+export const threadPosts: ThreadPost[] = [
+  {
+    id: "th1",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    body: "Hot take: Hongdae after 11pm is a different city. If you’re solo, stick to Exit 9 → playground street → late coffee.",
+    likes: 318,
+    replies: 42,
+    createdAt: "45m",
+    tags: ["hongdae", "night"]
+  },
+  {
+    id: "th2",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    body: "Thread: 3 neon photo spots that aren’t saturated yet — 1) Seongsu underpass mural 2) Euljiro back alley glass 3) Hapjeong rooftop stairs.",
+    likes: 521,
+    replies: 67,
+    createdAt: "5h",
+    tags: ["photo", "seoul"]
+  },
+  {
+    id: "th3",
+    author: "busan.wave",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    body: "Wind check before Haeundae dawn surf. If whitecaps look angry from the boardwalk, grab coffee instead.",
+    likes: 146,
+    replies: 18,
+    createdAt: "2h",
+    tags: ["busan", "surf"]
+  },
+  {
+    id: "th4",
+    author: "local.yuna",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop",
+    body: "Ask-a-local: T-money vs cash on buses — always T-money. Transfers save real money across subway + bus.",
+    likes: 890,
+    replies: 112,
+    createdAt: "1d",
+    tags: ["ask-local", "transit"]
+  },
+  {
+    id: "th5",
+    author: "market.finder",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+    body: "Gwangjang at 10am is for photos. Gwangjang at 6pm is for eating. Choose wisely.",
+    likes: 402,
+    replies: 33,
+    createdAt: "8h",
+    tags: ["food", "market"]
+  },
+  {
+    id: "th6",
+    author: "jeju.trail",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    body: "Hallasan tip: start earlier than your pride wants. Cloud line moves fast after noon.",
+    likes: 277,
+    replies: 29,
+    createdAt: "3d",
+    tags: ["jeju", "hike"]
+  }
+];
+
+export const reelPosts: ReelPost[] = [
+  {
+    id: "r1",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    cover: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=720&h=1280&fit=crop",
+    caption: "Neon alley walk — 15s cut",
+    views: 48200,
+    likes: 3900,
+    createdAt: "1d",
+    location: "Hongdae, Seoul"
+  },
+  {
+    id: "r2",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    cover: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=720&h=1280&fit=crop",
+    caption: "Night market audio tour",
+    views: 22100,
+    likes: 1800,
+    createdAt: "3d",
+    location: "Myeongdong, Seoul"
+  },
+  {
+    id: "r3",
+    author: "busan.wave",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    cover: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=720&h=1280&fit=crop",
+    caption: "Dawn paddle POV",
+    views: 91000,
+    likes: 7200,
+    createdAt: "2d",
+    location: "Haeundae, Busan"
+  },
+  {
+    id: "r4",
+    author: "jeju.trail",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    cover: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=720&h=1280&fit=crop",
+    caption: "Cloud line speedrun",
+    views: 35000,
+    likes: 4100,
+    createdAt: "5d",
+    location: "Hallasan, Jeju"
+  },
+  {
+    id: "r5",
+    author: "night.owl",
+    avatar: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=120&h=120&fit=crop",
+    cover: "https://images.unsplash.com/photo-1571266028241-dc9e8b4c0b4b?w=720&h=1280&fit=crop",
+    caption: "Club queue to first track",
+    views: 17800,
+    likes: 960,
+    createdAt: "12h",
+    location: "Itaewon, Seoul"
+  },
+  {
+    id: "r6",
+    author: "mina.seoul",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    cover: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=720&h=1280&fit=crop",
+    caption: "Rooftop pour + skyline",
+    views: 64000,
+    likes: 5100,
+    createdAt: "6d",
+    location: "Seongsu, Seoul"
+  }
+];
+
+/** Bookmarks for the demo logged-in user. */
+export const savedPostIds: string[] = ["p2", "p3", "p4", "p7"];
 
 export const comments: Comment[] = [
   {
@@ -697,7 +908,9 @@ export const profiles: TravelerProfile[] = [
     followers: 12400,
     following: 320,
     posts: 186,
-    isLocal: true
+    isLocal: true,
+    website: "tourink.kr/@mina.seoul",
+    joinedAt: "Mar 2024"
   },
   {
     handle: "busan.wave",
@@ -708,7 +921,9 @@ export const profiles: TravelerProfile[] = [
     followers: 8300,
     following: 210,
     posts: 94,
-    isLocal: true
+    isLocal: true,
+    website: "tourink.kr/@busan.wave",
+    joinedAt: "Jun 2024"
   },
   {
     handle: "jeju.trail",
@@ -719,7 +934,8 @@ export const profiles: TravelerProfile[] = [
     followers: 5600,
     following: 180,
     posts: 71,
-    isLocal: true
+    isLocal: true,
+    joinedAt: "Jan 2025"
   },
   {
     handle: "market.finder",
@@ -729,7 +945,8 @@ export const profiles: TravelerProfile[] = [
     city: "Seoul",
     followers: 4100,
     following: 540,
-    posts: 120
+    posts: 120,
+    joinedAt: "Nov 2024"
   },
   {
     handle: "local.yuna",
@@ -740,7 +957,8 @@ export const profiles: TravelerProfile[] = [
     followers: 9800,
     following: 140,
     posts: 55,
-    isLocal: true
+    isLocal: true,
+    joinedAt: "Feb 2024"
   },
   {
     handle: "kenji.osaka",
@@ -750,7 +968,8 @@ export const profiles: TravelerProfile[] = [
     city: "Seoul",
     followers: 2200,
     following: 410,
-    posts: 28
+    posts: 28,
+    joinedAt: "Aug 2025"
   },
   {
     handle: "alex.from.berlin",
@@ -760,7 +979,8 @@ export const profiles: TravelerProfile[] = [
     city: "Seoul",
     followers: 980,
     following: 260,
-    posts: 12
+    posts: 12,
+    joinedAt: "Sep 2025"
   },
   {
     handle: "sofia.mx",
@@ -770,7 +990,8 @@ export const profiles: TravelerProfile[] = [
     city: "Seoul",
     followers: 1540,
     following: 190,
-    posts: 19
+    posts: 19,
+    joinedAt: "Jul 2025"
   },
   {
     handle: "mia.uk",
@@ -780,7 +1001,8 @@ export const profiles: TravelerProfile[] = [
     city: "Seoul",
     followers: 760,
     following: 300,
-    posts: 9
+    posts: 9,
+    joinedAt: "Aug 2025"
   },
   {
     handle: "night.owl",
@@ -790,7 +1012,8 @@ export const profiles: TravelerProfile[] = [
     city: "Seoul",
     followers: 3100,
     following: 120,
-    posts: 44
+    posts: 44,
+    joinedAt: "Apr 2025"
   },
   {
     handle: "traveler.nz",
@@ -800,7 +1023,8 @@ export const profiles: TravelerProfile[] = [
     city: "Busan",
     followers: 430,
     following: 88,
-    posts: 6
+    posts: 6,
+    joinedAt: "Sep 2025"
   },
   {
     handle: "chef.nomad",
@@ -810,12 +1034,17 @@ export const profiles: TravelerProfile[] = [
     city: "Jeju",
     followers: 5200,
     following: 200,
-    posts: 63
+    posts: 63,
+    joinedAt: "May 2024"
   }
 ];
 
 export function getProfile(handle: string) {
   return profiles.find((p) => p.handle === handle);
+}
+
+export function getCurrentProfile() {
+  return getProfile(CURRENT_USER_HANDLE);
 }
 
 export function getCommentsForPost(postId: string) {
@@ -838,4 +1067,29 @@ export function getPostsByTag(tag: string) {
 export function getPostsByLocation(location: string) {
   const q = decodeURIComponent(location).toLowerCase();
   return feedPosts.filter((p) => p.location.toLowerCase().includes(q));
+}
+
+export function getPostsByAuthor(handle: string) {
+  return feedPosts.filter((p) => p.author === handle);
+}
+
+export function getThreadsByAuthor(handle: string) {
+  return threadPosts.filter((t) => t.author === handle);
+}
+
+export function getReelsByAuthor(handle: string) {
+  return reelPosts.filter((r) => r.author === handle);
+}
+
+export function getSavedPostsForUser(handle: string) {
+  if (handle !== CURRENT_USER_HANDLE) return [];
+  return feedPosts.filter((p) => savedPostIds.includes(p.id));
+}
+
+export function getHangoutsByHost(handle: string) {
+  return meetups.filter((m) => m.host === handle);
+}
+
+export function getCommunityByAuthor(handle: string) {
+  return communityPosts.filter((p) => p.author === handle);
 }
