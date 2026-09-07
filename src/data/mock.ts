@@ -741,6 +741,76 @@ export const profiles: TravelerProfile[] = [
     following: 140,
     posts: 55,
     isLocal: true
+  },
+  {
+    handle: "kenji.osaka",
+    name: "Kenji",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop",
+    bio: "Osaka → Seoul hiker. Foreigner-friendly trails.",
+    city: "Seoul",
+    followers: 2200,
+    following: 410,
+    posts: 28
+  },
+  {
+    handle: "alex.from.berlin",
+    name: "Alex",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop",
+    bio: "Berlin → Korea for a month. Language exchange + cocktails.",
+    city: "Seoul",
+    followers: 980,
+    following: 260,
+    posts: 12
+  },
+  {
+    handle: "sofia.mx",
+    name: "Sofia",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
+    bio: "First-timer tips, SIMs, and solo-friendly nights.",
+    city: "Seoul",
+    followers: 1540,
+    following: 190,
+    posts: 19
+  },
+  {
+    handle: "mia.uk",
+    name: "Mia",
+    avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=120&h=120&fit=crop",
+    bio: "UK traveler. Palaces, markets, soft spice only.",
+    city: "Seoul",
+    followers: 760,
+    following: 300,
+    posts: 9
+  },
+  {
+    handle: "night.owl",
+    name: "Noah",
+    avatar: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=120&h=120&fit=crop",
+    bio: "Club queues and late trains. Itaewon / Hongdae.",
+    city: "Seoul",
+    followers: 3100,
+    following: 120,
+    posts: 44
+  },
+  {
+    handle: "traveler.nz",
+    name: "Sam",
+    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=120&h=120&fit=crop",
+    bio: "NZ backpacker · buses and guesthouses.",
+    city: "Busan",
+    followers: 430,
+    following: 88,
+    posts: 6
+  },
+  {
+    handle: "chef.nomad",
+    name: "Rina",
+    avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&h=120&fit=crop",
+    bio: "Food crawl maps. Black pork to budae jjigae.",
+    city: "Jeju",
+    followers: 5200,
+    following: 200,
+    posts: 63
   }
 ];
 

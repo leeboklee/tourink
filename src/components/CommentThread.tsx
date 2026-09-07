@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { Comment } from "@/data/mock";
 
 export function CommentThread({
@@ -31,7 +32,9 @@ export function CommentThread({
             />
             <div className="min-w-0 flex-1 rounded-xl border border-white/10 bg-ink-900/40 px-3 py-2">
               <div className="flex flex-wrap items-center gap-2 text-xs text-white/45">
-                <span className="font-medium text-white/80">@{c.author}</span>
+                <Link href={`/u/${c.author}`} className="font-medium text-white/80 hover:text-neon-cyan">
+                  @{c.author}
+                </Link>
                 {c.isLocal ? (
                   <span className="rounded bg-neon-amber/20 px-1.5 py-0.5 text-[10px] uppercase text-neon-amber">
                     local

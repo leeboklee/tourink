@@ -1,6 +1,8 @@
 import { experiences } from "@/data/mock";
 import { CardLink, SectionHero } from "@/components/ui";
 
+export const metadata = { title: "Experiences" };
+
 export default function ExperiencesPage() {
   return (
     <div>

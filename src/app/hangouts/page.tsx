@@ -3,6 +3,8 @@ import { SectionHero } from "@/components/ui";
 import { RsvpButton } from "@/components/RsvpButton";
 import Link from "next/link";
 
+export const metadata = { title: "Hangouts" };
+
 export default function HangoutsPage() {
   return (
     <div>

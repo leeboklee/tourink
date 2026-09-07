@@ -14,7 +14,10 @@ const display = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Tourink — Korea Travel Feed",
+  title: {
+    default: "Tourink — Korea Travel Feed",
+    template: "%s · Tourink"
+  },
   description:
     "Instagram-style Korea travel feed with routes, hotels, nightlife, community, and bookable experiences."
 };

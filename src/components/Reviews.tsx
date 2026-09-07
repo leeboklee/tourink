@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Star } from "lucide-react";
 import { clsx } from "clsx";
 import type { PlaceReview } from "@/data/mock";
@@ -11,7 +12,9 @@ export function ReviewList({ reviews }: { reviews: PlaceReview[] }) {
       {reviews.map((r) => (
         <article key={r.id} className="rounded-xl border border-white/10 bg-ink-900/40 p-3">
           <div className="flex items-center justify-between gap-2 text-xs text-white/45">
-            <span>@{r.author}</span>
+            <Link href={`/u/${r.author}`} className="hover:text-neon-cyan">
+              @{r.author}
+            </Link>
             <span>{r.createdAt}</span>
           </div>
           <div className="mt-1 flex items-center gap-0.5 text-neon-amber">

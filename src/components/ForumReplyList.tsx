@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { ForumReply } from "@/data/mock";
 
 export function ForumReplyList({
@@ -19,7 +20,9 @@ export function ForumReplyList({
         {items.map((r) => (
           <li key={r.id} className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
             <div className="flex flex-wrap items-center gap-2 text-xs text-white/45">
-              <span className="font-medium text-white/80">@{r.author}</span>
+              <Link href={`/u/${r.author}`} className="font-medium text-white/80 hover:text-neon-cyan">
+                @{r.author}
+              </Link>
               {r.isLocal ? (
                 <span className="rounded bg-neon-amber/20 px-1.5 py-0.5 text-[10px] uppercase text-neon-amber">
                   local
