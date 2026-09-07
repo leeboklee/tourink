@@ -9,7 +9,11 @@ export function BookingCheckoutForm({
   itemTitle,
   unitPrice,
   currency,
-  mode
+  mode,
+  initialCheckIn = "",
+  initialCheckOut = "",
+  initialGuests = 1,
+  offerId
 }: {
   itemType: "hotel" | "experience";
   itemId: string;
@@ -17,14 +21,18 @@ export function BookingCheckoutForm({
   unitPrice: number;
   currency: string;
   mode: "hotel" | "experience";
+  initialCheckIn?: string;
+  initialCheckOut?: string;
+  initialGuests?: number;
+  offerId?: string;
 }) {
   const router = useRouter();
   const [guestName, setGuestName] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
-  const [notes, setNotes] = useState("");
+  const [checkIn, setCheckIn] = useState(initialCheckIn);
+  const [checkOut, setCheckOut] = useState(initialCheckOut);
+  const [guests, setGuests] = useState(initialGuests);
+  const [notes, setNotes] = useState(offerId ? `offer:${offerId}` : "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +52,8 @@ export function BookingCheckoutForm({
           checkIn: mode === "hotel" ? checkIn : undefined,
           checkOut: mode === "hotel" ? checkOut : undefined,
           guests,
-          notes: notes || undefined
+          notes: notes || undefined,
+          nightlyRate: mode === "hotel" ? unitPrice : undefined
         })
       });
       const data = await res.json();
@@ -64,6 +73,9 @@ export function BookingCheckoutForm({
           {itemTitle} · from {currency} {unitPrice.toLocaleString()}
           {mode === "hotel" ? " / night" : " / guest"}
         </p>
+        {offerId ? (
+          <p className="mt-1 text-xs text-white/40">Rate offer: {offerId}</p>
+        ) : null}
       </div>
 
       <label className="block space-y-1.5 text-sm">

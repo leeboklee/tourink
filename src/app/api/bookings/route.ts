@@ -11,7 +11,9 @@ const schema = z.object({
   checkIn: z.string().optional(),
   checkOut: z.string().optional(),
   guests: z.number().int().min(1).max(12).default(1),
-  notes: z.string().max(500).optional()
+  notes: z.string().max(500).optional(),
+  /** Optional nightly rate from HotelProvider offer — falls back to catalog priceFrom. */
+  nightlyRate: z.number().positive().optional()
 });
 
 export async function GET(req: Request) {
@@ -50,7 +52,9 @@ export async function POST(req: Request) {
     itemTitle = hotel.name;
     currency = hotel.currency;
     const nights = estimateNights(data.checkIn, data.checkOut);
-    totalAmount = hotel.priceFrom * nights * data.guests;
+    const nightly = data.nightlyRate ?? hotel.priceFrom;
+    // Hotel rates are per room-night; guests select occupancy but do not multiply room rate.
+    totalAmount = nightly * nights;
   } else {
     const exp = await prisma.experience.findUnique({ where: { id: data.itemId } });
     if (!exp) return NextResponse.json({ error: "Experience not found" }, { status: 404 });
