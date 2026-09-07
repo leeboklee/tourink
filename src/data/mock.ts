@@ -722,7 +722,8 @@ export const experiences: Experience[] = [
     duration: "3 hours",
     rating: 4.9,
     reviews: 8300,
-    image: "https://images.unsplash.com/photo-1548115184-85cac22f4d35?w=800&h=600&fit=crop",
+    // Gyeongbokgung gate with hanbok visitors (previous Unsplash id 404'd)
+    image: "https://images.unsplash.com/photo-1770236597780-10d0663cf557?w=800&h=600&fit=crop",
     category: "Culture",
     description: "Pick a hanbok, enter the palace free, and get curated photo spots."
   },
@@ -735,7 +736,8 @@ export const experiences: Experience[] = [
     duration: "6 hours",
     rating: 4.7,
     reviews: 15200,
-    image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=800&h=600&fit=crop",
+    // Mountain landscape (previous image was Prague Charles Bridge)
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop",
     category: "History",
     description: "Passport required. Includes Imjingak and Dora Observatory when open."
   },
@@ -776,7 +778,8 @@ export const hotels: Hotel[] = [
     priceFrom: 420,
     currency: "USD",
     rating: 4.9,
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&h=700&fit=crop",
+    // Urban high-rise suite (not tropical lodge) — matches tower stay positioning
+    image: "https://images.unsplash.com/photo-1631049552057-403cdb8f0658?w=900&h=700&fit=crop",
     amenities: ["Pool", "Sky lounge", "Spa", "Airport transfer"],
     description: "Iconic tower stay with Han River views — for a landmark Seoul night."
   },

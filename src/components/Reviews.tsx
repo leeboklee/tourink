@@ -48,7 +48,7 @@ export function ReviewComposer({ placeName }: { placeName: string }) {
   if (posted) {
     return (
       <p className="rounded-xl border border-neon-cyan/30 bg-neon-cyan/10 px-3 py-3 text-sm text-neon-cyan">
-        Thanks — your review of {placeName} is live (demo).
+        Thanks — your review of {placeName} is live.
       </p>
     );
   }

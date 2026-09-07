@@ -1,13 +1,17 @@
-import { hotels } from "@/data/mock";
+import { dbListHotels } from "@/lib/catalog";
 import { CardLink, SectionHero } from "@/components/ui";
 
-export default function HotelsPage() {
+export const metadata = { title: "Hotels" };
+
+export default async function HotelsPage() {
+  const hotels = await dbListHotels();
+
   return (
     <div>
       <SectionHero
         eyebrow="Stay"
         title="Hotels across Korea"
-        subtitle="Landmark towers to nightlife bases — demo booking, no payment yet."
+        subtitle="Landmark towers to nightlife bases — reserve stays with persistent checkout."
       />
       <div className="grid gap-4 px-4 pb-8 sm:grid-cols-2 lg:px-0">
         {hotels.map((h) => (

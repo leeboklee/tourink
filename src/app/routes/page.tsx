@@ -1,7 +1,11 @@
-import { routes } from "@/data/mock";
+import { dbListRoutes } from "@/lib/catalog";
 import { CardLink, SectionHero } from "@/components/ui";
 
-export default function RoutesPage() {
+export const metadata = { title: "Routes" };
+
+export default async function RoutesPage() {
+  const routes = await dbListRoutes();
+
   return (
     <div>
       <SectionHero

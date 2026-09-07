@@ -1,11 +1,17 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { experiences } from "@/data/mock";
-import { BookButton } from "@/components/ui";
+import { dbGetExperience } from "@/lib/catalog";
+import { ExperienceAvailabilityPanel } from "@/components/ExperienceAvailabilityPanel";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const item = await dbGetExperience(id);
+  return { title: item?.title ?? "Experience" };
+}
 
 export default async function ExperiencePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const item = experiences.find((e) => e.id === id);
+  const item = await dbGetExperience(id);
   if (!item) notFound();
 
   return (
@@ -24,7 +30,11 @@ export default async function ExperiencePage({ params }: { params: Promise<{ id:
           <p className="text-xl font-semibold text-neon-amber">
             From {item.currency} {item.price}
           </p>
-          <BookButton label="Reserve experience (demo)" />
+          <ExperienceAvailabilityPanel
+            experienceId={item.id}
+            currency={item.currency}
+            priceFrom={item.price}
+          />
         </div>
       </div>
     </div>

@@ -1,11 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { feedPosts, getOfficialAiProfiles, isOfficialAiHandle, meetups } from "@/data/mock";
+import {
+  dbGetOfficialAiProfiles,
+  dbListFeedPosts,
+  dbListMeetups
+} from "@/lib/catalog";
+import { isOfficialAiHandle } from "@/data/mock";
 import { FeedCard } from "@/components/FeedCard";
 import { OfficialAiBadge } from "@/components/OfficialAiBadge";
 
-export default function HomePage() {
-  const officialCreators = getOfficialAiProfiles();
+export default async function HomePage() {
+  const [officialCreators, feedPosts, meetups] = await Promise.all([
+    dbGetOfficialAiProfiles(),
+    dbListFeedPosts(),
+    dbListMeetups()
+  ]);
   const officialFeed = feedPosts.filter((p) => isOfficialAiHandle(p.author));
 
   return (
