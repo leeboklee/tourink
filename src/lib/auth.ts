@@ -2,11 +2,12 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import type { Provider } from "next-auth/providers";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 
-const providers = [
+const providers: Provider[] = [
   Credentials({
     name: "Demo credentials",
     credentials: {
@@ -42,7 +43,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
-    }) as (typeof providers)[number]
+    })
   );
 }
 
@@ -51,7 +52,7 @@ if (process.env.GITHUB_ID && process.env.GITHUB_SECRET) {
     GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET
-    }) as (typeof providers)[number]
+    })
   );
 }
 
