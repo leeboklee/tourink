@@ -166,6 +166,9 @@ export default async function AdminReportsPage() {
           <a href="#integrations" className="text-neon-cyan hover:underline">
             API integrations
           </a>
+          <Link href="/admin/reports/korea-apis" className="text-neon-cyan hover:underline">
+            Korea APIs
+          </Link>
           <a href="#deliverables" className="text-neon-cyan hover:underline">
             Deliverables
           </a>
@@ -177,6 +180,28 @@ export default async function AdminReportsPage() {
           </Link>
         </div>
       </header>
+
+
+      <section
+        id="korea-apis"
+        className="scroll-mt-6 rounded-xl border border-neon-cyan/25 bg-neon-cyan/5 p-5"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="font-display text-2xl text-paper">한국 API 조사</h2>
+            <p className="mt-1 max-w-xl text-sm text-white/55">
+              장소·음식·교통·축제 공개 API 상태(지금 사용 / 키 필요 / 제휴)와 Top 3 연결 후보.
+              Open-Meteo·Nominatim은 이미 라이브.
+            </p>
+          </div>
+          <Link
+            href="/admin/reports/korea-apis"
+            className="rounded-md border border-neon-cyan/40 px-3 py-1.5 text-xs text-neon-cyan hover:bg-neon-cyan/10"
+          >
+            Open Korea APIs →
+          </Link>
+        </div>
+      </section>
 
       <section id="integrations" className="space-y-4 scroll-mt-6">
         <h2 className="font-display text-2xl text-paper">API 연동 · Integrations</h2>

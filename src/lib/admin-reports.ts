@@ -289,9 +289,31 @@ export function getFeatureFlagsReport(): DeliverableReport {
   };
 }
 
+
+export function getKoreaApisDeliverable(): DeliverableReport {
+  return {
+    id: "korea-apis-research",
+    titleKo: "한국 장소·음식·교통 API 조사",
+    titleEn: "Korea places / food / transit API research",
+    summary:
+      "VisitKorea·Kakao Local·TAGO 등 인바운드용 API 상태(지금/키/제휴)를 /admin/reports/korea-apis에 정리. Open-Meteo·Nominatim은 이미 라이브.",
+    statusLabel: "Research shipped",
+    links: [
+      { label: "Korea APIs report", href: "/admin/reports/korea-apis" },
+      { label: "Result reports", href: "/admin/reports" }
+    ],
+    bullets: [
+      "Top 3: VisitKorea EngService2 → Kakao Local (FD6) → TAGO",
+      "Keyless: Open-Meteo + Nominatim live; FoodSafetyKorea sample probe on staff page",
+      "Google Places / Kakao Mobility = later (KR limits / partner)"
+    ]
+  };
+}
+
 export function getDeliverableReports(): DeliverableReport[] {
   return [
     getFeatureFlagsReport(),
+    getKoreaApisDeliverable(),
     {
       id: "admin-cms",
       titleKo: "스태프 Admin CMS",
