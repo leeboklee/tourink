@@ -1,11 +1,17 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { hotels } from "@/data/mock";
+import { dbGetHotel } from "@/lib/catalog";
 import { BookButton } from "@/components/ui";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const hotel = await dbGetHotel(id);
+  return { title: hotel?.name ?? "Hotel" };
+}
 
 export default async function HotelPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const hotel = hotels.find((h) => h.id === id);
+  const hotel = await dbGetHotel(id);
   if (!hotel) notFound();
 
   return (
@@ -30,7 +36,7 @@ export default async function HotelPage({ params }: { params: Promise<{ id: stri
           <p className="text-xl font-semibold text-neon-amber">
             From {hotel.currency} {hotel.priceFrom} / night
           </p>
-          <BookButton label="Check availability (demo)" />
+          <BookButton label="Check availability" href={`/book/hotel/${hotel.id}`} />
         </div>
       </div>
     </div>

@@ -51,7 +51,23 @@ export function CardLink({
   );
 }
 
-export function BookButton({ label = "Book now" }: { label?: string }) {
+export function BookButton({
+  label = "Book now",
+  href
+}: {
+  label?: string;
+  href?: string;
+}) {
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="block w-full rounded-xl bg-neon-pink px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-neon-pink/25 transition hover:brightness-110"
+      >
+        {label}
+      </Link>
+    );
+  }
   return (
     <button
       type="button"

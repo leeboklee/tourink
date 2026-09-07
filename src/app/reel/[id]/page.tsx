@@ -2,17 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Heart, Play } from "lucide-react";
-import { reelPosts } from "@/data/mock";
+import { dbListReels } from "@/lib/catalog";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const reel = reelPosts.find((r) => r.id === id);
+  const reels = await dbListReels();
+  const reel = reels.find((r) => r.id === id);
   return { title: reel ? `Reel · ${reel.caption}` : "Reel" };
 }
 
 export default async function ReelPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const reel = reelPosts.find((r) => r.id === id);
+  const reels = await dbListReels();
+  const reel = reels.find((r) => r.id === id);
   if (!reel) notFound();
 
   return (
@@ -41,7 +43,7 @@ export default async function ReelPage({ params }: { params: Promise<{ id: strin
         </div>
       </div>
       <p className="mx-auto mt-3 max-w-sm text-center text-xs text-white/40">
-        Mock TikTok-style reel viewer — playback not wired.
+        Vertical reel viewer — native video upload coming with media storage.
       </p>
       <div className="mx-auto mt-4 max-w-sm text-center">
         <Link href={`/u/${reel.author}?tab=reels`} className="text-sm text-neon-cyan hover:underline">

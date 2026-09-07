@@ -1,0 +1,333 @@
+// Tourink data layer — SQLite for local/demo; set DATABASE_URL to Postgres (Supabase) for production.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  handle        String    @unique
+  name          String
+  email         String?   @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  image         String?
+  bio           String    @default("")
+  city          String    @default("Seoul")
+  followers     Int       @default(0)
+  following     Int       @default(0)
+  postsCount    Int       @default(0)
+  isLocal       Boolean   @default(false)
+  isOfficialAi  Boolean   @default(false)
+  persona       String?
+  website       String?
+  joinedAt      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  feedPosts     FeedPost[]  @relation("AuthorPosts")
+  comments      Comment[]
+  likes         Like[]
+  saved         SavedPost[]
+  threads       ThreadPost[]
+  reels         ReelPost[]
+  followingRel  Follow[]    @relation("Follower")
+  followersRel  Follow[]    @relation("Following")
+  bookings      Booking[]
+  rsvps         Rsvp[]
+  notifications Notification[] @relation("NotifyUser")
+  actorNotifs   Notification[] @relation("NotifyActor")
+  forumThreads  ForumThread[]
+  forumReplies  ForumReply[]
+  communityPosts CommunityPost[]
+  meetupsHosted Meetup[]
+  reviews       PlaceReview[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model FeedPost {
+  id        String   @id
+  authorId  String
+  location  String
+  image     String
+  caption   String
+  likes     Int      @default(0)
+  comments  Int      @default(0)
+  tagsJson  String   @default("[]")
+  createdAt String
+  author    User     @relation("AuthorPosts", fields: [authorId], references: [id])
+  commentList Comment[]
+  likeList  Like[]
+  savedBy   SavedPost[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  body      String
+  likes     Int      @default(0)
+  createdAt String
+  isLocal   Boolean  @default(false)
+  post      FeedPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+  post      FeedPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+}
+
+model SavedPost {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+  post      FeedPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+  follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User     @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+}
+
+model ThreadPost {
+  id        String @id
+  authorId  String
+  body      String
+  likes     Int    @default(0)
+  replies   Int    @default(0)
+  createdAt String
+  tagsJson  String @default("[]")
+  author    User   @relation(fields: [authorId], references: [id])
+}
+
+model ReelPost {
+  id        String  @id
+  authorId  String
+  cover     String
+  caption   String
+  views     Int     @default(0)
+  likes     Int     @default(0)
+  createdAt String
+  location  String?
+  author    User    @relation(fields: [authorId], references: [id])
+}
+
+model Hotel {
+  id            String @id
+  name          String
+  city          String
+  area          String
+  priceFrom     Int
+  currency      String @default("KRW")
+  rating        Float
+  image         String
+  amenitiesJson String @default("[]")
+  description   String
+}
+
+model Experience {
+  id          String @id
+  title       String
+  city        String
+  price       Int
+  currency    String @default("KRW")
+  duration    String
+  rating      Float
+  reviews     Int    @default(0)
+  image       String
+  category    String
+  description String
+}
+
+model RoutePlan {
+  id             String @id
+  title          String
+  days           Int
+  citiesJson     String @default("[]")
+  image          String
+  highlightsJson String @default("[]")
+  summary        String
+}
+
+model NightlifeSpot {
+  id          String @id
+  name        String
+  type        String
+  area        String
+  city        String
+  vibe        String
+  image       String
+  cover       Int?
+  openUntil   String
+  rating      Float
+  reviewCount Int    @default(0)
+}
+
+model PlaceReview {
+  id        String @id
+  placeId   String
+  placeType String
+  authorId  String
+  rating    Int
+  body      String
+  tagsJson  String @default("[]")
+  createdAt String
+  author    User   @relation(fields: [authorId], references: [id])
+}
+
+model CommunityPost {
+  id        String @id
+  authorId  String
+  title     String
+  body      String
+  tagsJson  String @default("[]")
+  replies   Int    @default(0)
+  createdAt String
+  kind      String
+  author    User   @relation(fields: [authorId], references: [id])
+}
+
+model ForumThread {
+  id        String @id
+  board     String
+  title     String
+  authorId  String
+  replies   Int    @default(0)
+  views     Int    @default(0)
+  pinned    Boolean @default(false)
+  createdAt String
+  body      String
+  author    User   @relation(fields: [authorId], references: [id])
+  replyList ForumReply[]
+}
+
+model ForumReply {
+  id        String @id @default(cuid())
+  threadId  String
+  authorId  String
+  body      String
+  likes     Int    @default(0)
+  createdAt String
+  isLocal   Boolean @default(false)
+  accepted  Boolean @default(false)
+  thread    ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author    User   @relation(fields: [authorId], references: [id])
+}
+
+model Meetup {
+  id          String @id
+  title       String
+  hostId      String
+  city        String
+  area        String
+  whenLabel   String
+  spots       Int
+  going       Int    @default(0)
+  tagsJson    String @default("[]")
+  description String
+  host        User   @relation(fields: [hostId], references: [id])
+  rsvps       Rsvp[]
+}
+
+model Rsvp {
+  id        String   @id @default(cuid())
+  meetupId  String
+  userId    String
+  createdAt DateTime @default(now())
+  meetup    Meetup   @relation(fields: [meetupId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([meetupId, userId])
+}
+
+model Booking {
+  id            String   @id @default(cuid())
+  userId        String?
+  guestName     String
+  guestEmail    String
+  itemType      String // hotel | experience
+  itemId        String
+  itemTitle     String
+  checkIn       String?
+  checkOut      String?
+  guests        Int      @default(1)
+  totalAmount   Int
+  currency      String   @default("KRW")
+  status        String   @default("confirmed") // pending | confirmed | cancelled | test_paid
+  paymentMode   String   @default("test") // test | stripe
+  stripeSession String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User?    @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  actorId   String?
+  type      String // like | follow | rsvp | comment | booking
+  title     String
+  body      String
+  href      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation("NotifyUser", fields: [userId], references: [id], onDelete: Cascade)
+  actor     User?    @relation("NotifyActor", fields: [actorId], references: [id])
+}
