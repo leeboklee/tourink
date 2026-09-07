@@ -66,6 +66,7 @@ export async function dbGetOfficialAiProfiles() {
 
 export async function dbListFeedPosts(): Promise<FeedPost[]> {
   const rows = await prisma.feedPost.findMany({
+    where: { active: true },
     include: { author: true },
     orderBy: { id: "asc" }
   });
@@ -208,7 +209,7 @@ export async function dbGetSavedPostsForUser(handle: string): Promise<FeedPost[]
 }
 
 export async function dbListHotels(): Promise<Hotel[]> {
-  const rows = await prisma.hotel.findMany();
+  const rows = await prisma.hotel.findMany({ where: { active: true } });
   return rows.map((h) => ({
     id: h.id,
     name: h.name,
@@ -229,7 +230,7 @@ export async function dbGetHotel(id: string) {
 }
 
 export async function dbListExperiences(): Promise<Experience[]> {
-  const rows = await prisma.experience.findMany();
+  const rows = await prisma.experience.findMany({ where: { active: true } });
   return rows.map((e) => ({
     id: e.id,
     title: e.title,
@@ -251,7 +252,7 @@ export async function dbGetExperience(id: string) {
 }
 
 export async function dbListRoutes(): Promise<RoutePlan[]> {
-  const rows = await prisma.routePlan.findMany();
+  const rows = await prisma.routePlan.findMany({ where: { active: true } });
   return rows.map((r) => ({
     id: r.id,
     title: r.title,
@@ -264,7 +265,7 @@ export async function dbListRoutes(): Promise<RoutePlan[]> {
 }
 
 export async function dbListNightlife(): Promise<NightlifeSpot[]> {
-  const rows = await prisma.nightlifeSpot.findMany();
+  const rows = await prisma.nightlifeSpot.findMany({ where: { active: true } });
   return rows.map((n) => ({
     id: n.id,
     name: n.name,
@@ -298,7 +299,10 @@ export async function dbGetReviewsForPlace(placeId: string): Promise<PlaceReview
 }
 
 export async function dbListCommunity(): Promise<CommunityPost[]> {
-  const rows = await prisma.communityPost.findMany({ include: { author: true } });
+  const rows = await prisma.communityPost.findMany({
+    where: { active: true },
+    include: { author: true }
+  });
   return rows.map((c) => ({
     id: c.id,
     author: c.author.handle,
@@ -317,7 +321,10 @@ export async function dbGetCommunityByAuthor(handle: string) {
 }
 
 export async function dbListForumThreads(): Promise<ForumThread[]> {
-  const rows = await prisma.forumThread.findMany({ include: { author: true } });
+  const rows = await prisma.forumThread.findMany({
+    where: { active: true },
+    include: { author: true }
+  });
   return rows.map((t) => ({
     id: t.id,
     board: t.board,
@@ -349,7 +356,10 @@ export async function dbGetForumReplies(threadId: string): Promise<ForumReply[]>
 }
 
 export async function dbListMeetups(): Promise<Meetup[]> {
-  const rows = await prisma.meetup.findMany({ include: { host: true } });
+  const rows = await prisma.meetup.findMany({
+    where: { active: true },
+    include: { host: true }
+  });
   return rows.map((m) => ({
     id: m.id,
     title: m.title,

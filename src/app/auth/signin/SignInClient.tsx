@@ -69,8 +69,14 @@ export default function SignInClient() {
       </form>
 
       <p className="mt-6 text-xs text-white/40">
-        Default demo: <code className="text-white/60">sofia.mx</code> /{" "}
+        Traveler demo: <code className="text-white/60">sofia.mx</code> /{" "}
         <code className="text-white/60">tourink-demo</code>
+        <br />
+        Staff admin: <code className="text-white/60">admin@tourink</code> /{" "}
+        <code className="text-white/60">tourink-admin</code> →{" "}
+        <a href="/admin" className="text-neon-cyan hover:underline">
+          /admin
+        </a>
       </p>
       <Link href="/" className="mt-4 inline-block text-sm text-neon-cyan hover:underline">
         ← Back to feed

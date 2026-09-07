@@ -20,7 +20,9 @@ npm run dev
 
 Open http://localhost:3000
 
-Demo login: `sofia.mx` / `tourink-demo`
+Demo traveler: `sofia.mx` / `tourink-demo`
+
+Staff Admin CMS: `/admin` — login `admin@tourink` / `tourink-admin` (override with `ADMIN_PASSWORD`). Roles: `ADMIN` or `STAFF` only.
 
 ## Scripts
 
@@ -38,4 +40,4 @@ Demo login: `sofia.mx` / `tourink-demo`
 
 ## Product surfaces
 
-Feed · My Page (Posts / Threads / Reels / Saved / About) · Search · Notifications · Experiences · Routes · Hotels · Nightlife · Hangouts · Community · Forum · Bookings
+Admin CMS (`/admin`) · Feed · My Page (Posts / Threads / Reels / Saved / About) · Search · Notifications · Experiences · Routes · Hotels · Nightlife · Hangouts · Community · Forum · Bookings

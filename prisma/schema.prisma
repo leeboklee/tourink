@@ -15,6 +15,8 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   passwordHash  String?
+  /// USER | STAFF | ADMIN
+  role          String    @default("USER")
   image         String?
   bio           String    @default("")
   city          String    @default("Seoul")
@@ -94,6 +96,7 @@ model FeedPost {
   comments  Int      @default(0)
   tagsJson  String   @default("[]")
   createdAt String
+  active    Boolean  @default(true)
   author    User     @relation("AuthorPosts", fields: [authorId], references: [id])
   commentList Comment[]
   likeList  Like[]
@@ -169,44 +172,47 @@ model ReelPost {
 }
 
 model Hotel {
-  id            String @id
+  id            String  @id
   name          String
   city          String
   area          String
   priceFrom     Int
-  currency      String @default("KRW")
+  currency      String  @default("KRW")
   rating        Float
   image         String
-  amenitiesJson String @default("[]")
+  amenitiesJson String  @default("[]")
   description   String
+  active        Boolean @default(true)
 }
 
 model Experience {
-  id          String @id
+  id          String  @id
   title       String
   city        String
   price       Int
-  currency    String @default("KRW")
+  currency    String  @default("KRW")
   duration    String
   rating      Float
-  reviews     Int    @default(0)
+  reviews     Int     @default(0)
   image       String
   category    String
   description String
+  active      Boolean @default(true)
 }
 
 model RoutePlan {
-  id             String @id
+  id             String  @id
   title          String
   days           Int
-  citiesJson     String @default("[]")
+  citiesJson     String  @default("[]")
   image          String
-  highlightsJson String @default("[]")
+  highlightsJson String  @default("[]")
   summary        String
+  active         Boolean @default(true)
 }
 
 model NightlifeSpot {
-  id          String @id
+  id          String  @id
   name        String
   type        String
   area        String
@@ -216,7 +222,8 @@ model NightlifeSpot {
   cover       Int?
   openUntil   String
   rating      Float
-  reviewCount Int    @default(0)
+  reviewCount Int     @default(0)
+  active      Boolean @default(true)
 }
 
 model PlaceReview {
@@ -232,28 +239,30 @@ model PlaceReview {
 }
 
 model CommunityPost {
-  id        String @id
+  id        String  @id
   authorId  String
   title     String
   body      String
-  tagsJson  String @default("[]")
-  replies   Int    @default(0)
+  tagsJson  String  @default("[]")
+  replies   Int     @default(0)
   createdAt String
   kind      String
-  author    User   @relation(fields: [authorId], references: [id])
+  active    Boolean @default(true)
+  author    User    @relation(fields: [authorId], references: [id])
 }
 
 model ForumThread {
-  id        String @id
+  id        String  @id
   board     String
   title     String
   authorId  String
-  replies   Int    @default(0)
-  views     Int    @default(0)
+  replies   Int     @default(0)
+  views     Int     @default(0)
   pinned    Boolean @default(false)
   createdAt String
   body      String
-  author    User   @relation(fields: [authorId], references: [id])
+  active    Boolean @default(true)
+  author    User    @relation(fields: [authorId], references: [id])
   replyList ForumReply[]
 }
 
@@ -271,17 +280,18 @@ model ForumReply {
 }
 
 model Meetup {
-  id          String @id
+  id          String  @id
   title       String
   hostId      String
   city        String
   area        String
   whenLabel   String
   spots       Int
-  going       Int    @default(0)
-  tagsJson    String @default("[]")
+  going       Int     @default(0)
+  tagsJson    String  @default("[]")
   description String
-  host        User   @relation(fields: [hostId], references: [id])
+  active      Boolean @default(true)
+  host        User    @relation(fields: [hostId], references: [id])
   rsvps       Rsvp[]
 }
 

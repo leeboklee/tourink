@@ -15,14 +15,16 @@ const providers: Provider[] = [
       password: { label: "Password", type: "password" }
     },
     async authorize(credentials) {
-      const handle = String(credentials?.handle ?? "")
+      const raw = String(credentials?.handle ?? "")
         .trim()
         .replace(/^@/, "")
         .toLowerCase();
       const password = String(credentials?.password ?? "");
-      if (!handle || !password) return null;
+      if (!raw || !password) return null;
 
-      const user = await prisma.user.findUnique({ where: { handle } });
+      const user = await prisma.user.findFirst({
+        where: { OR: [{ handle: raw }, { email: raw }] }
+      });
       if (!user?.passwordHash) return null;
       const ok = await bcrypt.compare(password, user.passwordHash);
       if (!ok) return null;
@@ -32,7 +34,8 @@ const providers: Provider[] = [
         name: user.name,
         email: user.email ?? undefined,
         image: user.image ?? undefined,
-        handle: user.handle
+        handle: user.handle,
+        role: user.role
       };
     }
   })
@@ -59,20 +62,22 @@ if (process.env.GITHUB_ID && process.env.GITHUB_SECRET) {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
-  pages: {
-    signIn: "/auth/signin"
-  },
+  pages: { signIn: "/auth/signin" },
   providers,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        const u = user as { id?: string; handle?: string };
+        const u = user as { id?: string; handle?: string; role?: string };
         token.sub = u.id ?? token.sub;
         if (u.handle) token.handle = u.handle;
+        if (u.role) token.role = u.role;
       }
-      if (!token.handle && token.sub) {
+      if (token.sub && (!token.handle || !token.role)) {
         const dbUser = await prisma.user.findUnique({ where: { id: token.sub } });
-        if (dbUser) token.handle = dbUser.handle;
+        if (dbUser) {
+          token.handle = dbUser.handle;
+          token.role = dbUser.role;
+        }
       }
       return token;
     },
@@ -80,6 +85,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (session.user) {
         session.user.id = token.sub ?? "";
         session.user.handle = (token.handle as string) ?? "";
+        session.user.role = (token.role as string) ?? "USER";
       }
       return session;
     }

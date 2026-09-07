@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Fraunces } from "next/font/google";
 import "./globals.css";
-import { SiteNav } from "@/components/SiteNav";
+import { AppChrome } from "@/components/AppChrome";
 import { AuthProvider } from "@/components/AuthProvider";
 
 const sans = Space_Grotesk({
@@ -46,10 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="font-sans antialiased">
         <AuthProvider>
-          <div className="mx-auto flex min-h-screen max-w-lg flex-col md:max-w-2xl lg:max-w-6xl lg:flex-row lg:gap-8 lg:px-6">
-            <SiteNav />
-            <main className="flex-1 pb-24 lg:pb-10 lg:pt-8">{children}</main>
-          </div>
+          <AppChrome>{children}</AppChrome>
         </AuthProvider>
       </body>
     </html>

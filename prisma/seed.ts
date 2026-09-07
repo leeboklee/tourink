@@ -53,6 +53,8 @@ async function main() {
   await prisma.user.deleteMany();
 
   const demoPassword = await bcrypt.hash("tourink-demo", 10);
+  const adminPasswordPlain = process.env.ADMIN_PASSWORD || "tourink-admin";
+  const adminPassword = await bcrypt.hash(adminPasswordPlain, 10);
 
   const handleToId = new Map<string, string>();
 
@@ -74,11 +76,28 @@ async function main() {
         persona: p.persona,
         website: p.website,
         joinedAt: p.joinedAt,
+        role: "USER",
         passwordHash: p.handle === CURRENT_USER_HANDLE ? demoPassword : null
       }
     });
     handleToId.set(p.handle, user.id);
   }
+
+  // Staff admin — login with handle or email admin@tourink
+  const adminUser = await prisma.user.create({
+    data: {
+      handle: "admin@tourink",
+      name: "Tourink Admin",
+      email: "admin@tourink",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+      bio: "Staff CMS operator",
+      city: "Seoul",
+      role: "ADMIN",
+      passwordHash: adminPassword,
+      isOfficialAi: false
+    }
+  });
+  handleToId.set(adminUser.handle, adminUser.id);
 
   // Ensure every author handle exists
   const ensureUser = async (handle: string) => {
@@ -109,7 +128,8 @@ async function main() {
         likes: post.likes,
         comments: post.comments,
         tagsJson: JSON.stringify(post.tags),
-        createdAt: post.createdAt
+        createdAt: post.createdAt,
+        active: true
       }
     });
   }
@@ -179,7 +199,8 @@ async function main() {
         rating: h.rating,
         image: h.image,
         amenitiesJson: JSON.stringify(h.amenities),
-        description: h.description
+        description: h.description,
+        active: true
       }
     });
   }
@@ -197,7 +218,8 @@ async function main() {
         reviews: e.reviews,
         image: e.image,
         category: e.category,
-        description: e.description
+        description: e.description,
+        active: true
       }
     });
   }
@@ -211,7 +233,8 @@ async function main() {
         citiesJson: JSON.stringify(r.cities),
         image: r.image,
         highlightsJson: JSON.stringify(r.highlights),
-        summary: r.summary
+        summary: r.summary,
+        active: true
       }
     });
   }
@@ -229,7 +252,8 @@ async function main() {
         cover: n.cover,
         openUntil: n.openUntil,
         rating: n.rating,
-        reviewCount: n.reviewCount
+        reviewCount: n.reviewCount,
+        active: true
       }
     });
   }
@@ -261,7 +285,8 @@ async function main() {
         tagsJson: JSON.stringify(c.tags),
         replies: c.replies,
         createdAt: c.createdAt,
-        kind: c.kind
+        kind: c.kind,
+        active: true
       }
     });
   }
@@ -278,7 +303,8 @@ async function main() {
         views: t.views,
         pinned: !!t.pinned,
         createdAt: t.createdAt,
-        body: t.body
+        body: t.body,
+        active: true
       }
     });
   }
@@ -312,7 +338,8 @@ async function main() {
         spots: m.spots,
         going: m.going,
         tagsJson: JSON.stringify(m.tags),
-        description: m.description
+        description: m.description,
+        active: true
       }
     });
   }
@@ -352,7 +379,8 @@ async function main() {
 
   const aiCount = await prisma.user.count({ where: { isOfficialAi: true } });
   console.log(`Seeded users=${handleToId.size} (AI official=${aiCount}), posts=${feedPosts.length}`);
-  console.log(`Demo login: @${CURRENT_USER_HANDLE} / tourink-demo`);
+  console.log(`Demo traveler: @${CURRENT_USER_HANDLE} / tourink-demo`);
+  console.log(`Staff admin: admin@tourink / ${adminPasswordPlain}`);
 }
 
 main()
