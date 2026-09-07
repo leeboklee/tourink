@@ -33,7 +33,7 @@ export default function PrivacySettingsPage() {
     });
   }
 
-  function setAudience(key: keyof TravelerVis, value: VisibilityAudience) {
+  function setAudience(key: TravelerVis, value: VisibilityAudience) {
     setProfile({ ...profile!, [key]: value });
   }
 
