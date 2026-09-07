@@ -6,12 +6,14 @@ import { Search } from "lucide-react";
 import type { FeedPost, TravelerProfile } from "@/data/mock";
 
 type PlaceHit = { type: string; id: string; title: string; href: string };
+type GeoHit = { displayName: string; lat: string; lon: string; type: string };
 
 export default function SearchPage() {
   const [q, setQ] = useState("");
   const [users, setUsers] = useState<TravelerProfile[]>([]);
   const [posts, setPosts] = useState<FeedPost[]>([]);
   const [places, setPlaces] = useState<PlaceHit[]>([]);
+  const [geo, setGeo] = useState<GeoHit[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ export default function SearchPage() {
         setUsers([]);
         setPosts([]);
         setPlaces([]);
+        setGeo([]);
         return;
       }
       setLoading(true);
@@ -29,6 +32,7 @@ export default function SearchPage() {
         setUsers(data.users ?? []);
         setPosts(data.posts ?? []);
         setPlaces(data.places ?? []);
+        setGeo(data.geo ?? []);
       } finally {
         setLoading(false);
       }
@@ -39,7 +43,9 @@ export default function SearchPage() {
   return (
     <div className="px-4 pb-10 pt-4 lg:px-0">
       <h1 className="font-display text-3xl text-paper">Search</h1>
-      <p className="mt-2 text-sm text-white/55">Find travelers, places, and feed posts across Korea.</p>
+      <p className="mt-2 text-sm text-white/55">
+        Find travelers, places, and feed posts across Korea — plus OpenStreetMap geo hits.
+      </p>
 
       <label className="relative mt-6 block">
         <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40" size={18} />
@@ -54,7 +60,7 @@ export default function SearchPage() {
 
       {loading ? <p className="mt-4 text-sm text-white/45">Searching…</p> : null}
 
-      {!loading && q.trim() && users.length + posts.length + places.length === 0 ? (
+      {!loading && q.trim() && users.length + posts.length + places.length + geo.length === 0 ? (
         <p className="mt-6 text-sm text-white/45">No matches.</p>
       ) : null}
 
@@ -95,6 +101,29 @@ export default function SearchPage() {
                 >
                   <span className="text-white/40">{p.type}</span> · {p.title}
                 </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {geo.length ? (
+        <section className="mt-8">
+          <h2 className="text-xs uppercase tracking-[0.2em] text-neon-amber">Map places · Nominatim</h2>
+          <ul className="mt-3 space-y-2">
+            {geo.map((g) => (
+              <li key={`${g.lat}-${g.lon}-${g.displayName}`}>
+                <a
+                  href={`https://www.openstreetmap.org/?mlat=${g.lat}&mlon=${g.lon}#map=15/${g.lat}/${g.lon}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-white/10 bg-ink-900/40 px-3 py-2.5 text-sm hover:border-neon-cyan/30"
+                >
+                  <p className="text-sm text-paper">{g.displayName}</p>
+                  <p className="mt-0.5 text-[11px] text-white/40">
+                    {g.type} · {g.lat}, {g.lon}
+                  </p>
+                </a>
               </li>
             ))}
           </ul>

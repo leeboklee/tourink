@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { parseJsonArray } from "@/lib/json";
+import { isExperiencesEnabled, isHotelsEnabled } from "@/lib/feature-flags";
 import type {
   Comment,
   CommunityPost,
@@ -441,9 +442,15 @@ export async function dbSearch(q: string) {
     )
     .map((n) => ({ type: "nightlife", id: n.id, title: n.name, href: `/nightlife/${n.id}` }));
 
+  const places = [
+    ...(isHotelsEnabled() ? hotels : []),
+    ...(isExperiencesEnabled() ? experiences : []),
+    ...nightlife
+  ].slice(0, 16);
+
   return {
     users: users.map(mapProfile),
     posts,
-    places: [...hotels, ...experiences, ...nightlife].slice(0, 16)
+    places
   };
 }

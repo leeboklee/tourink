@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { getViewer } from "@/lib/viewer";
+import { isExperiencesEnabled, isHotelsEnabled } from "@/lib/feature-flags";
 
 const schema = z.object({
   itemType: z.enum(["hotel", "experience"]),
@@ -44,6 +45,13 @@ export async function POST(req: Request) {
   }
 
   const data = parsed.data;
+  if (data.itemType === "hotel" && !isHotelsEnabled()) {
+    return NextResponse.json({ error: "Hotel booking Coming soon" }, { status: 503 });
+  }
+  if (data.itemType === "experience" && !isExperiencesEnabled()) {
+    return NextResponse.json({ error: "Experience booking Coming soon" }, { status: 503 });
+  }
+
   let itemTitle = "";
   let totalAmount = 0;
   let currency = "KRW";

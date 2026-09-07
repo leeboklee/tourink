@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { dbGetHotel } from "@/lib/catalog";
+import { isHotelsEnabled } from "@/lib/feature-flags";
 import { HotelAvailabilityPanel } from "@/components/HotelAvailabilityPanel";
+import { ComingSoon } from "@/components/ComingSoon";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -10,6 +12,16 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function HotelPage({ params }: { params: Promise<{ id: string }> }) {
+  if (!isHotelsEnabled()) {
+    return (
+      <ComingSoon
+        title="Hotel booking coming soon"
+        subtitle="Partner hotel inventory is not enabled on this deploy. Adapter code remains for later Expedia / Amadeus keys."
+        enableHint="Enable via HOTEL_PROVIDER + keys, or NEXT_PUBLIC_ENABLE_HOTELS=true."
+      />
+    );
+  }
+
   const { id } = await params;
   const hotel = await dbGetHotel(id);
   if (!hotel) notFound();
