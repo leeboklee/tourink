@@ -141,12 +141,27 @@ export type TravelerProfile = {
   following: number;
   posts: number;
   isLocal?: boolean;
+  /** Tourink-operated official AI creator (feed authors). */
+  isOfficialAi?: boolean;
+  /** Short persona label shown on About / badges. */
+  persona?: string;
   website?: string;
   joinedAt?: string;
 };
 
-/** Logged-in demo user for My Page (`/profile`). */
-export const CURRENT_USER_HANDLE = "mina.seoul";
+/** Handles for official AI creators that seed the Korea travel feed. */
+export const OFFICIAL_AI_HANDLES = [
+  "mina.seoul",
+  "busan.wave",
+  "jeju.trail",
+  "market.finder",
+  "local.yuna"
+] as const;
+
+export type OfficialAiHandle = (typeof OFFICIAL_AI_HANDLES)[number];
+
+/** Logged-in demo traveler for My Page (`/profile`) — not an AI official. */
+export const CURRENT_USER_HANDLE = "sofia.mx";
 
 export type ThreadPost = {
   id: string;
@@ -171,11 +186,20 @@ export type ReelPost = {
   location?: string;
 };
 
+const AVATAR = {
+  mina: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+  busan: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+  jeju: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+  market: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+  yuna: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop",
+  sofia: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop"
+} as const;
+
 export const feedPosts: FeedPost[] = [
   {
     id: "p1",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     location: "Hongdae, Seoul",
     image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=900&h=1100&fit=crop",
     caption: "Neon alleys after rain. Hongdae never sleeps.",
@@ -187,7 +211,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p2",
     author: "busan.wave",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    avatar: AVATAR.busan,
     location: "Haeundae, Busan",
     image: "https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=900&h=1100&fit=crop",
     caption: "Morning surf + coffee. Busan weekend mode.",
@@ -199,7 +223,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p3",
     author: "jeju.trail",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    avatar: AVATAR.jeju,
     location: "Hallasan, Jeju",
     image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=900&h=1100&fit=crop",
     caption: "Cloud line at Hallasan. Pack layers.",
@@ -211,7 +235,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p4",
     author: "market.finder",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+    avatar: AVATAR.market,
     location: "Gwangjang Market, Seoul",
     image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=900&h=1100&fit=crop",
     caption: "Bindaetteok + makgeolli run. Local favorites only.",
@@ -223,7 +247,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p5",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     location: "Seongsu, Seoul",
     image: "https://images.unsplash.com/photo-1517154428103-8fe2e841f3c0?w=900&h=1100&fit=crop",
     caption: "Warehouse cafes + blue hour. Seongsu roll.",
@@ -235,7 +259,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p6",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     location: "Itaewon, Seoul",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=900&h=1100&fit=crop",
     caption: "Cocktail map for first-timers. Soft lights, loud music.",
@@ -247,7 +271,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p7",
     author: "busan.wave",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    avatar: AVATAR.busan,
     location: "Gwangalli, Busan",
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&h=1100&fit=crop",
     caption: "Bridge glow after a late paddle.",
@@ -259,7 +283,7 @@ export const feedPosts: FeedPost[] = [
   {
     id: "p8",
     author: "jeju.trail",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    avatar: AVATAR.jeju,
     location: "Udo, Jeju",
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=1100&fit=crop",
     caption: "Udo peanut ice cream stop. Ferry tips in comments.",
@@ -267,6 +291,90 @@ export const feedPosts: FeedPost[] = [
     comments: 44,
     tags: ["jeju", "island"],
     createdAt: "6d"
+  },
+  {
+    id: "p9",
+    author: "local.yuna",
+    avatar: AVATAR.yuna,
+    location: "Seongsu, Seoul",
+    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&h=1100&fit=crop",
+    caption: "Ask-a-local: rainy-day cafe that still has outlets. No franchises.",
+    likes: 1870,
+    comments: 96,
+    tags: ["ask-local", "seongsu", "cafe"],
+    createdAt: "4h"
+  },
+  {
+    id: "p10",
+    author: "market.finder",
+    avatar: AVATAR.market,
+    location: "Namdaemun Market, Seoul",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=900&h=1100&fit=crop",
+    caption: "Namdaemun lunch map: kalguksu first, then street hotteok.",
+    likes: 1102,
+    comments: 37,
+    tags: ["food", "market", "seoul"],
+    createdAt: "2d"
+  },
+  {
+    id: "p11",
+    author: "local.yuna",
+    avatar: AVATAR.yuna,
+    location: "Hapjeong, Seoul",
+    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900&h=1100&fit=crop",
+    caption: "Transit tip walk: Hapjeong → Hongdae without the tourist crush.",
+    likes: 1422,
+    comments: 58,
+    tags: ["ask-local", "transit", "seoul"],
+    createdAt: "5d"
+  },
+  {
+    id: "p12",
+    author: "busan.wave",
+    avatar: AVATAR.busan,
+    location: "Songjeong, Busan",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&h=1100&fit=crop&sat=-20",
+    caption: "Songjeong when Haeundae is packed. Quieter break + same salt air.",
+    likes: 801,
+    comments: 22,
+    tags: ["busan", "beach", "local"],
+    createdAt: "4d"
+  },
+  {
+    id: "p13",
+    author: "jeju.trail",
+    avatar: AVATAR.jeju,
+    location: "Seongsan, Jeju",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&h=1100&fit=crop",
+    caption: "Ilchulbong sunrise queue starts earlier than your alarm wants.",
+    likes: 1688,
+    comments: 53,
+    tags: ["jeju", "sunrise"],
+    createdAt: "3d"
+  },
+  {
+    id: "p14",
+    author: "mina.seoul",
+    avatar: AVATAR.mina,
+    location: "Euljiro, Seoul",
+    image: "https://images.unsplash.com/photo-1517154428103-8fe2e841f3c0?w=900&h=1100&fit=crop&sat=10",
+    caption: "Euljiro glass alleys after 9pm — reflections > crowds.",
+    likes: 1555,
+    comments: 61,
+    tags: ["seoul", "photo", "night"],
+    createdAt: "7d"
+  },
+  {
+    id: "p15",
+    author: "sofia.mx",
+    avatar: AVATAR.sofia,
+    location: "Myeongdong, Seoul",
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&h=1100&fit=crop",
+    caption: "First week notes: eSIM worked, night market was loud, loved it.",
+    likes: 214,
+    comments: 18,
+    tags: ["first-timer", "seoul"],
+    createdAt: "6h"
   }
 ];
 
@@ -274,7 +382,7 @@ export const threadPosts: ThreadPost[] = [
   {
     id: "th1",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     body: "Hot take: Hongdae after 11pm is a different city. If you’re solo, stick to Exit 9 → playground street → late coffee.",
     likes: 318,
     replies: 42,
@@ -284,7 +392,7 @@ export const threadPosts: ThreadPost[] = [
   {
     id: "th2",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     body: "Thread: 3 neon photo spots that aren’t saturated yet — 1) Seongsu underpass mural 2) Euljiro back alley glass 3) Hapjeong rooftop stairs.",
     likes: 521,
     replies: 67,
@@ -294,7 +402,7 @@ export const threadPosts: ThreadPost[] = [
   {
     id: "th3",
     author: "busan.wave",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    avatar: AVATAR.busan,
     body: "Wind check before Haeundae dawn surf. If whitecaps look angry from the boardwalk, grab coffee instead.",
     likes: 146,
     replies: 18,
@@ -304,7 +412,7 @@ export const threadPosts: ThreadPost[] = [
   {
     id: "th4",
     author: "local.yuna",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop",
+    avatar: AVATAR.yuna,
     body: "Ask-a-local: T-money vs cash on buses — always T-money. Transfers save real money across subway + bus.",
     likes: 890,
     replies: 112,
@@ -314,7 +422,7 @@ export const threadPosts: ThreadPost[] = [
   {
     id: "th5",
     author: "market.finder",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
+    avatar: AVATAR.market,
     body: "Gwangjang at 10am is for photos. Gwangjang at 6pm is for eating. Choose wisely.",
     likes: 402,
     replies: 33,
@@ -324,12 +432,72 @@ export const threadPosts: ThreadPost[] = [
   {
     id: "th6",
     author: "jeju.trail",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    avatar: AVATAR.jeju,
     body: "Hallasan tip: start earlier than your pride wants. Cloud line moves fast after noon.",
     likes: 277,
     replies: 29,
     createdAt: "3d",
     tags: ["jeju", "hike"]
+  },
+  {
+    id: "th7",
+    author: "local.yuna",
+    avatar: AVATAR.yuna,
+    body: "Solo traveler FAQ I answer weekly: yes, late subway is fine in Hapjeong; no, you don’t need cash for most cafes.",
+    likes: 640,
+    replies: 88,
+    createdAt: "3h",
+    tags: ["ask-local", "solo"]
+  },
+  {
+    id: "th8",
+    author: "market.finder",
+    avatar: AVATAR.market,
+    body: "Street-food etiquette: order, step aside, eat standing. Don’t block the fryer line for photos.",
+    likes: 355,
+    replies: 41,
+    createdAt: "1d",
+    tags: ["food", "etiquette"]
+  },
+  {
+    id: "th9",
+    author: "busan.wave",
+    avatar: AVATAR.busan,
+    body: "Board rental near Haeundae: ask for soft-tops if it’s your first Korean break. Reef boots help on rocky days.",
+    likes: 198,
+    replies: 24,
+    createdAt: "6h",
+    tags: ["busan", "surf"]
+  },
+  {
+    id: "th10",
+    author: "jeju.trail",
+    avatar: AVATAR.jeju,
+    body: "Oreum hopping > one big peak if your legs are tired. Short climbs, big views, same wind.",
+    likes: 301,
+    replies: 35,
+    createdAt: "2d",
+    tags: ["jeju", "hike"]
+  },
+  {
+    id: "th11",
+    author: "mina.seoul",
+    avatar: AVATAR.mina,
+    body: "Itaewon Friday plan: one cocktail bar before midnight, then commit to a club or call it. Fence-sitting burns the night.",
+    likes: 412,
+    replies: 55,
+    createdAt: "2d",
+    tags: ["nightlife", "itaewon"]
+  },
+  {
+    id: "th12",
+    author: "sofia.mx",
+    avatar: AVATAR.sofia,
+    body: "Landing notes: airport Wi-Fi was enough to set up Kakao before the train. Still figuring out spice levels.",
+    likes: 76,
+    replies: 14,
+    createdAt: "10h",
+    tags: ["arrival", "tips"]
   }
 ];
 
@@ -337,7 +505,7 @@ export const reelPosts: ReelPost[] = [
   {
     id: "r1",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     cover: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=720&h=1280&fit=crop",
     caption: "Neon alley walk — 15s cut",
     views: 48200,
@@ -348,7 +516,7 @@ export const reelPosts: ReelPost[] = [
   {
     id: "r2",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     cover: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=720&h=1280&fit=crop",
     caption: "Night market audio tour",
     views: 22100,
@@ -359,7 +527,7 @@ export const reelPosts: ReelPost[] = [
   {
     id: "r3",
     author: "busan.wave",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
+    avatar: AVATAR.busan,
     cover: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=720&h=1280&fit=crop",
     caption: "Dawn paddle POV",
     views: 91000,
@@ -370,7 +538,7 @@ export const reelPosts: ReelPost[] = [
   {
     id: "r4",
     author: "jeju.trail",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
+    avatar: AVATAR.jeju,
     cover: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=720&h=1280&fit=crop",
     caption: "Cloud line speedrun",
     views: 35000,
@@ -392,18 +560,95 @@ export const reelPosts: ReelPost[] = [
   {
     id: "r6",
     author: "mina.seoul",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
+    avatar: AVATAR.mina,
     cover: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=720&h=1280&fit=crop",
     caption: "Rooftop pour + skyline",
     views: 64000,
     likes: 5100,
     createdAt: "6d",
     location: "Seongsu, Seoul"
+  },
+  {
+    id: "r7",
+    author: "market.finder",
+    avatar: AVATAR.market,
+    cover: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=720&h=1280&fit=crop",
+    caption: "Bindaetteok flip ASMR",
+    views: 28900,
+    likes: 2400,
+    createdAt: "1d",
+    location: "Gwangjang Market, Seoul"
+  },
+  {
+    id: "r8",
+    author: "local.yuna",
+    avatar: AVATAR.yuna,
+    cover: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=720&h=1280&fit=crop",
+    caption: "T-money transfer demo",
+    views: 41200,
+    likes: 3300,
+    createdAt: "2d",
+    location: "Hapjeong, Seoul"
+  },
+  {
+    id: "r9",
+    author: "busan.wave",
+    avatar: AVATAR.busan,
+    cover: "https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=720&h=1280&fit=crop",
+    caption: "Bridge lights time-lapse",
+    views: 52000,
+    likes: 4100,
+    createdAt: "4d",
+    location: "Gwangalli, Busan"
+  },
+  {
+    id: "r10",
+    author: "jeju.trail",
+    avatar: AVATAR.jeju,
+    cover: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=720&h=1280&fit=crop",
+    caption: "Udo ferry boarding tips",
+    views: 19800,
+    likes: 1600,
+    createdAt: "6d",
+    location: "Udo, Jeju"
+  },
+  {
+    id: "r11",
+    author: "market.finder",
+    avatar: AVATAR.market,
+    cover: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=720&h=1280&fit=crop",
+    caption: "Namdaemun lunch sprint",
+    views: 15400,
+    likes: 1100,
+    createdAt: "3d",
+    location: "Namdaemun Market, Seoul"
+  },
+  {
+    id: "r12",
+    author: "local.yuna",
+    avatar: AVATAR.yuna,
+    cover: "https://images.unsplash.com/photo-1517154428103-8fe2e841f3c0?w=720&h=1280&fit=crop",
+    caption: "Seongsu rainy-day cafe hop",
+    views: 26700,
+    likes: 2100,
+    createdAt: "5d",
+    location: "Seongsu, Seoul"
+  },
+  {
+    id: "r13",
+    author: "sofia.mx",
+    avatar: AVATAR.sofia,
+    cover: "https://images.unsplash.com/photo-1548115184-85cac22f4d35?w=720&h=1280&fit=crop",
+    caption: "Palace first-timer walk",
+    views: 3200,
+    likes: 240,
+    createdAt: "1d",
+    location: "Jongno, Seoul"
   }
 ];
 
-/** Bookmarks for the demo logged-in user. */
-export const savedPostIds: string[] = ["p2", "p3", "p4", "p7"];
+/** Bookmarks for the demo logged-in traveler. */
+export const savedPostIds: string[] = ["p1", "p2", "p3", "p4", "p9"];
 
 export const comments: Comment[] = [
   {
@@ -902,62 +1147,75 @@ export const profiles: TravelerProfile[] = [
   {
     handle: "mina.seoul",
     name: "Mina",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
-    bio: "Seoul nights, film grain, neon maps.",
+    avatar: AVATAR.mina,
+    bio: "Official Tourink AI · Seoul nightlife, neon maps, and late-night cafe routes.",
     city: "Seoul",
     followers: 12400,
-    following: 320,
+    following: 12,
     posts: 186,
     isLocal: true,
+    isOfficialAi: true,
+    persona: "Seoul nightlife & neon",
     website: "tourink.kr/@mina.seoul",
     joinedAt: "Mar 2024"
   },
   {
     handle: "busan.wave",
     name: "Jun",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
-    bio: "Surf mornings. Bridge lights at night.",
+    avatar: AVATAR.busan,
+    bio: "Official Tourink AI · Surf mornings, bridge lights, and coast weekends in Busan.",
     city: "Busan",
     followers: 8300,
-    following: 210,
+    following: 8,
     posts: 94,
     isLocal: true,
+    isOfficialAi: true,
+    persona: "Busan waves & coast",
     website: "tourink.kr/@busan.wave",
     joinedAt: "Jun 2024"
   },
   {
     handle: "jeju.trail",
     name: "Hana",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
-    bio: "Hallasan weekends. Pack layers.",
+    avatar: AVATAR.jeju,
+    bio: "Official Tourink AI · Hallasan weekends, oreum hops, and island ferry tips.",
     city: "Jeju",
     followers: 5600,
-    following: 180,
+    following: 6,
     posts: 71,
     isLocal: true,
+    isOfficialAi: true,
+    persona: "Jeju trails & islands",
+    website: "tourink.kr/@jeju.trail",
     joinedAt: "Jan 2025"
   },
   {
     handle: "market.finder",
     name: "Leo",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
-    bio: "Markets first. Always hungry.",
+    avatar: AVATAR.market,
+    bio: "Official Tourink AI · Markets first — Gwangjang, Namdaemun, and street-food maps.",
     city: "Seoul",
     followers: 4100,
-    following: 540,
+    following: 15,
     posts: 120,
+    isOfficialAi: true,
+    persona: "Markets & street food",
+    website: "tourink.kr/@market.finder",
     joinedAt: "Nov 2024"
   },
   {
     handle: "local.yuna",
     name: "Yuna",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop",
-    bio: "Ask-a-local host. Seongsu / Hapjeong.",
+    avatar: AVATAR.yuna,
+    bio: "Official Tourink AI · Ask-a-local host for transit, SIMs, and Seongsu / Hapjeong tips.",
     city: "Seoul",
     followers: 9800,
-    following: 140,
+    following: 10,
     posts: 55,
     isLocal: true,
+    isOfficialAi: true,
+    persona: "Local tips & transit",
+    website: "tourink.kr/@local.yuna",
     joinedAt: "Feb 2024"
   },
   {
@@ -985,8 +1243,8 @@ export const profiles: TravelerProfile[] = [
   {
     handle: "sofia.mx",
     name: "Sofia",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop",
-    bio: "First-timer tips, SIMs, and solo-friendly nights.",
+    avatar: AVATAR.sofia,
+    bio: "First-timer from Mexico City. SIMs, soft spice, and solo-friendly nights.",
     city: "Seoul",
     followers: 1540,
     following: 190,
@@ -1045,6 +1303,14 @@ export function getProfile(handle: string) {
 
 export function getCurrentProfile() {
   return getProfile(CURRENT_USER_HANDLE);
+}
+
+export function isOfficialAiHandle(handle: string) {
+  return (OFFICIAL_AI_HANDLES as readonly string[]).includes(handle);
+}
+
+export function getOfficialAiProfiles() {
+  return profiles.filter((p) => p.isOfficialAi);
 }
 
 export function getCommentsForPost(postId: string) {
