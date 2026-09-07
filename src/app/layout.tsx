@@ -17,6 +17,9 @@ const display = Fraunces({
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://tourink.kr";
 
+/** Flags + partner keys are read at request time so Coming soon can flip without rebuild. */
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {

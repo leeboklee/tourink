@@ -3,6 +3,7 @@ import { isExperiencesEnabled } from "@/lib/feature-flags";
 import { CardLink, SectionHero } from "@/components/ui";
 import { ComingSoon } from "@/components/ComingSoon";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Experiences" };
 
 export default async function ExperiencesPage() {
