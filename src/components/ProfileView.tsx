@@ -15,13 +15,15 @@ import {
 } from "lucide-react";
 import { FollowButton } from "@/components/FollowButton";
 import { FeedCard } from "@/components/FeedCard";
-import type {
-  CommunityPost,
-  FeedPost,
-  Meetup,
-  ReelPost,
-  ThreadPost,
-  TravelerProfile
+import { OfficialAiBadge } from "@/components/OfficialAiBadge";
+import {
+  isOfficialAiHandle,
+  type CommunityPost,
+  type FeedPost,
+  type Meetup,
+  type ReelPost,
+  type ThreadPost,
+  type TravelerProfile
 } from "@/data/mock";
 
 export type ProfileTab = "posts" | "threads" | "reels" | "saved" | "about";
@@ -70,7 +72,13 @@ export function ProfileView({
     <div className="pb-8">
       <header className="px-4 pt-5 lg:px-0">
         <div className="flex items-start gap-4">
-          <span className="shrink-0 rounded-full bg-gradient-to-tr from-neon-pink via-neon-amber to-neon-cyan p-[2px]">
+          <span
+            className={
+              profile.isOfficialAi
+                ? "shrink-0 rounded-full bg-gradient-to-tr from-neon-cyan via-neon-cyan/50 to-neon-pink/50 p-[2px]"
+                : "shrink-0 rounded-full bg-gradient-to-tr from-neon-pink via-neon-amber to-neon-cyan p-[2px]"
+            }
+          >
             <Image
               src={profile.avatar}
               alt={profile.handle}
@@ -83,13 +91,17 @@ export function ProfileView({
           <div className="min-w-0 flex-1 pt-1">
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="font-display text-2xl leading-none">@{profile.handle}</h1>
-              {profile.isLocal ? (
+              {profile.isOfficialAi ? <OfficialAiBadge /> : null}
+              {profile.isLocal && !profile.isOfficialAi ? (
                 <span className="rounded bg-neon-amber/20 px-1.5 py-0.5 text-[10px] uppercase text-neon-amber">
                   local
                 </span>
               ) : null}
             </div>
             <p className="mt-1 text-sm font-medium text-white/80">{profile.name}</p>
+            {profile.persona ? (
+              <p className="mt-0.5 text-xs text-neon-cyan/80">{profile.persona}</p>
+            ) : null}
             <div className="mt-3 flex gap-5 text-sm">
               <span>
                 <strong>{posts.length || profile.posts}</strong>{" "}
@@ -259,10 +271,11 @@ function ThreadsTimeline({ threads, isOwn }: { threads: ThreadPost[]; isOwn: boo
               className="h-10 w-10 rounded-full object-cover"
             />
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex flex-wrap items-center gap-2 text-sm">
                 <Link href={`/u/${t.author}`} className="font-semibold hover:text-neon-cyan">
                   @{t.author}
                 </Link>
+                {isOfficialAiHandle(t.author) ? <OfficialAiBadge compact /> : null}
                 <span className="text-xs text-white/35">{t.createdAt}</span>
               </div>
               <p className="mt-2 text-sm leading-relaxed text-white/85">{t.body}</p>
@@ -384,13 +397,30 @@ function AboutPanel({
             <dt className="text-white/45">Feed posts</dt>
             <dd>{posts.length}</dd>
           </div>
-          {profile.isLocal ? (
+          {profile.isOfficialAi ? (
+            <div className="flex justify-between gap-3">
+              <dt className="text-white/45">Role</dt>
+              <dd className="text-neon-cyan">Official AI creator</dd>
+            </div>
+          ) : profile.isLocal ? (
             <div className="flex justify-between gap-3">
               <dt className="text-white/45">Role</dt>
               <dd className="text-neon-amber">Local host</dd>
             </div>
           ) : null}
+          {profile.persona ? (
+            <div className="flex justify-between gap-3">
+              <dt className="text-white/45">Persona</dt>
+              <dd className="text-right">{profile.persona}</dd>
+            </div>
+          ) : null}
         </dl>
+        {profile.isOfficialAi ? (
+          <p className="mt-3 rounded-xl border border-neon-cyan/20 bg-neon-cyan/5 px-3 py-2 text-xs leading-relaxed text-white/65">
+            This account is operated by Tourink AI. Tips are curated for travelers — follow for feed posts,
+            threads, and reels in this persona.
+          </p>
+        ) : null}
         <p className="mt-3 text-sm leading-relaxed text-white/70">{profile.bio}</p>
       </section>
 

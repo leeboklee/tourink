@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import {
   getCommunityByAuthor,
   getHangoutsByHost,
@@ -6,14 +7,18 @@ import {
   getReelsByAuthor,
   getSavedPostsForUser,
   getThreadsByAuthor,
-  CURRENT_USER_HANDLE
+  CURRENT_USER_HANDLE,
+  isOfficialAiHandle
 } from "@/data/mock";
 import { parseProfileTab, ProfileView } from "@/components/ProfileView";
 
 export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
   const profile = getProfile(handle);
-  return { title: `@${profile?.handle ?? handle}` };
+  const title = profile?.isOfficialAi
+    ? `@${profile.handle} · Official AI`
+    : `@${profile?.handle ?? handle}`;
+  return { title };
 }
 
 export default async function PublicProfilePage({
@@ -28,6 +33,11 @@ export default async function PublicProfilePage({
   const tab = parseProfileTab(tabRaw);
   const profile = getProfile(handle);
   const posts = getPostsByAuthor(handle);
+
+  // Official AI handles must resolve to a real profile (no stub / 404 ambiguity).
+  if (isOfficialAiHandle(handle) && !profile) {
+    notFound();
+  }
 
   const p = profile ?? {
     handle,

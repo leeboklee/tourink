@@ -1,22 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { feedPosts, meetups, profiles } from "@/data/mock";
+import { feedPosts, getOfficialAiProfiles, isOfficialAiHandle, meetups } from "@/data/mock";
 import { FeedCard } from "@/components/FeedCard";
+import { OfficialAiBadge } from "@/components/OfficialAiBadge";
 
 export default function HomePage() {
+  const officialCreators = getOfficialAiProfiles();
+  const officialFeed = feedPosts.filter((p) => isOfficialAiHandle(p.author));
+
   return (
     <div>
       <div className="hidden px-4 pb-2 pt-2 lg:block lg:px-0">
         <h1 className="font-display text-3xl text-paper">Korea travel feed</h1>
         <p className="mt-1 text-sm text-white/55">
-          Stories from Seoul, Busan, Jeju — like, save, follow, and meet up.
+          Official AI creators · Seoul, Busan, Jeju — follow, save, and meet up.
         </p>
       </div>
 
       <div className="no-scrollbar flex gap-3 overflow-x-auto px-4 pb-3 pt-2 lg:px-0">
-        {profiles.slice(0, 5).map((p) => (
+        {officialCreators.map((p) => (
           <Link key={p.handle} href={`/u/${p.handle}`} className="flex w-16 shrink-0 flex-col items-center gap-1">
-            <span className="rounded-full bg-gradient-to-tr from-neon-pink to-neon-cyan p-[2px]">
+            <span className="relative rounded-full bg-gradient-to-tr from-neon-cyan via-neon-cyan/70 to-neon-pink/60 p-[2px]">
               <Image
                 src={p.avatar}
                 alt={p.handle}
@@ -24,11 +28,19 @@ export default function HomePage() {
                 height={56}
                 className="h-14 w-14 rounded-full border-2 border-ink-950 object-cover"
               />
+              <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 rounded border border-ink-950 bg-neon-cyan px-1 text-[8px] font-bold uppercase leading-tight text-ink-950">
+                AI
+              </span>
             </span>
             <span className="w-full truncate text-center text-[10px] text-white/60">{p.handle}</span>
           </Link>
         ))}
       </div>
+
+      <p className="mb-2 flex items-center gap-2 px-4 text-[11px] text-white/45 lg:px-0">
+        <OfficialAiBadge compact />
+        Tourink-operated official creators
+      </p>
 
       <div className="mx-4 mb-3 flex gap-2 overflow-x-auto no-scrollbar lg:mx-0">
         {meetups.slice(0, 2).map((m) => (
@@ -55,7 +67,7 @@ export default function HomePage() {
       </div>
 
       <div className="space-y-0 lg:space-y-6">
-        {feedPosts.map((post) => (
+        {officialFeed.map((post) => (
           <FeedCard key={post.id} post={post} />
         ))}
       </div>
