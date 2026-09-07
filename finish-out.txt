@@ -1,0 +1,20 @@
+==> continue finish 2026-09-07T14:16:07+09:00
+## feature/community-social
+A  AGENTS.md
+M  package-lock.json
+A  scripts/finish-community-social.sh
+?? finish-out.txt
+?? scripts/finish-continue.sh
+--- remotes ---
+origin	https://github.com/leeboklee/tourink.git (fetch)
+origin	https://github.com/leeboklee/tourink.git (push)
+--- identity ---
+name=
+email=bokmuch@gmail.com
+--- branch ---
+feature/community-social
+--- ensuring branch ---
+Reset branch 'feature/community-social'
+A	AGENTS.md
+M	package-lock.json
+A	scripts/finish-community-social.sh
