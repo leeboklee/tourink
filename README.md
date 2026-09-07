@@ -35,6 +35,7 @@ Demo login: `sofia.mx` / `tourink-demo`
 - Set `AUTH_SECRET`, `NEXTAUTH_URL`, and a Postgres `DATABASE_URL` (Supabase) for durable hosting.
 - Stripe: set `STRIPE_SECRET_KEY` to move bookings off the labeled **test payment** path.
 - OAuth: set Google/GitHub client env vars to enable provider buttons.
+- Hotels: availability uses `HotelProvider` (`src/lib/hotels`). Default `HOTEL_PROVIDER=mock`. After Expedia Rapid or Amadeus partner keys land, set `EXPEDIA_*` / `AMADEUS_*` and switch `HOTEL_PROVIDER`. Booking.com Demand API needs Managed Affiliate approval (not wired yet).
 
 ## Product surfaces
 
