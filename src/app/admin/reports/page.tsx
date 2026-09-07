@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import {
   getDeliverableReports,
   getExperienceIntegrationReport,
+  getFreeApisReport,
   getHotelIntegrationReport,
   type IntegrationReport
 } from "@/lib/admin-reports";
@@ -145,6 +146,7 @@ async function loadAiCreators(): Promise<AiCreatorBundle[]> {
 export default async function AdminReportsPage() {
   const hotel = getHotelIntegrationReport();
   const experiences = getExperienceIntegrationReport();
+  const freeApis = getFreeApisReport();
   const deliverables = getDeliverableReports();
   const creators = await loadAiCreators();
 
@@ -156,8 +158,9 @@ export default async function AdminReportsPage() {
           결과 리포트 · Result reports
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-white/55">
-          In-product answers for hotel / ticket API integrations, agent deliverables, and Official
-          AI publishing review. Primary UI English; Korean titles for staff scan.
+          In-product answers for hotel / ticket API integrations, hidden feature flags, free public
+          APIs, agent deliverables, and Official AI publishing review. Primary UI English; Korean
+          titles for staff scan.
         </p>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">
           <a href="#integrations" className="text-neon-cyan hover:underline">
@@ -179,6 +182,7 @@ export default async function AdminReportsPage() {
         <h2 className="font-display text-2xl text-paper">API 연동 · Integrations</h2>
         <IntegrationCard report={hotel} />
         <IntegrationCard report={experiences} />
+        <IntegrationCard report={freeApis} />
       </section>
 
       <section id="deliverables" className="space-y-4 scroll-mt-6">

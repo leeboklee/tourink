@@ -6,14 +6,17 @@ import {
   dbListMeetups
 } from "@/lib/catalog";
 import { isOfficialAiHandle } from "@/data/mock";
+import { fetchKoreaCityWeather } from "@/lib/weather";
 import { FeedCard } from "@/components/FeedCard";
 import { OfficialAiBadge } from "@/components/OfficialAiBadge";
+import { WeatherStrip } from "@/components/WeatherStrip";
 
 export default async function HomePage() {
-  const [officialCreators, feedPosts, meetups] = await Promise.all([
+  const [officialCreators, feedPosts, meetups, weather] = await Promise.all([
     dbGetOfficialAiProfiles(),
     dbListFeedPosts(),
-    dbListMeetups()
+    dbListMeetups(),
+    fetchKoreaCityWeather()
   ]);
   const officialFeed = feedPosts.filter((p) => isOfficialAiHandle(p.author));
 
@@ -50,6 +53,8 @@ export default async function HomePage() {
         <OfficialAiBadge compact />
         Tourink-operated official creators
       </p>
+
+      <WeatherStrip cities={weather} />
 
       <div className="mx-4 mb-3 flex gap-2 overflow-x-auto no-scrollbar lg:mx-0">
         {meetups.slice(0, 2).map((m) => (

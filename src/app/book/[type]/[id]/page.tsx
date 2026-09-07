@@ -2,7 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { dbGetExperience, dbGetHotel } from "@/lib/catalog";
+import { isExperiencesEnabled, isHotelsEnabled } from "@/lib/feature-flags";
 import { BookingCheckoutForm } from "@/components/BookingCheckoutForm";
+import { ComingSoon } from "@/components/ComingSoon";
 
 export async function generateMetadata({
   params
@@ -28,6 +30,23 @@ export default async function BookPage({
   const { type, id } = await params;
   const sp = await searchParams;
   if (type !== "hotel" && type !== "experience") notFound();
+
+  if (type === "hotel" && !isHotelsEnabled()) {
+    return (
+      <ComingSoon
+        title="Hotel checkout coming soon"
+        subtitle="Live hotel booking is disabled until a partner provider is configured."
+      />
+    );
+  }
+  if (type === "experience" && !isExperiencesEnabled()) {
+    return (
+      <ComingSoon
+        title="Experience checkout coming soon"
+        subtitle="Live experience booking is disabled until a partner provider is configured."
+      />
+    );
+  }
 
   const pick = (key: string) => {
     const v = sp[key];

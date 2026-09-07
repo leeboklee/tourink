@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getExperienceProvider } from "@/lib/experiences";
+import { isExperiencesEnabled } from "@/lib/feature-flags";
 
 const schema = z.object({
   experienceId: z.string().min(1),
@@ -9,6 +10,16 @@ const schema = z.object({
 });
 
 export async function GET(req: Request) {
+  if (!isExperiencesEnabled()) {
+    return NextResponse.json(
+      {
+        error:
+          "Experiences booking is Coming soon — set partner keys or NEXT_PUBLIC_ENABLE_EXPERIENCES=true"
+      },
+      { status: 503 }
+    );
+  }
+
   const url = new URL(req.url);
   const parsed = schema.safeParse({
     experienceId: url.searchParams.get("experienceId"),

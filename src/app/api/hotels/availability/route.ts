@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getHotelProvider } from "@/lib/hotels";
+import { isHotelsEnabled } from "@/lib/feature-flags";
 
 const schema = z.object({
   hotelId: z.string().min(1),
@@ -11,6 +12,13 @@ const schema = z.object({
 });
 
 export async function GET(req: Request) {
+  if (!isHotelsEnabled()) {
+    return NextResponse.json(
+      { error: "Hotels booking is Coming soon — set partner keys or NEXT_PUBLIC_ENABLE_HOTELS=true" },
+      { status: 503 }
+    );
+  }
+
   const url = new URL(req.url);
   const parsed = schema.safeParse({
     hotelId: url.searchParams.get("hotelId"),
