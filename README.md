@@ -38,6 +38,8 @@ Staff Admin CMS: `/admin` — login `admin@tourink` / `tourink-admin` (override 
 - Stripe: set `STRIPE_SECRET_KEY` to move bookings off the labeled **test payment** path.
 - OAuth: set Google/GitHub client env vars to enable provider buttons.
 - Hotels: availability uses `HotelProvider` (`src/lib/hotels`). Default `HOTEL_PROVIDER=mock`. After Expedia Rapid or Amadeus partner keys land, set `EXPEDIA_*` / `AMADEUS_*` and switch `HOTEL_PROVIDER`. Booking.com Demand API needs Managed Affiliate approval (not wired yet).
+- Experiences: availability uses `ExperienceProvider` (`src/lib/experiences`). Default `EXPERIENCE_PROVIDER=mock`. After Klook / Viator / GetYourGuide partner keys land, set `KLOOK_*` / `VIATOR_*` / `GYG_*` and switch `EXPERIENCE_PROVIDER`. Nav stays visible — catalog is product-critical, not a soft-hide.
+- Staff result reports: `/admin/reports` documents API adapter status + Official AI creator output for monday.org review.
 
 ## Product surfaces
 

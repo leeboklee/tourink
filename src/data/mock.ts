@@ -722,7 +722,8 @@ export const experiences: Experience[] = [
     duration: "3 hours",
     rating: 4.9,
     reviews: 8300,
-    image: "https://images.unsplash.com/photo-1548115184-85cac22f4d35?w=800&h=600&fit=crop",
+    // Gyeongbokgung gate with hanbok visitors (previous Unsplash id 404'd)
+    image: "https://images.unsplash.com/photo-1770236597780-10d0663cf557?w=800&h=600&fit=crop",
     category: "Culture",
     description: "Pick a hanbok, enter the palace free, and get curated photo spots."
   },
@@ -735,7 +736,8 @@ export const experiences: Experience[] = [
     duration: "6 hours",
     rating: 4.7,
     reviews: 15200,
-    image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=800&h=600&fit=crop",
+    // Mountain landscape (previous image was Prague Charles Bridge)
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop",
     category: "History",
     description: "Passport required. Includes Imjingak and Dora Observatory when open."
   },

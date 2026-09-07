@@ -13,7 +13,9 @@ const schema = z.object({
   guests: z.number().int().min(1).max(12).default(1),
   notes: z.string().max(500).optional(),
   /** Optional nightly rate from HotelProvider offer — falls back to catalog priceFrom. */
-  nightlyRate: z.number().positive().optional()
+  nightlyRate: z.number().positive().optional(),
+  /** Optional per-guest rate from ExperienceProvider offer — falls back to catalog price. */
+  unitRate: z.number().positive().optional()
 });
 
 export async function GET(req: Request) {
@@ -60,7 +62,8 @@ export async function POST(req: Request) {
     if (!exp) return NextResponse.json({ error: "Experience not found" }, { status: 404 });
     itemTitle = exp.title;
     currency = exp.currency;
-    totalAmount = exp.price * data.guests;
+    const unit = data.unitRate ?? exp.price;
+    totalAmount = unit * data.guests;
   }
 
   const stripeConfigured = Boolean(process.env.STRIPE_SECRET_KEY);

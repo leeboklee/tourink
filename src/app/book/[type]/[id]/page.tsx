@@ -67,6 +67,14 @@ export default async function BookPage({
 
   const exp = await dbGetExperience(id);
   if (!exp) notFound();
+  const unitFromOffer = Number(pick("unitPrice"));
+  const unitPrice = Number.isFinite(unitFromOffer) && unitFromOffer > 0 ? unitFromOffer : exp.price;
+  const optionName = pick("optionName");
+  const startTime = pick("startTime");
+  const titleBits = [exp.title, optionName, startTime ? `starts ${startTime}` : null]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
     <div className="px-4 pb-10 pt-4 lg:px-0">
       <Link href={`/experience/${id}`} className="text-sm text-neon-cyan hover:underline">
@@ -80,10 +88,13 @@ export default async function BookPage({
       <BookingCheckoutForm
         itemType="experience"
         itemId={exp.id}
-        itemTitle={exp.title}
-        unitPrice={exp.price}
+        itemTitle={titleBits}
+        unitPrice={unitPrice}
         currency={exp.currency}
         mode="experience"
+        initialGuests={Number(pick("guests")) || 2}
+        offerId={pick("offerId")}
+        activityDate={pick("date")}
       />
     </div>
   );

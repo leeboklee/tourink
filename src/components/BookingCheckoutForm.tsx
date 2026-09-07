@@ -13,7 +13,8 @@ export function BookingCheckoutForm({
   initialCheckIn = "",
   initialCheckOut = "",
   initialGuests = 1,
-  offerId
+  offerId,
+  activityDate
 }: {
   itemType: "hotel" | "experience";
   itemId: string;
@@ -25,6 +26,8 @@ export function BookingCheckoutForm({
   initialCheckOut?: string;
   initialGuests?: number;
   offerId?: string;
+  /** Experience activity date from ExperienceProvider offer. */
+  activityDate?: string;
 }) {
   const router = useRouter();
   const [guestName, setGuestName] = useState("");
@@ -49,11 +52,12 @@ export function BookingCheckoutForm({
           itemId,
           guestName,
           guestEmail,
-          checkIn: mode === "hotel" ? checkIn : undefined,
+          checkIn: mode === "hotel" ? checkIn : activityDate || undefined,
           checkOut: mode === "hotel" ? checkOut : undefined,
           guests,
           notes: notes || undefined,
-          nightlyRate: mode === "hotel" ? unitPrice : undefined
+          nightlyRate: mode === "hotel" ? unitPrice : undefined,
+          unitRate: mode === "experience" ? unitPrice : undefined
         })
       });
       const data = await res.json();
@@ -75,6 +79,9 @@ export function BookingCheckoutForm({
         </p>
         {offerId ? (
           <p className="mt-1 text-xs text-white/40">Rate offer: {offerId}</p>
+        ) : null}
+        {mode === "experience" && activityDate ? (
+          <p className="mt-1 text-xs text-white/40">Activity date: {activityDate}</p>
         ) : null}
       </div>
 
