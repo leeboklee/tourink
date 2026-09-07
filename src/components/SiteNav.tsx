@@ -10,12 +10,14 @@ import {
   MoonStar,
   Newspaper,
   Ticket,
+  UserRound,
   Users
 } from "lucide-react";
 import { clsx } from "clsx";
 
 const links = [
   { href: "/", label: "Feed", icon: Newspaper },
+  { href: "/profile", label: "My Page", icon: UserRound },
   { href: "/experiences", label: "Experiences", icon: Ticket },
   { href: "/routes", label: "Routes", icon: Map },
   { href: "/hotels", label: "Hotels", icon: Hotel },
@@ -38,7 +40,10 @@ export function SiteNav() {
           <p className="mt-2 text-sm text-white/55">Korea travel, feed-first.</p>
           <nav className="mt-10 space-y-1">
             {links.map(({ href, label, icon: Icon }) => {
-              const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+              const active =
+                pathname === href ||
+                (href !== "/" && pathname.startsWith(href)) ||
+                (href === "/profile" && (pathname.startsWith("/compose") || pathname.startsWith("/reel")));
               return (
                 <Link
                   key={href}
@@ -63,16 +68,22 @@ export function SiteNav() {
           <Link href="/" className="font-display text-2xl text-paper">
             Tourink
           </Link>
-          <span className="rounded-full border border-neon-pink/40 px-2.5 py-1 text-[11px] uppercase tracking-wider text-neon-pink">
-            Korea feed
-          </span>
+          <Link
+            href="/profile"
+            className="rounded-full border border-neon-pink/40 px-2.5 py-1 text-[11px] uppercase tracking-wider text-neon-pink"
+          >
+            My Page
+          </Link>
         </div>
       </header>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink-950/95 px-2 py-2 backdrop-blur lg:hidden">
         <div className="no-scrollbar flex gap-1 overflow-x-auto">
           {links.map(({ href, label, icon: Icon }) => {
-            const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+            const active =
+              pathname === href ||
+              (href !== "/" && pathname.startsWith(href)) ||
+              (href === "/profile" && (pathname.startsWith("/compose") || pathname.startsWith("/reel")));
             return (
               <Link
                 key={href}
