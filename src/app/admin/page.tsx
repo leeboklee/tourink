@@ -47,6 +47,19 @@ export default async function AdminDashboardPage() {
         hidden from tourist pages.
       </p>
 
+      <Link
+        href="/admin/reports"
+        className="mt-6 flex items-start justify-between gap-3 rounded-xl border border-neon-cyan/25 bg-neon-cyan/5 px-4 py-4 transition hover:border-neon-cyan/50"
+      >
+        <div>
+          <p className="text-sm font-semibold text-paper">결과 리포트 · Result reports</p>
+          <p className="mt-1 text-xs text-white/55">
+            Hotel / ticket API integrations, deliverables, and Official AI Answers review
+          </p>
+        </div>
+        <span className="text-sm text-neon-cyan">Open →</span>
+      </Link>
+
       <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {ADMIN_NAV.map((item) => (
           <Link

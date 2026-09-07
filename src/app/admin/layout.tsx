@@ -32,6 +32,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             >
               Dashboard
             </Link>
+            <Link
+              href="/admin/reports"
+              className="rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-neon-cyan"
+            >
+              Result reports
+            </Link>
             {ADMIN_NAV.map((item) => (
               <Link
                 key={item.key}

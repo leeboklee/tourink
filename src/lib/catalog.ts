@@ -142,7 +142,9 @@ export async function dbGetPostsByLocation(location: string): Promise<FeedPost[]
 export async function dbGetThreadsByAuthor(handle: string): Promise<ThreadPost[]> {
   const user = await prisma.user.findUnique({ where: { handle } });
   if (!user) return [];
-  const rows = await prisma.threadPost.findMany({ where: { authorId: user.id } });
+  const rows = await prisma.threadPost.findMany({
+    where: { authorId: user.id, active: true }
+  });
   return rows.map((t) => ({
     id: t.id,
     author: handle,
@@ -158,7 +160,9 @@ export async function dbGetThreadsByAuthor(handle: string): Promise<ThreadPost[]
 export async function dbGetReelsByAuthor(handle: string): Promise<ReelPost[]> {
   const user = await prisma.user.findUnique({ where: { handle } });
   if (!user) return [];
-  const rows = await prisma.reelPost.findMany({ where: { authorId: user.id } });
+  const rows = await prisma.reelPost.findMany({
+    where: { authorId: user.id, active: true }
+  });
   return rows.map((r) => ({
     id: r.id,
     author: handle,
@@ -173,7 +177,10 @@ export async function dbGetReelsByAuthor(handle: string): Promise<ReelPost[]> {
 }
 
 export async function dbListReels(): Promise<ReelPost[]> {
-  const rows = await prisma.reelPost.findMany({ include: { author: true } });
+  const rows = await prisma.reelPost.findMany({
+    where: { active: true },
+    include: { author: true }
+  });
   return rows.map((r) => ({
     id: r.id,
     author: r.author.handle,

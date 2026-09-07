@@ -149,14 +149,15 @@ model Follow {
 }
 
 model ThreadPost {
-  id        String @id
+  id        String  @id
   authorId  String
   body      String
-  likes     Int    @default(0)
-  replies   Int    @default(0)
+  likes     Int     @default(0)
+  replies   Int     @default(0)
   createdAt String
-  tagsJson  String @default("[]")
-  author    User   @relation(fields: [authorId], references: [id])
+  tagsJson  String  @default("[]")
+  active    Boolean @default(true)
+  author    User    @relation(fields: [authorId], references: [id])
 }
 
 model ReelPost {
@@ -168,6 +169,7 @@ model ReelPost {
   likes     Int     @default(0)
   createdAt String
   location  String?
+  active    Boolean @default(true)
   author    User    @relation(fields: [authorId], references: [id])
 }
 

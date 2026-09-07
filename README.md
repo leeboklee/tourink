@@ -24,6 +24,8 @@ Demo traveler: `sofia.mx` / `tourink-demo`
 
 Staff Admin CMS: `/admin` — login `admin@tourink` / `tourink-admin` (override with `ADMIN_PASSWORD`). Roles: `ADMIN` or `STAFF` only.
 
+Result reports (API integrations + AI Answers): `/admin/reports`
+
 ## Scripts
 
 | Command | Purpose |
