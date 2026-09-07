@@ -9,7 +9,12 @@ export function BookingCheckoutForm({
   itemTitle,
   unitPrice,
   currency,
-  mode
+  mode,
+  initialCheckIn = "",
+  initialCheckOut = "",
+  initialGuests = 1,
+  offerId,
+  activityDate
 }: {
   itemType: "hotel" | "experience";
   itemId: string;
@@ -17,14 +22,20 @@ export function BookingCheckoutForm({
   unitPrice: number;
   currency: string;
   mode: "hotel" | "experience";
+  initialCheckIn?: string;
+  initialCheckOut?: string;
+  initialGuests?: number;
+  offerId?: string;
+  /** Experience activity date from ExperienceProvider offer. */
+  activityDate?: string;
 }) {
   const router = useRouter();
   const [guestName, setGuestName] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
-  const [notes, setNotes] = useState("");
+  const [checkIn, setCheckIn] = useState(initialCheckIn);
+  const [checkOut, setCheckOut] = useState(initialCheckOut);
+  const [guests, setGuests] = useState(initialGuests);
+  const [notes, setNotes] = useState(offerId ? `offer:${offerId}` : "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,10 +52,12 @@ export function BookingCheckoutForm({
           itemId,
           guestName,
           guestEmail,
-          checkIn: mode === "hotel" ? checkIn : undefined,
+          checkIn: mode === "hotel" ? checkIn : activityDate || undefined,
           checkOut: mode === "hotel" ? checkOut : undefined,
           guests,
-          notes: notes || undefined
+          notes: notes || undefined,
+          nightlyRate: mode === "hotel" ? unitPrice : undefined,
+          unitRate: mode === "experience" ? unitPrice : undefined
         })
       });
       const data = await res.json();
@@ -64,6 +77,12 @@ export function BookingCheckoutForm({
           {itemTitle} · from {currency} {unitPrice.toLocaleString()}
           {mode === "hotel" ? " / night" : " / guest"}
         </p>
+        {offerId ? (
+          <p className="mt-1 text-xs text-white/40">Rate offer: {offerId}</p>
+        ) : null}
+        {mode === "experience" && activityDate ? (
+          <p className="mt-1 text-xs text-white/40">Activity date: {activityDate}</p>
+        ) : null}
       </div>
 
       <label className="block space-y-1.5 text-sm">

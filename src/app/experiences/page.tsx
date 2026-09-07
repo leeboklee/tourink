@@ -9,9 +9,9 @@ export default async function ExperiencesPage() {
   return (
     <div>
       <SectionHero
-        eyebrow="Klook-style"
+        eyebrow="Experiences"
         title="Book experiences"
-        subtitle="Day trips, palace photo walks, passes, and food tours — checkout saves a real order record."
+        subtitle="Day trips, palace photo walks, passes, and food tours — check slots and reserve with persistent checkout."
       />
       <div className="grid gap-4 px-4 pb-8 sm:grid-cols-2 lg:px-0">
         {experiences.map((e) => (

@@ -35,6 +35,7 @@ Demo login: `sofia.mx` / `tourink-demo`
 - Set `AUTH_SECRET`, `NEXTAUTH_URL`, and a Postgres `DATABASE_URL` (Supabase) for durable hosting.
 - Stripe: set `STRIPE_SECRET_KEY` to move bookings off the labeled **test payment** path.
 - OAuth: set Google/GitHub client env vars to enable provider buttons.
+- Experiences: availability uses `ExperienceProvider` (`src/lib/experiences`). Default `EXPERIENCE_PROVIDER=mock`. After Klook / Viator / GetYourGuide partner keys land, set `KLOOK_*` / `VIATOR_*` / `GYG_*` and switch `EXPERIENCE_PROVIDER`. Nav stays visible — catalog is product-critical, not a soft-hide.
 
 ## Product surfaces
 
