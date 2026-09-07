@@ -443,8 +443,8 @@ export async function dbSearch(q: string) {
     .map((n) => ({ type: "nightlife", id: n.id, title: n.name, href: `/nightlife/${n.id}` }));
 
   const places = [
-    ...(isHotelsEnabled() ? hotels : []),
-    ...(isExperiencesEnabled() ? experiences : []),
+    ...((await isHotelsEnabled()) ? hotels : []),
+    ...((await isExperiencesEnabled()) ? experiences : []),
     ...nightlife
   ].slice(0, 16);
 

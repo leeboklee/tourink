@@ -17,7 +17,7 @@ const display = Fraunces({
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://tourink.kr";
 
-/** Flags + partner keys are read at request time so Coming soon can flip without rebuild. */
+/** Flags + partner keys + admin DB toggles are read at request time. */
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true }
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const flags = getPublicFeatureFlags();
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const flags = await getPublicFeatureFlags();
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="font-sans antialiased">

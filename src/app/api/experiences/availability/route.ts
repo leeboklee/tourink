@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getExperienceProvider } from "@/lib/experiences";
-import { isExperiencesEnabled } from "@/lib/feature-flags";
+import { canBookExperiences } from "@/lib/feature-flags";
 
 const schema = z.object({
   experienceId: z.string().min(1),
@@ -10,12 +10,9 @@ const schema = z.object({
 });
 
 export async function GET(req: Request) {
-  if (!isExperiencesEnabled()) {
+  if (!canBookExperiences()) {
     return NextResponse.json(
-      {
-        error:
-          "Experiences booking is Coming soon — set partner keys or NEXT_PUBLIC_ENABLE_EXPERIENCES=true"
-      },
+      { error: "Experience booking is not available — partner provider keys required" },
       { status: 503 }
     );
   }

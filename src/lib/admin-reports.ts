@@ -4,6 +4,9 @@
  */
 
 import {
+  canBookExperiences,
+  canBookHotels,
+  getAdminExposureSettings,
   getPublicFeatureFlags,
   hasLiveExperienceProvider,
   hasLiveHotelProvider,
@@ -48,22 +51,23 @@ function envSet(...keys: string[]) {
   return keys.every((k) => Boolean(process.env[k]?.trim()));
 }
 
-export function getHotelIntegrationReport(): IntegrationReport {
+export async function getHotelIntegrationReport(): Promise<IntegrationReport> {
   const choice = (process.env.HOTEL_PROVIDER ?? "mock").toLowerCase().trim();
   const expediaReady = envSet("EXPEDIA_API_KEY", "EXPEDIA_SHARED_SECRET");
   const amadeusReady = envSet("AMADEUS_CLIENT_ID", "AMADEUS_CLIENT_SECRET");
-  const publicEnabled = isHotelsEnabled();
+  const publicEnabled = await isHotelsEnabled();
+  const bookingEnabled = canBookHotels();
   const live = hasLiveHotelProvider();
 
   const providers: ProviderStatus[] = [
     {
       id: "mock",
-      displayName: "Mock (hidden from public)",
+      displayName: "Mock (catalog only without keys)",
       configured: true,
       envKeys: ["HOTEL_PROVIDER=mock"],
       mode: "mock",
       notes:
-        "Mock rates remain in code for staging. Public nav shows Coming soon unless NEXT_PUBLIC_ENABLE_HOTELS=true or a live provider is keyed."
+        "Mock rates stay in code for staging. Public exposure is admin-toggled at /admin/features — no tourist Coming soon page."
     },
     {
       id: "expedia-rapid",
@@ -71,7 +75,7 @@ export function getHotelIntegrationReport(): IntegrationReport {
       configured: expediaReady,
       envKeys: ["EXPEDIA_API_KEY", "EXPEDIA_SHARED_SECRET", "EXPEDIA_ENV"],
       mode: expediaReady ? "ready" : "stub",
-      notes: "Partner approval required. Setting HOTEL_PROVIDER=expedia + keys auto-enables public Hotels."
+      notes: "Partner approval required. HOTEL_PROVIDER=expedia + keys enables booking and auto public exposure."
     },
     {
       id: "amadeus",
@@ -95,15 +99,18 @@ export function getHotelIntegrationReport(): IntegrationReport {
     titleKo: "호텔 API 연동 결과 리포트",
     titleEn: "Hotel API integration",
     summary:
-      "HotelProvider adapters kept. Public Hotels soft-hidden (Coming soon) by default — mock checkout is not treated as real use. Enable via NEXT_PUBLIC_ENABLE_HOTELS=true or auto when HOTEL_PROVIDER=expedia|amadeus + keys.",
+      "HotelProvider adapters kept. Hotels default hidden from public nav; staff enable exposure at /admin/features. Checkout needs partner keys — catalog can show without fake booking.",
     statusLabel: !publicEnabled
-      ? "Public Coming soon · adapters ready"
-      : live
-        ? `Public live via ${active}`
-        : "Public enabled (override) · mock",
+      ? "Public hidden · adapters ready"
+      : bookingEnabled
+        ? live
+          ? `Public + booking via ${active}`
+          : "Public + booking (staging override)"
+        : "Public catalog · booking off",
     activeProvider: active,
     codePaths: [
       { label: "Feature flags", path: "src/lib/feature-flags.ts" },
+      { label: "Admin features UI", path: "src/app/admin/features/page.tsx" },
       { label: "Provider factory", path: "src/lib/hotels/index.ts" },
       { label: "Types / contract", path: "src/lib/hotels/types.ts" },
       { label: "Mock rates", path: "src/lib/hotels/mock-provider.ts" },
@@ -113,37 +120,39 @@ export function getHotelIntegrationReport(): IntegrationReport {
       { label: "Hotel detail UI", path: "src/components/HotelAvailabilityPanel.tsx" }
     ],
     envHints: [
-      "NEXT_PUBLIC_ENABLE_HOTELS (default false)",
+      "Admin /admin/features (SiteSetting public.hotels)",
+      "NEXT_PUBLIC_ENABLE_HOTELS (staging)",
       "HOTEL_PROVIDER",
       "EXPEDIA_*",
       "AMADEUS_*"
     ],
     providers,
     howItWorks: [
-      "Nav Hotels stays visible with a Soon badge when disabled; `/hotels` shows Coming soon (no fake Book CTAs).",
-      "Availability + `/api/bookings` hotel POSTs return 503 while the flag is off.",
-      "Factory `getHotelProvider()` still resolves mock|expedia|amadeus for when keys land.",
-      "Auto-enable: HOTEL_PROVIDER=expedia + EXPEDIA_API_KEY + EXPEDIA_SHARED_SECRET (or amadeus + keys)."
+      "Disabled: Hotels removed from SiteNav; `/hotels` and `/hotel/*` redirect to feed.",
+      "Admin enables public.hotels in DB → catalog visible; checkout still gated by canBookHotels().",
+      "Availability + `/api/bookings` hotel POSTs return 503 until partner keys or staging override.",
+      "Factory `getHotelProvider()` still resolves mock|expedia|amadeus for when keys land."
     ]
   };
 }
 
-export function getExperienceIntegrationReport(): IntegrationReport {
+export async function getExperienceIntegrationReport(): Promise<IntegrationReport> {
   const choice = (process.env.EXPERIENCE_PROVIDER ?? "mock").toLowerCase().trim();
   const klookReady = envSet("KLOOK_API_KEY");
   const viatorReady = envSet("VIATOR_API_KEY");
   const gygReady = envSet("GYG_ACCESS_TOKEN");
-  const publicEnabled = isExperiencesEnabled();
+  const publicEnabled = await isExperiencesEnabled();
+  const bookingEnabled = canBookExperiences();
   const live = hasLiveExperienceProvider();
 
   const providers: ProviderStatus[] = [
     {
       id: "mock",
-      displayName: "Mock (hidden from public)",
+      displayName: "Mock (catalog only without keys)",
       configured: true,
       envKeys: ["EXPERIENCE_PROVIDER=mock"],
       mode: "mock",
-      notes: "Mock slots kept for staging only. Public Experiences = Coming soon by default."
+      notes: "Mock slots for staging. Public exposure is admin-toggled — provider key notes stay staff-only."
     },
     {
       id: "klook",
@@ -181,15 +190,18 @@ export function getExperienceIntegrationReport(): IntegrationReport {
     titleKo: "체험·티켓 API 연동 결과 리포트",
     titleEn: "Experiences / tickets API integration",
     summary:
-      "ExperienceProvider adapters kept. Public Experiences soft-hidden (Coming soon) — mock booking is not real use. Enable via NEXT_PUBLIC_ENABLE_EXPERIENCES=true or auto when EXPERIENCE_PROVIDER + partner keys are set.",
+      "ExperienceProvider adapters kept. Experiences default hidden from public nav; staff enable at /admin/features. EXPERIENCE_PROVIDER key notes are admin-only — tourists never see Coming soon marketing.",
     statusLabel: !publicEnabled
-      ? "Public Coming soon · adapters ready"
-      : live
-        ? `Public live via ${active}`
-        : "Public enabled (override) · mock",
+      ? "Public hidden · adapters ready"
+      : bookingEnabled
+        ? live
+          ? `Public + booking via ${active}`
+          : "Public + booking (staging override)"
+        : "Public catalog · booking off",
     activeProvider: active,
     codePaths: [
       { label: "Feature flags", path: "src/lib/feature-flags.ts" },
+      { label: "Admin features UI", path: "src/app/admin/features/page.tsx" },
       { label: "Provider factory", path: "src/lib/experiences/index.ts" },
       { label: "Types / contract", path: "src/lib/experiences/types.ts" },
       { label: "Mock offers", path: "src/lib/experiences/mock-provider.ts" },
@@ -200,7 +212,8 @@ export function getExperienceIntegrationReport(): IntegrationReport {
       { label: "Experience detail UI", path: "src/components/ExperienceAvailabilityPanel.tsx" }
     ],
     envHints: [
-      "NEXT_PUBLIC_ENABLE_EXPERIENCES (default false)",
+      "Admin /admin/features (SiteSetting public.experiences)",
+      "NEXT_PUBLIC_ENABLE_EXPERIENCES (staging)",
       "EXPERIENCE_PROVIDER",
       "KLOOK_*",
       "VIATOR_*",
@@ -208,10 +221,10 @@ export function getExperienceIntegrationReport(): IntegrationReport {
     ],
     providers,
     howItWorks: [
-      "Nav Experiences shows Soon badge; landing is Coming soon without Check availability / Book CTAs.",
-      "Availability + booking APIs return 503 while the flag is off.",
-      "Factory `getExperienceProvider()` still selects mock|klook|viator|gyg for later keys.",
-      "Auto-enable when EXPERIENCE_PROVIDER matches a keyed partner."
+      "Disabled: Experiences removed from SiteNav; `/experiences` redirects to feed.",
+      "Admin enables public.experiences → catalog visible; checkout gated by canBookExperiences().",
+      "Availability + booking APIs return 503 until partner keys or staging override.",
+      "Factory `getExperienceProvider()` still selects mock|klook|viator|gyg for later keys."
     ]
   };
 }
@@ -266,32 +279,34 @@ export function getFreeApisReport(): IntegrationReport {
   };
 }
 
-export function getFeatureFlagsReport(): DeliverableReport {
-  const flags = getPublicFeatureFlags();
+export async function getFeatureFlagsReport(): Promise<DeliverableReport> {
+  const [flags, admin] = await Promise.all([getPublicFeatureFlags(), getAdminExposureSettings()]);
   return {
     id: "feature-flags",
     titleKo: "공개 기능 플래그 (숨김/연동)",
     titleEn: "Public feature flags",
     summary:
-      "Hotels & Experiences default off for tourists. Staff enable via env; partner keys auto-flip on.",
+      "Hotels & Experiences default hidden from tourists. Staff flip public exposure at /admin/features (DB). Provider key notes stay admin-only.",
     statusLabel: `hotels=${flags.hotels ? "on" : "off"} · experiences=${flags.experiences ? "on" : "off"}`,
     links: [
+      { label: "Admin features", href: "/admin/features" },
       { label: "Hotels", href: "/hotels" },
       { label: "Experiences", href: "/experiences" },
       { label: "This reports page", href: "/admin/reports" }
     ],
     bullets: [
-      "NEXT_PUBLIC_ENABLE_HOTELS default false; auto-on when HOTEL_PROVIDER=expedia|amadeus + keys",
-      "NEXT_PUBLIC_ENABLE_EXPERIENCES default false; auto-on when EXPERIENCE_PROVIDER + keys",
-      "Adapter code + Admin CMS catalog rows kept; mock checkout CTAs removed from public path",
+      `Admin DB: hotels=${admin.hotels ? "on" : "off"}, experiences=${admin.experiences ? "on" : "off"}`,
+      "No SOON badges in SiteNav — disabled surfaces are omitted entirely",
+      "Direct /hotels /experiences /hotel/* redirect to feed when disabled",
+      "Checkout still needs partner keys or NEXT_PUBLIC_ENABLE_* staging override",
       "Feed · My Page · Community · Forum · Hangouts · Routes · Nightlife stay visible"
     ]
   };
 }
 
-export function getDeliverableReports(): DeliverableReport[] {
+export async function getDeliverableReports(): Promise<DeliverableReport[]> {
   return [
-    getFeatureFlagsReport(),
+    await getFeatureFlagsReport(),
     {
       id: "admin-cms",
       titleKo: "스태프 Admin CMS",
@@ -307,7 +322,7 @@ export function getDeliverableReports(): DeliverableReport[] {
         "Staff gate: ADMIN / STAFF roles only",
         "Demo login admin@tourink / tourink-admin (ADMIN_PASSWORD)",
         "Unpublished rows stay in DB but hide from tourist pages",
-        "Hotel/experience CMS rows remain editable even while public booking is Coming soon"
+        "Hotel/experience CMS rows remain editable even while public booking is off"
       ]
     },
     {
@@ -339,7 +354,7 @@ export function getDeliverableReports(): DeliverableReport[] {
       ],
       bullets: [
         "Demo traveler sofia.mx / tourink-demo",
-        "Checkout → DB order → confirmation (only when hotel/experience flags on)",
+        "Checkout → DB order → confirmation (only when hotel/experience booking flags on)",
         "Postgres / Stripe / OAuth activate via env"
       ]
     },

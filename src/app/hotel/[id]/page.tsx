@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { dbGetHotel } from "@/lib/catalog";
-import { isHotelsEnabled } from "@/lib/feature-flags";
+import { canBookHotels, isHotelsEnabled } from "@/lib/feature-flags";
 import { HotelAvailabilityPanel } from "@/components/HotelAvailabilityPanel";
-import { ComingSoon } from "@/components/ComingSoon";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,19 +13,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function HotelPage({ params }: { params: Promise<{ id: string }> }) {
-  if (!isHotelsEnabled()) {
-    return (
-      <ComingSoon
-        title="Hotel booking coming soon"
-        subtitle="Partner hotel inventory is not enabled on this deploy. Adapter code remains for later Expedia / Amadeus keys."
-        enableHint="Enable via HOTEL_PROVIDER + keys, or NEXT_PUBLIC_ENABLE_HOTELS=true."
-      />
-    );
+  if (!(await isHotelsEnabled())) {
+    redirect("/");
   }
 
   const { id } = await params;
   const hotel = await dbGetHotel(id);
   if (!hotel) notFound();
+
+  const bookingOn = canBookHotels();
 
   return (
     <div className="px-4 pb-8 pt-4 lg:px-0">
@@ -48,11 +45,17 @@ export default async function HotelPage({ params }: { params: Promise<{ id: stri
           <p className="text-xl font-semibold text-neon-amber">
             From {hotel.currency} {hotel.priceFrom} / night
           </p>
-          <HotelAvailabilityPanel
-            hotelId={hotel.id}
-            currency={hotel.currency}
-            priceFrom={hotel.priceFrom}
-          />
+          {bookingOn ? (
+            <HotelAvailabilityPanel
+              hotelId={hotel.id}
+              currency={hotel.currency}
+              priceFrom={hotel.priceFrom}
+            />
+          ) : (
+            <p className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/55">
+              Live rates and checkout need a partner hotel provider. Browse the stay details for now.
+            </p>
+          )}
         </div>
       </div>
     </div>

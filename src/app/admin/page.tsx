@@ -48,8 +48,21 @@ export default async function AdminDashboardPage() {
       </p>
 
       <Link
+        href="/admin/features"
+        className="mt-6 flex items-start justify-between gap-3 rounded-xl border border-neon-amber/25 bg-neon-amber/5 px-4 py-4 transition hover:border-neon-amber/50"
+      >
+        <div>
+          <p className="text-sm font-semibold text-paper">Public feature flags</p>
+          <p className="mt-1 text-xs text-white/55">
+            Enable Hotels / Experiences for tourists — persisted in DB, no SOON badges
+          </p>
+        </div>
+        <span className="text-sm text-neon-amber">Open →</span>
+      </Link>
+
+      <Link
         href="/admin/reports"
-        className="mt-6 flex items-start justify-between gap-3 rounded-xl border border-neon-cyan/25 bg-neon-cyan/5 px-4 py-4 transition hover:border-neon-cyan/50"
+        className="mt-3 flex items-start justify-between gap-3 rounded-xl border border-neon-cyan/25 bg-neon-cyan/5 px-4 py-4 transition hover:border-neon-cyan/50"
       >
         <div>
           <p className="text-sm font-semibold text-paper">결과 리포트 · Result reports</p>

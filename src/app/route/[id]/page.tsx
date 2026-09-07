@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { dbListRoutes } from "@/lib/catalog";
 import { isExperiencesEnabled, isHotelsEnabled } from "@/lib/feature-flags";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const routes = await dbListRoutes();
@@ -17,8 +19,8 @@ export default async function RoutePage({ params }: { params: Promise<{ id: stri
   const route = routes.find((r) => r.id === id);
   if (!route) notFound();
 
-  const hotelsOn = isHotelsEnabled();
-  const experiencesOn = isExperiencesEnabled();
+  const hotelsOn = await isHotelsEnabled();
+  const experiencesOn = await isExperiencesEnabled();
 
   return (
     <div className="px-4 pb-8 pt-4 lg:px-0">
@@ -57,10 +59,20 @@ export default async function RoutePage({ params }: { params: Promise<{ id: stri
               ) : null}
             </div>
           ) : (
-            <p className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/55">
-              Hotel & experience booking coming soon — browse nightlife and hangouts while partner APIs
-              connect.
-            </p>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/nightlife"
+                className="flex-1 rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
+              >
+                Browse nightlife
+              </Link>
+              <Link
+                href="/hangouts"
+                className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
+              >
+                Find hangouts
+              </Link>
+            </div>
           )}
         </div>
       </div>

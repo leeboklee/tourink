@@ -144,10 +144,10 @@ async function loadAiCreators(): Promise<AiCreatorBundle[]> {
 }
 
 export default async function AdminReportsPage() {
-  const hotel = getHotelIntegrationReport();
-  const experiences = getExperienceIntegrationReport();
+  const hotel = await getHotelIntegrationReport();
+  const experiences = await getExperienceIntegrationReport();
   const freeApis = getFreeApisReport();
-  const deliverables = getDeliverableReports();
+  const deliverables = await getDeliverableReports();
   const creators = await loadAiCreators();
 
   return (
@@ -158,9 +158,9 @@ export default async function AdminReportsPage() {
           결과 리포트 · Result reports
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-white/55">
-          In-product answers for hotel / ticket API integrations, hidden feature flags, free public
-          APIs, agent deliverables, and Official AI publishing review. Primary UI English; Korean
-          titles for staff scan.
+          In-product answers for hotel / ticket API integrations, admin-managed feature flags, free
+          public APIs, agent deliverables, and Official AI publishing review. Primary UI English;
+          Korean titles for staff scan.
         </p>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">
           <a href="#integrations" className="text-neon-cyan hover:underline">
