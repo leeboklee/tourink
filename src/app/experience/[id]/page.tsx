@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { dbGetExperience } from "@/lib/catalog";
-import { isExperiencesEnabled } from "@/lib/feature-flags";
+import { canBookExperiences, isExperiencesEnabled } from "@/lib/feature-flags";
 import { ExperienceAvailabilityPanel } from "@/components/ExperienceAvailabilityPanel";
-import { ComingSoon } from "@/components/ComingSoon";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,19 +13,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function ExperiencePage({ params }: { params: Promise<{ id: string }> }) {
-  if (!isExperiencesEnabled()) {
-    return (
-      <ComingSoon
-        title="Experience booking coming soon"
-        subtitle="Partner ticket inventory is not enabled on this deploy. Adapter code remains for later Klook / Viator / GYG keys."
-        enableHint="Enable via EXPERIENCE_PROVIDER + keys, or NEXT_PUBLIC_ENABLE_EXPERIENCES=true."
-      />
-    );
+  if (!(await isExperiencesEnabled())) {
+    redirect("/");
   }
 
   const { id } = await params;
   const item = await dbGetExperience(id);
   if (!item) notFound();
+
+  const bookingOn = canBookExperiences();
 
   return (
     <div className="px-4 pb-8 pt-4 lg:px-0">
@@ -42,11 +39,17 @@ export default async function ExperiencePage({ params }: { params: Promise<{ id:
           <p className="text-xl font-semibold text-neon-amber">
             From {item.currency} {item.price}
           </p>
-          <ExperienceAvailabilityPanel
-            experienceId={item.id}
-            currency={item.currency}
-            priceFrom={item.price}
-          />
+          {bookingOn ? (
+            <ExperienceAvailabilityPanel
+              experienceId={item.id}
+              currency={item.currency}
+              priceFrom={item.price}
+            />
+          ) : (
+            <p className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/55">
+              Live tickets and checkout need a partner experience provider. Browse the details for now.
+            </p>
+          )}
         </div>
       </div>
     </div>

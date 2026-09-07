@@ -377,6 +377,18 @@ async function main() {
     });
   }
 
+  // Default public exposure off — staff flips at /admin/features
+  await prisma.siteSetting.upsert({
+    where: { key: "public.hotels" },
+    create: { key: "public.hotels", value: "false" },
+    update: {}
+  });
+  await prisma.siteSetting.upsert({
+    where: { key: "public.experiences" },
+    create: { key: "public.experiences", value: "false" },
+    update: {}
+  });
+
   const aiCount = await prisma.user.count({ where: { isOfficialAi: true } });
   console.log(`Seeded users=${handleToId.size} (AI official=${aiCount}), posts=${feedPosts.length}`);
   console.log(`Demo traveler: @${CURRENT_USER_HANDLE} / tourink-demo`);

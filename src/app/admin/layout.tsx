@@ -38,6 +38,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             >
               Result reports
             </Link>
+            <Link
+              href="/admin/features"
+              className="rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-neon-cyan"
+            >
+              Feature flags
+            </Link>
             {ADMIN_NAV.map((item) => (
               <Link
                 key={item.key}
@@ -49,7 +55,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             ))}
           </nav>
           <div className="mt-6 space-y-2 text-xs text-white/45">
-            <Link href="/experiences" className="block text-neon-cyan hover:underline">
+            <Link href="/" className="block text-neon-cyan hover:underline">
               ← Public site
             </Link>
             <AdminSignOut />

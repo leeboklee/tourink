@@ -343,3 +343,10 @@ model Notification {
   user      User     @relation("NotifyUser", fields: [userId], references: [id], onDelete: Cascade)
   actor     User?    @relation("NotifyActor", fields: [actorId], references: [id])
 }
+
+/// Staff-managed key/value config (e.g. public.hotels / public.experiences).
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

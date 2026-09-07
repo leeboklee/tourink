@@ -22,33 +22,29 @@ type NavLink = {
   href: string;
   label: string;
   icon: typeof Newspaper;
-  comingSoon?: boolean;
 };
 
 function buildLinks(flags: PublicFeatureFlags): NavLink[] {
-  return [
+  const links: NavLink[] = [
     { href: "/", label: "Feed", icon: Newspaper },
     { href: "/profile", label: "My Page", icon: UserRound },
     { href: "/search", label: "Search", icon: Search },
-    { href: "/notifications", label: "Alerts", icon: Bell },
-    {
-      href: "/experiences",
-      label: "Experiences",
-      icon: Ticket,
-      comingSoon: !flags.experiences
-    },
-    { href: "/routes", label: "Routes", icon: Map },
-    {
-      href: "/hotels",
-      label: "Hotels",
-      icon: Hotel,
-      comingSoon: !flags.hotels
-    },
+    { href: "/notifications", label: "Alerts", icon: Bell }
+  ];
+  if (flags.experiences) {
+    links.push({ href: "/experiences", label: "Experiences", icon: Ticket });
+  }
+  links.push({ href: "/routes", label: "Routes", icon: Map });
+  if (flags.hotels) {
+    links.push({ href: "/hotels", label: "Hotels", icon: Hotel });
+  }
+  links.push(
     { href: "/nightlife", label: "Nightlife", icon: MoonStar },
     { href: "/hangouts", label: "Hangouts", icon: Users },
     { href: "/community", label: "Community", icon: Compass },
     { href: "/forum", label: "Forum", icon: MessageSquare }
-  ];
+  );
+  return links;
 }
 
 export function SiteNav({ flags }: { flags: PublicFeatureFlags }) {
@@ -64,7 +60,7 @@ export function SiteNav({ flags }: { flags: PublicFeatureFlags }) {
           </Link>
           <p className="mt-2 text-sm text-white/55">Korea travel, feed-first.</p>
           <nav className="mt-10 space-y-1">
-            {links.map(({ href, label, icon: Icon, comingSoon }) => {
+            {links.map(({ href, label, icon: Icon }) => {
               const active =
                 pathname === href ||
                 (href !== "/" && pathname.startsWith(href)) ||
@@ -83,11 +79,6 @@ export function SiteNav({ flags }: { flags: PublicFeatureFlags }) {
                 >
                   <Icon size={18} />
                   <span className="flex-1">{label}</span>
-                  {comingSoon ? (
-                    <span className="rounded bg-neon-amber/15 px-1.5 py-0.5 text-[9px] uppercase tracking-wide text-neon-amber">
-                      Soon
-                    </span>
-                  ) : null}
                 </Link>
               );
             })}
@@ -133,7 +124,7 @@ export function SiteNav({ flags }: { flags: PublicFeatureFlags }) {
 
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink-950/95 px-2 py-2 backdrop-blur lg:hidden">
         <div className="no-scrollbar flex gap-1 overflow-x-auto">
-          {links.map(({ href, label, icon: Icon, comingSoon }) => {
+          {links.map(({ href, label, icon: Icon }) => {
             const active =
               pathname === href ||
               (href !== "/" && pathname.startsWith(href)) ||
@@ -150,9 +141,6 @@ export function SiteNav({ flags }: { flags: PublicFeatureFlags }) {
               >
                 <Icon size={18} />
                 {label}
-                {comingSoon ? (
-                  <span className="absolute right-1 top-0.5 h-1.5 w-1.5 rounded-full bg-neon-amber" />
-                ) : null}
               </Link>
             );
           })}

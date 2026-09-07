@@ -1,10 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { dbGetExperience, dbGetHotel } from "@/lib/catalog";
-import { isExperiencesEnabled, isHotelsEnabled } from "@/lib/feature-flags";
+import {
+  canBookExperiences,
+  canBookHotels,
+  isExperiencesEnabled,
+  isHotelsEnabled
+} from "@/lib/feature-flags";
 import { BookingCheckoutForm } from "@/components/BookingCheckoutForm";
-import { ComingSoon } from "@/components/ComingSoon";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params
@@ -31,21 +37,13 @@ export default async function BookPage({
   const sp = await searchParams;
   if (type !== "hotel" && type !== "experience") notFound();
 
-  if (type === "hotel" && !isHotelsEnabled()) {
-    return (
-      <ComingSoon
-        title="Hotel checkout coming soon"
-        subtitle="Live hotel booking is disabled until a partner provider is configured."
-      />
-    );
+  if (type === "hotel") {
+    if (!(await isHotelsEnabled())) redirect("/");
+    if (!canBookHotels()) redirect(`/hotel/${id}`);
   }
-  if (type === "experience" && !isExperiencesEnabled()) {
-    return (
-      <ComingSoon
-        title="Experience checkout coming soon"
-        subtitle="Live experience booking is disabled until a partner provider is configured."
-      />
-    );
+  if (type === "experience") {
+    if (!(await isExperiencesEnabled())) redirect("/");
+    if (!canBookExperiences()) redirect(`/experience/${id}`);
   }
 
   const pick = (key: string) => {
