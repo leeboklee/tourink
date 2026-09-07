@@ -1,24 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  dbGetOfficialAiProfiles,
-  dbListFeedPosts,
-  dbListMeetups
-} from "@/lib/catalog";
+import { dbGetOfficialAiProfiles, dbListMeetups } from "@/lib/catalog";
 import { isOfficialAiHandle } from "@/data/mock";
 import { fetchKoreaCityWeather } from "@/lib/weather";
 import { FeedCard } from "@/components/FeedCard";
 import { OfficialAiBadge } from "@/components/OfficialAiBadge";
 import { WeatherStrip } from "@/components/WeatherStrip";
+import { getRankedFeed } from "@/lib/feed";
+import { getViewer } from "@/lib/viewer";
+import { redactPii } from "@/lib/security/pii";
 
 export default async function HomePage() {
+  const viewer = await getViewer();
   const [officialCreators, feedPosts, meetups, weather] = await Promise.all([
     dbGetOfficialAiProfiles(),
-    dbListFeedPosts(),
+    getRankedFeed({ viewerId: viewer?.id ?? null, limit: 40 }),
     dbListMeetups(),
     fetchKoreaCityWeather()
   ]);
   const officialFeed = feedPosts.filter((p) => isOfficialAiHandle(p.author));
+  const displayFeed =
+    feedPosts.length > 0
+      ? feedPosts.map((p) => ({ ...p, caption: redactPii(p.caption) }))
+      : officialFeed;
 
   return (
     <div>
@@ -81,7 +85,7 @@ export default async function HomePage() {
       </div>
 
       <div className="space-y-0 lg:space-y-6">
-        {officialFeed.map((post) => (
+        {displayFeed.map((post) => (
           <FeedCard key={post.id} post={post} />
         ))}
       </div>

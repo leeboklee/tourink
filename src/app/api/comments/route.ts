@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
-import { getViewer } from "@/lib/viewer";
+import { requireMutatingActor } from "@/lib/security/authz";
+import { applySecurityHeaders } from "@/lib/security/headers";
+import { moderateUserContent } from "@/lib/moderation/checks";
 import { dbGetCommentsForPost } from "@/lib/catalog";
 
 export async function GET(req: Request) {
   const postId = new URL(req.url).searchParams.get("postId");
-  if (!postId) return NextResponse.json({ error: "postId required" }, { status: 400 });
+  if (!postId) {
+    return applySecurityHeaders(
+      NextResponse.json({ error: "postId required" }, { status: 400 })
+    );
+  }
   const comments = await dbGetCommentsForPost(postId);
-  return NextResponse.json({ comments });
+  return applySecurityHeaders(NextResponse.json({ comments }));
 }
 
 const bodySchema = z.object({
@@ -17,20 +23,48 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: Request) {
-  const viewer = await getViewer();
-  if (!viewer) return NextResponse.json({ error: "No viewer" }, { status: 401 });
+  const viewer = await requireMutatingActor();
+  if (!viewer) {
+    return applySecurityHeaders(
+      NextResponse.json({ error: "Sign in required" }, { status: 401 })
+    );
+  }
 
   const parsed = bodySchema.safeParse(await req.json());
-  if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+  if (!parsed.success) {
+    return applySecurityHeaders(
+      NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
+    );
+  }
 
   const post = await prisma.feedPost.findUnique({ where: { id: parsed.data.postId } });
-  if (!post) return NextResponse.json({ error: "Post not found" }, { status: 404 });
+  if (!post || !post.active) {
+    return applySecurityHeaders(
+      NextResponse.json({ error: "Post not found" }, { status: 404 })
+    );
+  }
+
+  const verdict = await moderateUserContent({
+    userId: viewer.id,
+    kind: "comment",
+    text: parsed.data.body,
+    rejectPii: true
+  });
+
+  if (!verdict.ok) {
+    return applySecurityHeaders(
+      NextResponse.json(
+        { error: verdict.error, reasons: verdict.reasons },
+        { status: verdict.status }
+      )
+    );
+  }
 
   const comment = await prisma.comment.create({
     data: {
       postId: parsed.data.postId,
       authorId: viewer.id,
-      body: parsed.data.body,
+      body: verdict.displayText,
       createdAt: "just now"
     },
     include: { author: true }
@@ -54,15 +88,17 @@ export async function POST(req: Request) {
     });
   }
 
-  return NextResponse.json({
-    comment: {
-      id: comment.id,
-      postId: comment.postId,
-      author: comment.author.handle,
-      avatar: comment.author.image,
-      body: comment.body,
-      likes: comment.likes,
-      createdAt: comment.createdAt
-    }
-  });
+  return applySecurityHeaders(
+    NextResponse.json({
+      comment: {
+        id: comment.id,
+        postId: comment.postId,
+        author: comment.author.handle,
+        avatar: comment.author.image,
+        body: comment.body,
+        likes: comment.likes,
+        createdAt: comment.createdAt
+      }
+    })
+  );
 }

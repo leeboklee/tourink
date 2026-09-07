@@ -7,6 +7,7 @@ import { useState } from "react";
 import { CURRENT_USER_HANDLE, isOfficialAiHandle, type FeedPost } from "@/data/mock";
 import { FollowButton } from "@/components/FollowButton";
 import { OfficialAiBadge } from "@/components/OfficialAiBadge";
+import { ReportBlockMenu } from "@/components/ReportBlockMenu";
 
 export function FeedCard({ post }: { post: FeedPost }) {
   const [liked, setLiked] = useState(false);
@@ -93,7 +94,10 @@ export function FeedCard({ post }: { post: FeedPost }) {
             {post.location}
           </Link>
         </div>
-        <span className="text-xs text-white/40">{post.createdAt}</span>
+        <div className="flex items-center gap-1">
+          <span className="text-xs text-white/40">{post.createdAt}</span>
+          {!isOwn ? <ReportBlockMenu authorHandle={post.author} postId={post.id} /> : null}
+        </div>
       </div>
 
       <Link href={`/post/${post.id}`} className="relative block aspect-[4/5] bg-ink-800">

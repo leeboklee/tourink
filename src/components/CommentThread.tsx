@@ -17,11 +17,13 @@ export function CommentThread({
   const [items, setItems] = useState(initial);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!draft.trim() || busy) return;
     setBusy(true);
+    setError(null);
     try {
       const res = await fetch("/api/comments", {
         method: "POST",
@@ -32,7 +34,12 @@ export function CommentThread({
       if (res.ok && data.comment) {
         setItems((prev) => [...prev, data.comment]);
         setDraft("");
+        setError(null);
+      } else {
+        setError(typeof data.error === "string" ? data.error : "Could not post comment");
       }
+    } catch {
+      setError("Could not post comment");
     } finally {
       setBusy(false);
     }
@@ -71,6 +78,7 @@ export function CommentThread({
           </li>
         ))}
       </ul>
+      {error ? <p className="text-sm text-neon-pink">{error}</p> : null}
       <form className="flex gap-2" onSubmit={onSubmit}>
         <input
           value={draft}

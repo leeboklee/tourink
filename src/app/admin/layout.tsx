@@ -38,6 +38,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             >
               Result reports
             </Link>
+            <Link
+              href="/admin/moderation"
+              className="rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/5 hover:text-neon-pink"
+            >
+              Moderation
+            </Link>
             {ADMIN_NAV.map((item) => (
               <Link
                 key={item.key}
