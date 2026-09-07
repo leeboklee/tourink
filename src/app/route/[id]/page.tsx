@@ -1,13 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { routes } from "@/data/mock";
-import { BookButton } from "@/components/ui";
+import { dbListRoutes } from "@/lib/catalog";
+import { isExperiencesEnabled, isHotelsEnabled } from "@/lib/feature-flags";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const routes = await dbListRoutes();
+  const route = routes.find((r) => r.id === id);
+  return { title: route?.title ?? "Route" };
+}
 
 export default async function RoutePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const routes = await dbListRoutes();
   const route = routes.find((r) => r.id === id);
   if (!route) notFound();
+
+  const hotelsOn = isHotelsEnabled();
+  const experiencesOn = isExperiencesEnabled();
 
   return (
     <div className="px-4 pb-8 pt-4 lg:px-0">
@@ -26,23 +37,31 @@ export default async function RoutePage({ params }: { params: Promise<{ id: stri
               <li key={h}>{h}</li>
             ))}
           </ol>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <div className="flex-1">
-              <BookButton label="Use this route (demo)" />
+          {hotelsOn || experiencesOn ? (
+            <div className="flex flex-col gap-2 sm:flex-row">
+              {hotelsOn ? (
+                <Link
+                  href="/hotels"
+                  className="flex-1 rounded-xl bg-neon-pink px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-neon-pink/25 hover:brightness-110"
+                >
+                  Book hotels on this route
+                </Link>
+              ) : null}
+              {experiencesOn ? (
+                <Link
+                  href="/experiences"
+                  className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
+                >
+                  Add experiences
+                </Link>
+              ) : null}
             </div>
-            <Link
-              href="/hotels"
-              className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
-            >
-              Find hotels
-            </Link>
-            <Link
-              href="/experiences"
-              className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm text-white/80 hover:border-neon-cyan/50"
-            >
-              Add tickets
-            </Link>
-          </div>
+          ) : (
+            <p className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/55">
+              Hotel & experience booking coming soon — browse nightlife and hangouts while partner APIs
+              connect.
+            </p>
+          )}
         </div>
       </div>
     </div>

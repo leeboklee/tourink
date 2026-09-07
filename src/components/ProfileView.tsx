@@ -400,7 +400,7 @@ function AboutPanel({
           {profile.isOfficialAi ? (
             <div className="flex justify-between gap-3">
               <dt className="text-white/45">Role</dt>
-              <dd className="text-neon-cyan">Official AI creator</dd>
+              <dd className="text-neon-cyan">Official AI guide</dd>
             </div>
           ) : profile.isLocal ? (
             <div className="flex justify-between gap-3">
@@ -414,11 +414,17 @@ function AboutPanel({
               <dd className="text-right">{profile.persona}</dd>
             </div>
           ) : null}
+          {profile.avatarAttribution ? (
+            <div className="flex justify-between gap-3">
+              <dt className="text-white/45">Avatar</dt>
+              <dd className="max-w-[60%] text-right text-white/55">{profile.avatarAttribution}</dd>
+            </div>
+          ) : null}
         </dl>
         {profile.isOfficialAi ? (
           <p className="mt-3 rounded-xl border border-neon-cyan/20 bg-neon-cyan/5 px-3 py-2 text-xs leading-relaxed text-white/65">
-            This account is operated by Tourink AI. Tips are curated for travelers — follow for feed posts,
-            threads, and reels in this persona.
+            This account is an Official Tourink AI guide. Tips are curated for travelers — follow for feed posts,
+            threads, and reels in this persona. Guide avatars are generated (CC0), not photos of real people.
           </p>
         ) : null}
         <p className="mt-3 text-sm leading-relaxed text-white/70">{profile.bio}</p>

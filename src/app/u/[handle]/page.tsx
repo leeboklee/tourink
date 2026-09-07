@@ -1,22 +1,21 @@
 import { notFound } from "next/navigation";
 import {
-  getCommunityByAuthor,
-  getHangoutsByHost,
-  getPostsByAuthor,
-  getProfile,
-  getReelsByAuthor,
-  getSavedPostsForUser,
-  getThreadsByAuthor,
-  CURRENT_USER_HANDLE,
-  isOfficialAiHandle
-} from "@/data/mock";
+  dbGetCommunityByAuthor,
+  dbGetHangoutsByHost,
+  dbGetPostsByAuthor,
+  dbGetProfile,
+  dbGetReelsByAuthor,
+  dbGetSavedPostsForUser,
+  dbGetThreadsByAuthor
+} from "@/lib/catalog";
+import { CURRENT_USER_HANDLE, isOfficialAiHandle } from "@/data/mock";
 import { parseProfileTab, ProfileView } from "@/components/ProfileView";
 
 export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
-  const profile = getProfile(handle);
+  const profile = await dbGetProfile(handle);
   const title = profile?.isOfficialAi
-    ? `@${profile.handle} · Official AI`
+    ? `@${profile.handle} · Official AI guide`
     : `@${profile?.handle ?? handle}`;
   return { title };
 }
@@ -31,10 +30,9 @@ export default async function PublicProfilePage({
   const { handle } = await params;
   const { tab: tabRaw } = await searchParams;
   const tab = parseProfileTab(tabRaw);
-  const profile = getProfile(handle);
-  const posts = getPostsByAuthor(handle);
+  const profile = await dbGetProfile(handle);
+  const posts = await dbGetPostsByAuthor(handle);
 
-  // Official AI handles must resolve to a real profile (no stub / 404 ambiguity).
   if (isOfficialAiHandle(handle) && !profile) {
     notFound();
   }
@@ -45,7 +43,7 @@ export default async function PublicProfilePage({
     avatar:
       posts[0]?.avatar ??
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop",
-    bio: "Tourink traveler — profile stub for demo.",
+    bio: "Tourink traveler.",
     city: posts[0]?.location.split(",").pop()?.trim() ?? "Korea",
     followers: 120,
     following: 80,
@@ -55,6 +53,14 @@ export default async function PublicProfilePage({
   const isOwn = p.handle === CURRENT_USER_HANDLE;
   const effectiveTab = tab === "saved" && !isOwn ? "posts" : tab;
 
+  const [threads, reels, saved, hangouts, community] = await Promise.all([
+    dbGetThreadsByAuthor(p.handle),
+    dbGetReelsByAuthor(p.handle),
+    dbGetSavedPostsForUser(p.handle),
+    dbGetHangoutsByHost(p.handle),
+    dbGetCommunityByAuthor(p.handle)
+  ]);
+
   return (
     <ProfileView
       profile={p}
@@ -62,11 +68,11 @@ export default async function PublicProfilePage({
       basePath={`/u/${p.handle}`}
       isOwn={isOwn}
       posts={posts}
-      threads={getThreadsByAuthor(p.handle)}
-      reels={getReelsByAuthor(p.handle)}
-      saved={getSavedPostsForUser(p.handle)}
-      hangouts={getHangoutsByHost(p.handle)}
-      community={getCommunityByAuthor(p.handle)}
+      threads={threads}
+      reels={reels}
+      saved={saved}
+      hangouts={hangouts}
+      community={community}
     />
   );
 }

@@ -2,16 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin } from "lucide-react";
-import { feedPosts, getCommentsForPost } from "@/data/mock";
+import { dbGetCommentsForPost, dbGetFeedPost } from "@/lib/catalog";
 import { CommentThread } from "@/components/CommentThread";
 import { FollowButton } from "@/components/FollowButton";
 import { FeedCard } from "@/components/FeedCard";
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const post = await dbGetFeedPost(id);
+  return { title: post ? post.caption.slice(0, 48) : "Post" };
+}
+
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const post = feedPosts.find((p) => p.id === id);
+  const post = await dbGetFeedPost(id);
   if (!post) notFound();
-  const postComments = getCommentsForPost(post.id);
+  const postComments = await dbGetCommentsForPost(post.id);
 
   return (
     <div className="space-y-6 pb-8 lg:px-0">

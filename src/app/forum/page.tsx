@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { forumThreads } from "@/data/mock";
+import { dbListForumThreads } from "@/lib/catalog";
 import { SectionHero } from "@/components/ui";
 
 export const metadata = { title: "Forum" };
 
-export default function ForumPage() {
+export default async function ForumPage() {
+  const forumThreads = await dbListForumThreads();
+
   return (
     <div>
       <SectionHero
@@ -12,7 +14,7 @@ export default function ForumPage() {
         title="Ask Korea anything"
         subtitle="Housing, visas, food heat levels, nightlife routes — locals can mark best answers."
       />
-      <div className="overflow-hidden rounded-2xl border border-white/10 mx-4 mb-8 lg:mx-0">
+      <div className="mx-4 mb-8 overflow-hidden rounded-2xl border border-white/10 lg:mx-0">
         <table className="w-full text-left text-sm">
           <thead className="bg-ink-800/80 text-xs uppercase tracking-wider text-white/45">
             <tr>

@@ -1,11 +1,29 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { hotels } from "@/data/mock";
-import { BookButton } from "@/components/ui";
+import { dbGetHotel } from "@/lib/catalog";
+import { isHotelsEnabled } from "@/lib/feature-flags";
+import { HotelAvailabilityPanel } from "@/components/HotelAvailabilityPanel";
+import { ComingSoon } from "@/components/ComingSoon";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const hotel = await dbGetHotel(id);
+  return { title: hotel?.name ?? "Hotel" };
+}
 
 export default async function HotelPage({ params }: { params: Promise<{ id: string }> }) {
+  if (!isHotelsEnabled()) {
+    return (
+      <ComingSoon
+        title="Hotel booking coming soon"
+        subtitle="Partner hotel inventory is not enabled on this deploy. Adapter code remains for later Expedia / Amadeus keys."
+        enableHint="Enable via HOTEL_PROVIDER + keys, or NEXT_PUBLIC_ENABLE_HOTELS=true."
+      />
+    );
+  }
+
   const { id } = await params;
-  const hotel = hotels.find((h) => h.id === id);
+  const hotel = await dbGetHotel(id);
   if (!hotel) notFound();
 
   return (
@@ -30,7 +48,11 @@ export default async function HotelPage({ params }: { params: Promise<{ id: stri
           <p className="text-xl font-semibold text-neon-amber">
             From {hotel.currency} {hotel.priceFrom} / night
           </p>
-          <BookButton label="Check availability (demo)" />
+          <HotelAvailabilityPanel
+            hotelId={hotel.id}
+            currency={hotel.currency}
+            priceFrom={hotel.priceFrom}
+          />
         </div>
       </div>
     </div>

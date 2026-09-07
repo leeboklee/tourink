@@ -5,29 +5,45 @@ import { Check, Users } from "lucide-react";
 import { clsx } from "clsx";
 
 export function RsvpButton({
+  meetupId,
   spots,
   going: initialGoing
 }: {
+  meetupId: string;
   spots: number;
   going: number;
 }) {
   const [going, setGoing] = useState(false);
   const [count, setCount] = useState(initialGoing);
+  const [busy, setBusy] = useState(false);
   const full = !going && count >= spots;
+
+  async function toggle() {
+    if (busy || full) return;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ meetupId })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setGoing(!!data.going);
+        setCount(data.count ?? count);
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
     <button
       type="button"
-      disabled={full}
-      onClick={() => {
-        setGoing((v) => {
-          const next = !v;
-          setCount((c) => c + (next ? 1 : -1));
-          return next;
-        });
-      }}
+      disabled={full || busy}
+      onClick={toggle}
       className={clsx(
-        "inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
+        "inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:opacity-60",
         going
           ? "bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/40"
           : full

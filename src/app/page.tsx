@@ -1,11 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { feedPosts, getOfficialAiProfiles, isOfficialAiHandle, meetups } from "@/data/mock";
+import {
+  dbGetOfficialAiProfiles,
+  dbListFeedPosts,
+  dbListMeetups
+} from "@/lib/catalog";
+import { isOfficialAiHandle } from "@/data/mock";
+import { fetchKoreaCityWeather } from "@/lib/weather";
 import { FeedCard } from "@/components/FeedCard";
 import { OfficialAiBadge } from "@/components/OfficialAiBadge";
+import { WeatherStrip } from "@/components/WeatherStrip";
 
-export default function HomePage() {
-  const officialCreators = getOfficialAiProfiles();
+export default async function HomePage() {
+  const [officialCreators, feedPosts, meetups, weather] = await Promise.all([
+    dbGetOfficialAiProfiles(),
+    dbListFeedPosts(),
+    dbListMeetups(),
+    fetchKoreaCityWeather()
+  ]);
   const officialFeed = feedPosts.filter((p) => isOfficialAiHandle(p.author));
 
   return (
@@ -41,6 +53,8 @@ export default function HomePage() {
         <OfficialAiBadge compact />
         Tourink-operated official creators
       </p>
+
+      <WeatherStrip cities={weather} />
 
       <div className="mx-4 mb-3 flex gap-2 overflow-x-auto no-scrollbar lg:mx-0">
         {meetups.slice(0, 2).map((m) => (
