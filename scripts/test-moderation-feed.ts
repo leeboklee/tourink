@@ -40,7 +40,7 @@ check("blocks KR abuse", () => {
 });
 
 check("flags excessive links + mentions", () => {
-  const s = scoreSpam("hi @a @b @c @d @e see https://a.com https://b.com https://c.com");
+  const s = scoreSpam("hi @alice @bobbie @carla @diana @eddie see https://a.com https://b.com https://c.com");
   assert.ok(s.score >= 0.55);
   assert.ok(shouldShadowHide(s.score) || shouldRejectSpam(s.score));
 });
