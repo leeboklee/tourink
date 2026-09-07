@@ -16,3 +16,12 @@ Cloud agents require **exactly one** git remote on the workspace root that Curso
 - WSL 정본에는 `origin` 1개만 있음 (`git remote -v` → github.com/leeboklee/tourink.git).
 - Windows/`C:\home\...` 미러나 multi-root로 열면 `.git`이 안 보이거나 remote=0으로 감지되어 Cloud가 실패한다.
 - **Fix:** Cursor에서 workspace를 WSL 정본 하나만 연다 (`\\wsl.localhost\Ubuntu-D\home\bok\projects\tourink`). 추가 root/폴더 붙이지 말 것.
+
+## Content / media license
+
+See **`CONTENT_LICENSE.md`** and **`.cursor/rules/content-license.mdc`**.
+
+- Official AI guide avatars: DiceBear CC0 (or owned) only — no scraped/stock portrait likeness.
+- Every CMS/seed image URL needs `imageLicense` + `imageAttribution`.
+- Allowed: Unsplash/Pexels (+ attribution), generated CC0 avatars, owned assets.
+

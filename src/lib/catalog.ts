@@ -22,6 +22,8 @@ type UserRow = {
   handle: string;
   name: string;
   image: string | null;
+  imageLicense?: string | null;
+  imageAttribution?: string | null;
   bio: string;
   city: string;
   followers: number;
@@ -48,7 +50,9 @@ export function mapProfile(u: UserRow): TravelerProfile {
     isOfficialAi: u.isOfficialAi || undefined,
     persona: u.persona ?? undefined,
     website: u.website ?? undefined,
-    joinedAt: u.joinedAt ?? undefined
+    joinedAt: u.joinedAt ?? undefined,
+    avatarLicense: u.imageLicense ?? undefined,
+    avatarAttribution: u.imageAttribution ?? undefined
   };
 }
 
@@ -77,6 +81,8 @@ export async function dbListFeedPosts(): Promise<FeedPost[]> {
     avatar: p.author.image ?? "",
     location: p.location,
     image: p.image,
+    imageLicense: p.imageLicense ?? undefined,
+    imageAttribution: p.imageAttribution ?? undefined,
     caption: p.caption,
     likes: p.likes,
     comments: p.comments,
@@ -97,6 +103,8 @@ export async function dbGetFeedPost(id: string): Promise<FeedPost | null> {
     avatar: p.author.image ?? "",
     location: p.location,
     image: p.image,
+    imageLicense: p.imageLicense ?? undefined,
+    imageAttribution: p.imageAttribution ?? undefined,
     caption: p.caption,
     likes: p.likes,
     comments: p.comments,
@@ -208,6 +216,8 @@ export async function dbGetSavedPostsForUser(handle: string): Promise<FeedPost[]
     avatar: s.post.author.image ?? "",
     location: s.post.location,
     image: s.post.image,
+    imageLicense: s.post.imageLicense ?? undefined,
+    imageAttribution: s.post.imageAttribution ?? undefined,
     caption: s.post.caption,
     likes: s.post.likes,
     comments: s.post.comments,

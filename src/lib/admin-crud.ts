@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { newCatalogId } from "@/lib/staff";
 import { parseJsonArray } from "@/lib/json";
+import { licenseFromUrl } from "@/data/media-license";
 
 function asBool(v: unknown, fallback = true) {
   if (typeof v === "boolean") return v;
@@ -16,6 +17,13 @@ function asNum(v: unknown, fallback = 0) {
 
 function asStr(v: unknown, fallback = "") {
   return v == null ? fallback : String(v);
+}
+
+function mediaLicenseFields(body: Record<string, unknown>, imageUrl: string) {
+  const inferred = licenseFromUrl(imageUrl);
+  const license = asStr(body.imageLicense) || inferred.license;
+  const attribution = asStr(body.imageAttribution) || inferred.attribution;
+  return { imageLicense: license || null, imageAttribution: attribution || null };
 }
 
 function csvOrJson(v: unknown): string[] {
@@ -63,6 +71,7 @@ export async function adminListExperiences() {
 }
 
 export async function adminUpsertExperience(body: Record<string, unknown>, id?: string) {
+  const image = asStr(body.image, "https://images.unsplash.com/photo-1517154423616-4c2e5f5f0c5e?w=800");
   const data = {
     title: asStr(body.title, "Untitled experience"),
     city: asStr(body.city, "Seoul"),
@@ -71,7 +80,8 @@ export async function adminUpsertExperience(body: Record<string, unknown>, id?: 
     duration: asStr(body.duration, "3 hours"),
     rating: asNum(body.rating, 4.5),
     reviews: asNum(body.reviews, 0),
-    image: asStr(body.image, "https://images.unsplash.com/photo-1517154423616-4c2e5f5f0c5e?w=800"),
+    image,
+    ...mediaLicenseFields(body, image),
     category: asStr(body.category, "Day trip"),
     description: asStr(body.description, ""),
     active: asBool(body.active, true)
@@ -85,6 +95,7 @@ export async function adminListHotels() {
 }
 
 export async function adminUpsertHotel(body: Record<string, unknown>, id?: string) {
+  const image = asStr(body.image, "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800");
   const data = {
     name: asStr(body.name, "Untitled hotel"),
     city: asStr(body.city, "Seoul"),
@@ -92,7 +103,8 @@ export async function adminUpsertHotel(body: Record<string, unknown>, id?: strin
     priceFrom: asNum(body.priceFrom ?? body.price, 0),
     currency: asStr(body.currency, "KRW"),
     rating: asNum(body.rating, 4.5),
-    image: asStr(body.image, "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"),
+    image,
+    ...mediaLicenseFields(body, image),
     amenitiesJson: JSON.stringify(csvOrJson(body.amenities ?? body.amenitiesJson)),
     description: asStr(body.description, ""),
     active: asBool(body.active, true)
@@ -106,11 +118,13 @@ export async function adminListRoutes() {
 }
 
 export async function adminUpsertRoute(body: Record<string, unknown>, id?: string) {
+  const image = asStr(body.image, "https://images.unsplash.com/photo-1517154423616-4c2e5f5f0c5e?w=800");
   const data = {
     title: asStr(body.title, "Untitled route"),
     days: asNum(body.days, 3),
     citiesJson: JSON.stringify(csvOrJson(body.cities ?? body.citiesJson)),
-    image: asStr(body.image, "https://images.unsplash.com/photo-1517154423616-4c2e5f5f0c5e?w=800"),
+    image,
+    ...mediaLicenseFields(body, image),
     highlightsJson: JSON.stringify(csvOrJson(body.highlights ?? body.highlightsJson)),
     summary: asStr(body.summary, ""),
     active: asBool(body.active, true)
@@ -124,13 +138,15 @@ export async function adminListNightlife() {
 }
 
 export async function adminUpsertNightlife(body: Record<string, unknown>, id?: string) {
+  const image = asStr(body.image, "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800");
   const data = {
     name: asStr(body.name, "Untitled spot"),
     type: asStr(body.type, "bar"),
     area: asStr(body.area, ""),
     city: asStr(body.city, "Seoul"),
     vibe: asStr(body.vibe, ""),
-    image: asStr(body.image, "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800"),
+    image,
+    ...mediaLicenseFields(body, image),
     cover: body.cover == null || body.cover === "" ? null : asNum(body.cover),
     openUntil: asStr(body.openUntil, "2am"),
     rating: asNum(body.rating, 4.5),
@@ -171,10 +187,12 @@ export async function adminListFeed() {
 export async function adminUpsertFeed(body: Record<string, unknown>, id?: string) {
   const authorId = await resolveUserId(body, ["authorId", "author"]);
   if (!authorId) throw new Error("No author available");
+  const image = asStr(body.image, "https://images.unsplash.com/photo-1517154423616-4c2e5f5f0c5e?w=800");
   const data = {
     authorId,
     location: asStr(body.location, "Seoul"),
-    image: asStr(body.image, "https://images.unsplash.com/photo-1517154423616-4c2e5f5f0c5e?w=800"),
+    image,
+    ...mediaLicenseFields(body, image),
     caption: asStr(body.caption, ""),
     likes: asNum(body.likes, 0),
     comments: asNum(body.comments, 0),
@@ -194,11 +212,18 @@ export async function adminListProfiles() {
 }
 
 export async function adminUpsertProfile(body: Record<string, unknown>, id?: string) {
+  const image =
+    body.image == null
+      ? undefined
+      : asStr(body.image) ||
+        `https://api.dicebear.com/9.x/bottts-neutral/png?seed=${encodeURIComponent(asStr(body.handle) || "guide")}&size=128`;
+  const licenseBits = image == null ? {} : mediaLicenseFields(body, image);
   const data = {
     name: asStr(body.name, "Profile"),
     bio: asStr(body.bio, ""),
     city: asStr(body.city, "Seoul"),
-    image: body.image == null ? undefined : asStr(body.image),
+    image,
+    ...licenseBits,
     persona: body.persona == null ? undefined : asStr(body.persona),
     website: body.website == null ? undefined : asStr(body.website),
     isOfficialAi: asBool(body.isOfficialAi, false),

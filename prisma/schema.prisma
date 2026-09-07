@@ -18,6 +18,10 @@ model User {
   /// USER | STAFF | ADMIN
   role          String    @default("USER")
   image         String?
+  /// unsplash | pexels | cc0 | dicebear-cc0 | owned
+  imageLicense  String?
+  /// Photographer / generator credit for `image`
+  imageAttribution String?
   bio           String    @default("")
   city          String    @default("Seoul")
   followers     Int       @default(0)
@@ -91,6 +95,9 @@ model FeedPost {
   authorId  String
   location  String
   image     String
+  /// unsplash | pexels | cc0 | dicebear-cc0 | owned
+  imageLicense String?
+  imageAttribution String?
   caption   String
   likes     Int      @default(0)
   comments  Int      @default(0)
@@ -182,6 +189,8 @@ model Hotel {
   currency      String  @default("KRW")
   rating        Float
   image         String
+  imageLicense  String?
+  imageAttribution String?
   amenitiesJson String  @default("[]")
   description   String
   active        Boolean @default(true)
@@ -197,6 +206,8 @@ model Experience {
   rating      Float
   reviews     Int     @default(0)
   image       String
+  imageLicense String?
+  imageAttribution String?
   category    String
   description String
   active      Boolean @default(true)
@@ -208,6 +219,8 @@ model RoutePlan {
   days           Int
   citiesJson     String  @default("[]")
   image          String
+  imageLicense   String?
+  imageAttribution String?
   highlightsJson String  @default("[]")
   summary        String
   active         Boolean @default(true)
@@ -221,6 +234,8 @@ model NightlifeSpot {
   city        String
   vibe        String
   image       String
+  imageLicense String?
+  imageAttribution String?
   cover       Int?
   openUntil   String
   rating      Float

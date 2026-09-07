@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const { handle } = await params;
   const profile = await dbGetProfile(handle);
   const title = profile?.isOfficialAi
-    ? `@${profile.handle} · Official AI`
+    ? `@${profile.handle} · Official AI guide`
     : `@${profile?.handle ?? handle}`;
   return { title };
 }

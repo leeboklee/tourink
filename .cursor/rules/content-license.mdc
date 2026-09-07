@@ -1,0 +1,22 @@
+---
+description: Media copyright / license rules for Tourink content and Official AI guides
+globs:
+  - src/data/**
+  - prisma/**
+  - src/lib/admin-*.ts
+  - src/components/ProfileView.tsx
+  - src/components/FeedCard.tsx
+alwaysApply: false
+---
+
+# Content license (mandatory)
+
+Follow `CONTENT_LICENSE.md` at the repo root.
+
+## Hard rules
+
+1. **Allowed media only:** Unsplash or Pexels (with photographer attribution), DiceBear/Boring Avatars/CC0 generators, or Tourink-owned assets.
+2. **Ban:** scraped faces, randomuser/pravatar-as-identity, unclear stock portraits for Official AI guides.
+3. **Always persist** `imageLicense` + `imageAttribution` (or avatar equivalents) whenever an image URL is set in seed, mock data, or admin CMS.
+4. **Official AI guides:** keep handles stable; use guide-style display names (`Guide Mina · Seoul`); prefer DiceBear CC0 avatars — never imply a real person’s likeness is the AI.
+5. If replacing an image, update license + attribution in the same PR; never leave `unknown`.

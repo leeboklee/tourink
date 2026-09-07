@@ -312,19 +312,20 @@ export function getDeliverableReports(): DeliverableReport[] {
     },
     {
       id: "ai-official-profiles",
-      titleKo: "공식 AI 크리에이터 프로필",
-      titleEn: "Official AI creator profiles",
-      summary: "Seeded Official AI handles author feed / threads / reels with badge.",
+      titleKo: "공식 AI 가이드 프로필",
+      titleEn: "Official AI guide profiles",
+      summary: "Seeded Official AI guides author feed / threads / reels with badge + licensed media.",
       statusLabel: "Shipped",
       links: [
         { label: "AI profiles CMS", href: "/admin/profiles" },
         { label: "AI Answers (this page)", href: "/admin/reports#ai-answers" },
-        { label: "Public feed", href: "/" }
+        { label: "Public feed", href: "/" },
+        { label: "Content license", href: "/u/mina.seoul?tab=about" }
       ],
       bullets: [
-        "Handles: mina.seoul, busan.wave, jeju.trail, market.finder, local.yuna",
-        "isOfficialAi flag + OfficialAiBadge on public surfaces",
-        "Staff can review publishing output below"
+        "Handles (stable): mina.seoul, busan.wave, jeju.trail, market.finder, local.yuna",
+        "Display: Guide Mina · Seoul, Guide Jun · Busan, … — DiceBear CC0 avatars",
+        "CMS stores imageLicense + imageAttribution on media (see CONTENT_LICENSE.md)"
       ]
     },
     {

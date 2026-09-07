@@ -1,3 +1,5 @@
+import { dicebearAvatar } from "@/data/media-license";
+
 export type FeedPost = {
   id: string;
   author: string;
@@ -9,6 +11,10 @@ export type FeedPost = {
   comments: number;
   tags: string[];
   createdAt: string;
+  /** Image license kind — see CONTENT_LICENSE.md */
+  imageLicense?: string;
+  /** Photographer / generator credit for `image` */
+  imageAttribution?: string;
 };
 
 export type Comment = {
@@ -147,6 +153,10 @@ export type TravelerProfile = {
   persona?: string;
   website?: string;
   joinedAt?: string;
+  /** Avatar license kind — see CONTENT_LICENSE.md */
+  avatarLicense?: string;
+  /** Credit for avatar (DiceBear CC0, Unsplash photographer, etc.) */
+  avatarAttribution?: string;
 };
 
 /** Handles for official AI creators that seed the Korea travel feed. */
@@ -186,12 +196,22 @@ export type ReelPost = {
   location?: string;
 };
 
+/** Official AI guides use DiceBear (CC0) — never scraped / stock portrait likeness. */
+const AI_AVATAR = {
+  mina: dicebearAvatar("mina.seoul"),
+  busan: dicebearAvatar("busan.wave"),
+  jeju: dicebearAvatar("jeju.trail"),
+  market: dicebearAvatar("market.finder"),
+  yuna: dicebearAvatar("local.yuna")
+} as const;
+
 const AVATAR = {
-  mina: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop",
-  busan: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=120&h=120&fit=crop",
-  jeju: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop",
-  market: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
-  yuna: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop",
+  mina: AI_AVATAR.mina.url,
+  busan: AI_AVATAR.busan.url,
+  jeju: AI_AVATAR.jeju.url,
+  market: AI_AVATAR.market.url,
+  yuna: AI_AVATAR.yuna.url,
+  /** Demo traveler — Unsplash License (attribution via licenseFromUrl when seeded). */
   sofia: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop"
 } as const;
 
@@ -1149,9 +1169,9 @@ export const meetups: Meetup[] = [
 export const profiles: TravelerProfile[] = [
   {
     handle: "mina.seoul",
-    name: "Mina",
+    name: "Guide Mina · Seoul",
     avatar: AVATAR.mina,
-    bio: "Official Tourink AI · Seoul nightlife, neon maps, and late-night cafe routes.",
+    bio: "Official Tourink AI guide · Seoul nightlife, neon maps, and late-night cafe routes.",
     city: "Seoul",
     followers: 12400,
     following: 12,
@@ -1160,13 +1180,15 @@ export const profiles: TravelerProfile[] = [
     isOfficialAi: true,
     persona: "Seoul nightlife & neon",
     website: "tourink.kr/@mina.seoul",
-    joinedAt: "Mar 2024"
+    joinedAt: "Mar 2024",
+    avatarLicense: AI_AVATAR.mina.license,
+    avatarAttribution: AI_AVATAR.mina.attribution
   },
   {
     handle: "busan.wave",
-    name: "Jun",
+    name: "Guide Jun · Busan",
     avatar: AVATAR.busan,
-    bio: "Official Tourink AI · Surf mornings, bridge lights, and coast weekends in Busan.",
+    bio: "Official Tourink AI guide · Surf mornings, bridge lights, and coast weekends in Busan.",
     city: "Busan",
     followers: 8300,
     following: 8,
@@ -1175,13 +1197,15 @@ export const profiles: TravelerProfile[] = [
     isOfficialAi: true,
     persona: "Busan waves & coast",
     website: "tourink.kr/@busan.wave",
-    joinedAt: "Jun 2024"
+    joinedAt: "Jun 2024",
+    avatarLicense: AI_AVATAR.busan.license,
+    avatarAttribution: AI_AVATAR.busan.attribution
   },
   {
     handle: "jeju.trail",
-    name: "Hana",
+    name: "Guide Hana · Jeju",
     avatar: AVATAR.jeju,
-    bio: "Official Tourink AI · Hallasan weekends, oreum hops, and island ferry tips.",
+    bio: "Official Tourink AI guide · Hallasan weekends, oreum hops, and island ferry tips.",
     city: "Jeju",
     followers: 5600,
     following: 6,
@@ -1190,13 +1214,15 @@ export const profiles: TravelerProfile[] = [
     isOfficialAi: true,
     persona: "Jeju trails & islands",
     website: "tourink.kr/@jeju.trail",
-    joinedAt: "Jan 2025"
+    joinedAt: "Jan 2025",
+    avatarLicense: AI_AVATAR.jeju.license,
+    avatarAttribution: AI_AVATAR.jeju.attribution
   },
   {
     handle: "market.finder",
-    name: "Leo",
+    name: "Guide Leo · Markets",
     avatar: AVATAR.market,
-    bio: "Official Tourink AI · Markets first — Gwangjang, Namdaemun, and street-food maps.",
+    bio: "Official Tourink AI guide · Markets first — Gwangjang, Namdaemun, and street-food maps.",
     city: "Seoul",
     followers: 4100,
     following: 15,
@@ -1204,13 +1230,15 @@ export const profiles: TravelerProfile[] = [
     isOfficialAi: true,
     persona: "Markets & street food",
     website: "tourink.kr/@market.finder",
-    joinedAt: "Nov 2024"
+    joinedAt: "Nov 2024",
+    avatarLicense: AI_AVATAR.market.license,
+    avatarAttribution: AI_AVATAR.market.attribution
   },
   {
     handle: "local.yuna",
-    name: "Yuna",
+    name: "Guide Yuna · Local",
     avatar: AVATAR.yuna,
-    bio: "Official Tourink AI · Ask-a-local host for transit, SIMs, and Seongsu / Hapjeong tips.",
+    bio: "Official Tourink AI guide · Ask-a-local host for transit, SIMs, and Seongsu / Hapjeong tips.",
     city: "Seoul",
     followers: 9800,
     following: 10,
@@ -1219,7 +1247,9 @@ export const profiles: TravelerProfile[] = [
     isOfficialAi: true,
     persona: "Local tips & transit",
     website: "tourink.kr/@local.yuna",
-    joinedAt: "Feb 2024"
+    joinedAt: "Feb 2024",
+    avatarLicense: AI_AVATAR.yuna.license,
+    avatarAttribution: AI_AVATAR.yuna.attribution
   },
   {
     handle: "kenji.osaka",
