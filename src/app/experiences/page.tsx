@@ -7,9 +7,9 @@ export default function ExperiencesPage() {
   return (
     <div>
       <SectionHero
-        eyebrow="Klook-style"
-        title="Book experiences"
-        subtitle="Day trips, palace photo walks, passes, and food tours — tap to reserve (demo)."
+        eyebrow="Catalog"
+        title="Experiences & tickets"
+        subtitle="Day trips and food tours — live ticketing waits on partner APIs (Klook / Viator). Browse only."
       />
       <div className="grid gap-4 px-4 pb-8 sm:grid-cols-2 lg:px-0">
         {experiences.map((e) => (

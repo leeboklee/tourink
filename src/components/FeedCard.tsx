@@ -2,19 +2,34 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Bookmark, Heart, MessageCircle, Send, MapPin } from "lucide-react";
-import { useState } from "react";
-import { CURRENT_USER_HANDLE, isOfficialAiHandle, type FeedPost } from "@/data/mock";
+import { Bookmark, Flag, Heart, MessageCircle, MoreHorizontal, Send, MapPin, UserX } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import type { FeedPost } from "@/data/mock";
 import { FollowButton } from "@/components/FollowButton";
-import { OfficialAiBadge } from "@/components/OfficialAiBadge";
+import { blockHandle } from "@/lib/socialPrefs";
 
-export function FeedCard({ post }: { post: FeedPost }) {
+export function FeedCard({
+  post,
+  onAuthorBlocked
+}: {
+  post: FeedPost;
+  onAuthorBlocked?: () => void;
+}) {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [shareNote, setShareNote] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [reported, setReported] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const likes = post.likes + (liked ? 1 : 0);
-  const isAi = isOfficialAiHandle(post.author);
-  const isOwn = post.author === CURRENT_USER_HANDLE;
+
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
 
   async function share() {
     const url = typeof window !== "undefined" ? `${window.location.origin}/post/${post.id}` : `/post/${post.id}`;
@@ -27,37 +42,39 @@ export function FeedCard({ post }: { post: FeedPost }) {
         setTimeout(() => setShareNote(false), 1600);
       }
     } catch {
-      /* user cancelled */
+      /* cancelled */
     }
+  }
+
+  function report() {
+    setReported(true);
+    setMenuOpen(false);
+  }
+
+  function block() {
+    blockHandle(post.author);
+    setMenuOpen(false);
+    onAuthorBlocked?.();
   }
 
   return (
     <article className="overflow-hidden border-b border-white/10 bg-ink-900/40 lg:rounded-2xl lg:border lg:shadow-feed">
       <div className="flex items-center gap-3 px-4 py-3">
-        <Link href={`/u/${post.author}`} className="relative shrink-0">
-          <span
-            className={
-              isAi
-                ? "block rounded-full bg-gradient-to-tr from-neon-cyan to-neon-cyan/40 p-[2px]"
-                : "block"
-            }
-          >
-            <Image
-              src={post.avatar}
-              alt={post.author}
-              width={40}
-              height={40}
-              className="h-10 w-10 rounded-full object-cover"
-            />
-          </span>
+        <Link href={`/u/${post.author}`}>
+          <Image
+            src={post.avatar}
+            alt={post.author}
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full object-cover"
+          />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2">
             <Link href={`/u/${post.author}`} className="truncate text-sm font-semibold hover:text-neon-cyan">
               {post.author}
             </Link>
-            {isAi ? <OfficialAiBadge compact /> : null}
-            {!isOwn ? <FollowButton handle={post.author} compact /> : null}
+            <FollowButton handle={post.author} compact />
           </div>
           <Link
             href={`/place/${encodeURIComponent(post.location)}`}
@@ -68,7 +85,41 @@ export function FeedCard({ post }: { post: FeedPost }) {
           </Link>
         </div>
         <span className="text-xs text-white/40">{post.createdAt}</span>
+        <div className="relative" ref={menuRef}>
+          <button
+            type="button"
+            className="rounded-lg p-1 text-white/50 hover:bg-white/10 hover:text-paper"
+            aria-label="Post menu"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <MoreHorizontal size={18} />
+          </button>
+          {menuOpen ? (
+            <div className="absolute right-0 z-20 mt-1 w-44 overflow-hidden rounded-xl border border-white/10 bg-ink-900 shadow-xl">
+              <button
+                type="button"
+                onClick={report}
+                className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-xs text-white/80 hover:bg-white/5"
+              >
+                <Flag size={14} /> Report post
+              </button>
+              <button
+                type="button"
+                onClick={block}
+                className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-xs text-neon-pink hover:bg-white/5"
+              >
+                <UserX size={14} /> Block @{post.author}
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
+
+      {reported ? (
+        <p className="border-b border-white/10 bg-neon-amber/10 px-4 py-2 text-xs text-neon-amber">
+          Thanks — we hid this from your report queue (demo).
+        </p>
+      ) : null}
 
       <Link href={`/post/${post.id}`} className="relative block aspect-[4/5] bg-ink-800">
         <Image src={post.image} alt={post.caption} fill className="object-cover" sizes="(max-width:768px) 100vw, 640px" />
