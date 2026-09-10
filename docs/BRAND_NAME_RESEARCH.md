@@ -15,7 +15,7 @@
 | --- | --- |
 | **라이브** | **Tourink 유지** |
 | 비판 | Seoul / Kore·Han 과몰입 · `voy`/`ya`/`oya` · 무의미 조어 → 반영 |
-| **현재 Top** | 의미 합성 + Google exact 통과 — **Hangfeed** #1 · Huddletrek · Huddlepath … |
+| **현재 Top** | `ink` 연속성 폐기 · 의미 합성 — **Hangfeed** #1 · Huddletrek · Gatherhang · Hangmesh … |
 | **점수표** | [`BRAND_NAME_SCORED_LIST.md`](./BRAND_NAME_SCORED_LIST.md) |
 | **문서** | [`BRAND_NAME_ADVERSARIAL_PASS.md`](./BRAND_NAME_ADVERSARIAL_PASS.md) |
 

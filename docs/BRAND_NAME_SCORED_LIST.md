@@ -1,8 +1,8 @@
-# Brand candidates — scored list (Google-pass, meaningful compounds)
+# Brand candidates — scored list (no `ink`, Google-pass compounds)
 
-Date: 2026-09-10 · **re-audit** (Google exact + RDAP)  
+Date: 2026-09-10 · **revision: drop Tourink `ink` continuity**  
 Live product: **Tourink** (no code rename).  
-Rules: no `voy` / `ya` / `oya`; avoid Seoul/Kore/Han lock; **real compounds only**; Google exact must not hit a competing brand / place / named product that owns the SERP.
+Rules: no `ink` / `voy` / `ya` / `oya`; avoid Seoul/Kore/Han lock; **real compounds**; Google exact must not own SERP via brand/place/named product.
 
 > Quick check only. Not legal clearance. RDAP `.com` 404 = likely free (not purchased).
 
@@ -10,76 +10,68 @@ Rules: no `voy` / `ya` / `oya`; avoid Seoul/Kore/Han lock; **real compounds only
 
 ## Scorecard (1–5 → weighted /100)
 
-| Code | Axis | Weight | What “5” means |
-| --- | --- | ---: | --- |
-| M | Meaning | 18% | Instantly readable compound |
-| P | Product fit | 18% | feed + hangouts + travel signal |
-| G | Google exact uniqueness | 22% | No brand/place/named product owns SERP |
-| D | Domain `.com` RDAP | 12% | 404 FREE |
-| R | Pronounce / spell | 12% | Say once, spell once |
-| H | Marketing hook | 10% | Tagline / pitch ready |
-| X | No geo-lock / cliché suffix | 8% | Not Seoul/Kore; no banned suffix |
+| Code | Axis | Weight |
+| --- | --- | ---: |
+| M | Meaning | 18% |
+| P | Product fit (feed + hangouts + travel) | 18% |
+| G | Google exact uniqueness | 22% |
+| D | Domain `.com` RDAP | 12% |
+| R | Pronounce / spell | 12% |
+| H | Marketing hook | 10% |
+| X | No geo-lock / banned suffix | 8% |
 
-**Hard fail:** competing brand on Google exact, place-name collision that owns SERP, or banned suffix.
-
-Score = `20*(0.18M+0.18P+0.22G+0.12D+0.12R+0.10H+0.08X)`
+Hard fail: competing brand / place SERP, or banned suffix (`ink`/`voy`/`ya`/`oya`).
 
 ---
 
-## Top 10 (pass this re-audit)
+## Top 10 (pass · no `ink`)
 
-| # | Name | Σ | M | P | G | D | R | H | X | Compound | Google notes | `.com` |
+| # | Name | Σ | M | P | G | D | R | H | X | Compound | Google | `.com` |
 | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| 1 | **Hangfeed** | **90** | 5 | 5 | 4 | 5 | 5 | 5 | 4 | hang + feed | Exact clean; *Hangryfeed* agency soft | FREE |
-| 2 | **Huddletrek** | **88** | 5 | 5 | 5 | 5 | 4 | 4 | 4 | huddle + trek | Exact clean (Huddle* prefix crowded, not exact) | FREE |
-| 3 | **Huddlepath** | **87** | 5 | 5 | 5 | 5 | 4 | 4 | 4 | huddle + path | Exact clean | FREE |
-| 4 | **Gathertrek** | **86** | 5 | 5 | 4 | 5 | 4 | 5 | 4 | gather + trek | Exact clean; *GatherTrip* soft | FREE |
-| 5 | **Huddleink** | **85** | 5 | 4 | 5 | 5 | 4 | 4 | 5 | huddle + ink | Exact clean; Tourink family | FREE |
-| 6 | **Musterpath** | **84** | 4 | 4 | 5 | 5 | 4 | 4 | 5 | muster + path | Exact clean; Muster alone crowded | FREE |
-| 7 | **Mustertrek** | **83** | 4 | 5 | 5 | 5 | 4 | 4 | 4 | muster + trek | Exact clean | FREE |
-| 8 | **Gatherbond** | **82** | 5 | 4 | 5 | 5 | 4 | 4 | 4 | gather + bond | Exact clean | FREE |
-| 9 | **Bondtrek** | **81** | 4 | 5 | 5 | 5 | 5 | 3 | 4 | bond + trek | Exact clean | FREE |
-| 10 | **Rendezink** | **80** | 4 | 4 | 5 | 5 | 3 | 4 | 5 | rendezvous→rendez + ink | Exact clean; teach “rendez” | FREE |
+| 1 | **Hangfeed** | **90** | 5 | 5 | 4 | 5 | 5 | 5 | 4 | hang + feed | *Hangryfeed* soft | FREE |
+| 2 | **Huddletrek** | **88** | 5 | 5 | 5 | 5 | 4 | 4 | 4 | huddle + trek | exact clean | FREE |
+| 3 | **Huddlepath** | **87** | 5 | 5 | 5 | 5 | 4 | 4 | 4 | huddle + path | exact clean | FREE |
+| 4 | **Gathertrek** | **86** | 5 | 5 | 4 | 5 | 4 | 5 | 4 | gather + trek | *GatherTrip* soft | FREE |
+| 5 | **Gatherhang** | **85** | 5 | 5 | 5 | 5 | 4 | 4 | 4 | gather + hang | exact clean | FREE |
+| 6 | **Hangmesh** | **84** | 4 | 5 | 5 | 5 | 5 | 4 | 4 | hang + mesh | exact clean | FREE |
+| 7 | **Hanggrove** | **83** | 4 | 4 | 5 | 5 | 5 | 4 | 5 | hang + grove | exact clean | FREE |
+| 8 | **Roamhang** | **82** | 5 | 5 | 5 | 5 | 5 | 3 | 4 | roam + hang | exact clean | FREE |
+| 9 | **Hangrift** | **81** | 4 | 4 | 5 | 5 | 5 | 3 | 5 | hang + rift | exact clean | FREE |
+| 10 | **Peerhang** | **80** | 5 | 5 | 5 | 5 | 5 | 3 | 4 | peer + hang | exact clean | FREE |
 
 ### Copy list
-1 Hangfeed · 2 Huddletrek · 3 Huddlepath · 4 Gathertrek · 5 Huddleink · 6 Musterpath · 7 Mustertrek · 8 Gatherbond · 9 Bondtrek · 10 Rendezink
+1 Hangfeed · 2 Huddletrek · 3 Huddlepath · 4 Gathertrek · 5 Gatherhang · 6 Hangmesh · 7 Hanggrove · 8 Roamhang · 9 Hangrift · 10 Peerhang
 
 ---
 
-## Strong backups (FREE + Google exact clean enough)
+## Strong backups (FREE + exact clean enough)
 
-Huddlepeer · Rendezpath · Rendezbond · Woventrek · Nesttrek · Matetrek\* · Sojpath · Sojink
-
-\* Soft: dating/trek agency noise nearby — watch before shortlist lock.
+Musterpath · Mustertrek · Musterhang · Musterbond · Gatherbond · Bondtrek · Wanderhang · Hangpeer · Hangroute · Trailhang · Trekpeer · Trekhang · Huddlehang · Huddleroute · Huddletrail · Huddlepeer · Flockhang · Flocktrek · Weavehang · Woventrek · Squadhang · Feedhang
 
 ---
 
-## Fail / demote (this re-audit)
+## Dropped this revision
 
-| Name | Why (Google / entity) |
+| Name | Why |
 | --- | --- |
-| **Hangpath** | **Hangpath** place / Mandir (J&K) owns SERP — keyword fail |
-| **Trekink** | **TrekInk** Star Trek comics column (TrekMovie) owns SERP |
-| **Peerink** | **Peer Ink** magazine + inactive PeerInk LLC |
-| **Neartrek** | Dissolved **NEARTREK LIMITED** (UK); *Naturetrek* soft |
-| **Hangbond** | Active **HANGBOND INTERNATIONAL INVESTMENT** (HK) |
-| **Trekbond** | Trek Bond Pty + retail SKU noise |
-| **Sojtrek** | *Sojourn Trekkr* / Sojurnr outdoor brand adjacency |
-| Feedbond | **FeedBond** infant-feeding brand |
-| Ambtrek | **Ambtrek** Brazil company |
-| Hangtrek | **HangTrek** game noise |
-| Prior voy/ya/oya / opaque coinages | Banned by critique |
+| All `*ink` (Huddleink, Rendezink, Peerink, Trekink…) | Continuity not required — user drop |
+| Hangmoor | Place (Surrey) |
+| Hangtrail | DE MTB trail owns SERP |
+| Huddlebond | **HuddleBond** rental product |
+| Roambond | **RoamBond** travel meetup app |
+| Nesthang | DE gymnastics term |
+| Hangpath / Hangbond / Trekbond / Sojtrek / Feedbond / Ambtrek | Prior fails |
 
 ---
 
-## How to read the ranks
+## Pick guide
 
 | Prefer if… | Pick |
 | --- | --- |
-| Strongest product signal (hangouts + feed) | **Hangfeed** |
-| Meetup + travel, clean SERP | **Huddletrek** / **Huddlepath** |
-| Community travel pitch | **Gathertrek** / **Gatherbond** |
-| Tourink continuity (`ink`) | **Huddleink** / **Rendezink** |
-| Less “social SaaS” feel | **Musterpath** / **Mustertrek** / **Bondtrek** |
+| Feed + hangouts signal | **Hangfeed** |
+| Meetup + travel | **Huddletrek** / **Gatherhang** |
+| Network / community mesh | **Hangmesh** |
+| Softer / place-vibe | **Hanggrove** / **Hangrift** |
+| Wander + hang | **Roamhang** / **Peerhang** |
 
-**Verdict:** keep shipping as **Tourink**. Shortlist rename only after domain buy + full TM (KIPO/USPTO/WIPO). Prefer **Hangfeed** or **Huddletrek** for next legal pass.
+**Verdict:** ship as **Tourink**. Next legal pass: **Hangfeed** or **Huddletrek** / **Gatherhang**.
