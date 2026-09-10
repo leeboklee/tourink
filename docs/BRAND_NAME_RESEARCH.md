@@ -1,6 +1,6 @@
 # Tourink 브랜드명 조사 메모
 
-조사일: 2026-09-08 · **개정: 2026-09-10** (Top10 점수표 보고서)  
+조사일: 2026-09-08 · **개정: 2026-09-10** (의미 합성 + Google-pass 점수표)  
 범위: 한국 여행·외국인향 **피드 중심** 커뮤니티(인스타형 피드 + 행아웃 + 포럼/가이드).  
 방법: 후보 조어 → Google exact / App Store·Play 검색 → 인접 브랜드·LLC 충돌 → Verisign RDAP(`.com`)·DNS → USPTO/WIPO **퀵 체크**(법적 클리어런스 아님).
 
@@ -9,18 +9,17 @@
 
 ---
 
-## 결론 (2026-09-10 · 3단 비판 · 2트랙)
+## 결론 (2026-09-10 · 비판 반영 · 의미 합성 트랙)
 
 | 결정 | 내용 |
 | --- | --- |
-| **라이브** | **Tourink 유지** (opaque에 가까움 → 한국 과몰입 비판과도 정합) |
-| 비판 1 | Seoul 편중 → 타당 |
-| 비판 2 | **Kore/Han 과몰입** → 타당 (스케일·피벗 락) |
+| **라이브** | **Tourink 유지** |
+| 비판 | Seoul / Kore·Han 과몰입 · `voy`/`ya`/`oya` · 무의미 조어 → 반영 |
+| **현재 Top** | 의미 합성 + Google exact 통과 — **Hangfeed** #1 · Huddletrek · Huddlepath … |
+| **점수표** | [`BRAND_NAME_SCORED_LIST.md`](./BRAND_NAME_SCORED_LIST.md) |
 | **문서** | [`BRAND_NAME_ADVERSARIAL_PASS.md`](./BRAND_NAME_ADVERSARIAL_PASS.md) |
-| **Track A (권장 기본)** | Opaque — **Hangvoy** #1 · Feedvoy · Peervoy … |
-| **Track B (niche)** | Korea — **Koremora** #1 · Korenest · Korevoy\* … |
 
-Korea는 **히어로/ASO**로 싣고, 이름은 제품을 가두지 않는 쪽(A)을 기본 권장.
+Korea는 **히어로/ASO**로 싣고, 브랜드명은 제품을 가두지 않는 의미 합성을 기본.
 
 ---
 
