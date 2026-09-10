@@ -19,8 +19,13 @@ export function HomeFeed() {
   const [following, setFollowing] = useState<string[]>(DEFAULT_FOLLOWING_HANDLES);
 
   useEffect(() => {
-    setBlocked(getBlockedHandles());
-    setFollowing(getFollowingHandles(DEFAULT_FOLLOWING_HANDLES));
+    function sync() {
+      setBlocked(getBlockedHandles());
+      setFollowing(getFollowingHandles(DEFAULT_FOLLOWING_HANDLES));
+    }
+    sync();
+    window.addEventListener("tourink-social-change", sync);
+    return () => window.removeEventListener("tourink-social-change", sync);
   }, []);
 
   const posts = useMemo(() => {

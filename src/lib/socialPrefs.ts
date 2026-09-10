@@ -18,12 +18,19 @@ function writeList(key: string, value: string[]) {
   localStorage.setItem(key, JSON.stringify([...new Set(value)]));
 }
 
+function emitChange() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("tourink-social-change"));
+  }
+}
+
 export function getBlockedHandles(): string[] {
   return readList(BLOCKED_KEY);
 }
 
 export function blockHandle(handle: string) {
   writeList(BLOCKED_KEY, [...getBlockedHandles(), handle]);
+  emitChange();
 }
 
 export function unblockHandle(handle: string) {
@@ -31,6 +38,7 @@ export function unblockHandle(handle: string) {
     BLOCKED_KEY,
     getBlockedHandles().filter((h) => h !== handle)
   );
+  emitChange();
 }
 
 export function getFollowingHandles(defaults: string[] = []): string[] {
@@ -44,4 +52,5 @@ export function setFollowingHandle(handle: string, following: boolean, defaults:
     FOLLOWING_KEY,
     following ? [...base, handle] : base.filter((h) => h !== handle)
   );
+  emitChange();
 }

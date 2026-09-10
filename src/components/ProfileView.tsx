@@ -104,7 +104,7 @@ export function ProfileView({
             ) : null}
             <div className="mt-3 flex gap-5 text-sm">
               <span>
-                <strong>{posts.length || profile.posts}</strong>{" "}
+                <strong>{posts.length}</strong>{" "}
                 <span className="text-white/45">posts</span>
               </span>
               <span>
@@ -195,7 +195,7 @@ export function ProfileView({
       </nav>
 
       <div className="mt-4">
-        {tab === "posts" ? <PostsGrid posts={posts} /> : null}
+        {tab === "posts" ? <PostsGrid posts={posts} isOwn={isOwn} /> : null}
         {tab === "threads" ? <ThreadsTimeline threads={threads} isOwn={isOwn} /> : null}
         {tab === "reels" ? <ReelsGrid reels={reels} /> : null}
         {tab === "saved" ? <SavedFeed saved={saved} isOwn={isOwn} /> : null}
@@ -207,14 +207,18 @@ export function ProfileView({
   );
 }
 
-function PostsGrid({ posts }: { posts: FeedPost[] }) {
+function PostsGrid({ posts, isOwn }: { posts: FeedPost[]; isOwn: boolean }) {
   if (!posts.length) {
     return (
       <EmptyState
         title="No posts yet"
-        hint="Share a travel still from Seoul, Busan, or Jeju."
-        ctaHref="/compose/post"
-        cta="Create post"
+        hint={
+          isOwn
+            ? "Share a travel still from Seoul, Busan, or Jeju."
+            : "This traveler has not posted photos yet."
+        }
+        ctaHref={isOwn ? "/compose/post" : undefined}
+        cta={isOwn ? "Create post" : undefined}
       />
     );
   }
