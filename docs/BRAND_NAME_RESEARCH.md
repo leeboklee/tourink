@@ -9,19 +9,21 @@
 
 ---
 
-## 결론 (2026-09-10 · Top10 개정)
+## 결론 (2026-09-10 · Top10 개정 · 반대의견 통과)
 
 | 결정 | 내용 |
 | --- | --- |
 | **라이브 제품명** | **Tourink 유지** (코드·배포 리네임 안 함) |
-| **최종 Top 10 보고서** | [`BRAND_NAME_TOP10_REPORT.md`](./BRAND_NAME_TOP10_REPORT.md) |
-| **합성 1순위** | **Seouvoy** (Seoul + voyage) |
-| **2–3** | **SeoulReel** · **Seoumora** |
-| **탈락 핵심** | Hangukly · Tourlya · Seoulyn · Seouloop · Meetoya · **Seouvibe**(Seoul Vibe 법인들) · Meetkor · Seouza |
+| **서울 편중 비판** | Top10 Seoul\* 과다 → **타당**. 법무·임원 반대의견 반영 |
+| **반대의견 통과 리스트** | [`BRAND_NAME_ADVERSARIAL_PASS.md`](./BRAND_NAME_ADVERSARIAL_PASS.md) |
+| **통과 1순위** | **Koremora** (Korea + mora) |
+| **통과 2–3** | **Korenest** · **Korevoy**\* |
+| **조건부** | Seouvoy — Korea 태그라인·보드 승인 시에만 |
+| **초기 Top10 보고서** | [`BRAND_NAME_TOP10_REPORT.md`](./BRAND_NAME_TOP10_REPORT.md) (참고·이력) |
 
-**Top 10:** Seouvoy · SeoulReel · Seoumora · Seoubit · Seounova · Seouzen · Korenest · Seouvia · Seoufy · Korespot  
+**통과 Top 10:** Koremora · Korenest · Korevoy · Hanreel · Koreova · Korespot · Korivyn · Korefeed · Hanfeed · Seouvoy(조건부)  
 
-점수표 A(핏) / B(유니크·리스크) / C(실행) + Composite → 상세는 Top10 보고서.
+\* Kore Voyages / K-Spot 등 인접 → 풀 클리어 전 확정 금지.
 
 ---
 
@@ -97,11 +99,11 @@ Tourink/Seouvia 포지션: OTA도 순수 hangout만도 아닌 **피드 + 행아�
 ## G. 실행 제안
 
 1. **제품은 Tourink로 계속** — 이 PR에서 리네임 코드 변경 없음.  
-2. 리네임 준비 시 **Seouvoy** → SeoulReel → Seoumora 순으로 도메인·핸들·법률 클리어.  
-3. Seouvia는 Soovia 발음 테스트 통과 시에만 승격.  
+2. 리네임 준비 시 **Koremora** → Korenest → Korevoy\* 순 (전국형).  
+3. Seoul\*는 보드 미티게이션 없이 채택하지 않음. Seouvoy는 조건부만.  
 4. Hangukly / Tourlya / Seoulyn / Seouvibe **재사용 금지**.  
-5. 점수·Top10 상세: `docs/BRAND_NAME_TOP10_REPORT.md`
+5. 문서: `BRAND_NAME_ADVERSARIAL_PASS.md` (통과 리스트) · `BRAND_NAME_TOP10_REPORT.md` (초기 점수표)
 
 ---
 
-*Updated for PR #17 — Top10 locked (composite #1 Seouvoy; product stays Tourink until clearance).*
+*Updated for PR #17 — adversarial pass: nationwide-first (Koremora #1); Tourink stays live.*

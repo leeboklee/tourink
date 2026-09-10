@@ -5,7 +5,7 @@
 라이브명: **Tourink 유지** (이 문서는 리네임 후보만 — 코드 리네임 없음)  
 선행 메모: [`BRAND_NAME_RESEARCH.md`](./BRAND_NAME_RESEARCH.md) · PR [#17](https://github.com/leeboklee/tourink/pull/17)
 
-> **면책:** Google / RDAP / 스토어 / 공개 법인·앱 **퀵 서치**. KIPO·USPTO·WIPO 풀 클리어·변호사 의견 아님. RDAP 404 = likely available. **도메인 구매하지 않음.**
+> **개정 (같은 날):** 서울 편중 비판 → 법무·임원 반대의견 반영. **현행 권장 리스트는 [`BRAND_NAME_ADVERSARIAL_PASS.md`](./BRAND_NAME_ADVERSARIAL_PASS.md)** (1순위 **Koremora**). 아래 Top10은 초기 합성 이력.
 
 ---
 
