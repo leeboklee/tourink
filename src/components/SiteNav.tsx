@@ -14,6 +14,7 @@ import {
   Users
 } from "lucide-react";
 import { clsx } from "clsx";
+import { CURRENT_USER_HANDLE, reelPosts } from "@/data/mock";
 
 const links = [
   { href: "/", label: "Feed", icon: Newspaper },
@@ -26,6 +27,15 @@ const links = [
   { href: "/community", label: "Community", icon: Compass },
   { href: "/forum", label: "Forum", icon: MessageSquare }
 ];
+
+/** Own compose flows and own reels map to My Page; other users' reels do not. */
+function isMyPageContext(pathname: string) {
+  if (pathname.startsWith("/compose")) return true;
+  if (!pathname.startsWith("/reel/")) return false;
+  const reelId = pathname.slice("/reel/".length).split("/")[0];
+  const reel = reelPosts.find((r) => r.id === reelId);
+  return reel?.author === CURRENT_USER_HANDLE;
+}
 
 export function SiteNav() {
   const pathname = usePathname();
@@ -43,7 +53,7 @@ export function SiteNav() {
               const active =
                 pathname === href ||
                 (href !== "/" && pathname.startsWith(href)) ||
-                (href === "/profile" && (pathname.startsWith("/compose") || pathname.startsWith("/reel")));
+                (href === "/profile" && isMyPageContext(pathname));
               return (
                 <Link
                   key={href}
@@ -83,7 +93,7 @@ export function SiteNav() {
             const active =
               pathname === href ||
               (href !== "/" && pathname.startsWith(href)) ||
-              (href === "/profile" && (pathname.startsWith("/compose") || pathname.startsWith("/reel")));
+              (href === "/profile" && isMyPageContext(pathname));
             return (
               <Link
                 key={href}
