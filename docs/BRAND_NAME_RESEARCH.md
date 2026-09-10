@@ -1,192 +1,132 @@
 # Tourink 브랜드명 조사 메모
 
-조사일: 2026-09-08 (팔로업: 유지 vs 리네임 재검토)  
-범위: 한국 여행·외국인향 **피드 중심** 커뮤니티(인스타형 피드 + 행아웃 + 가이드).  
-방법: 경쟁/인접 서비스 웹 조사, 후보 발음·신호·유니크니스 평가, DNS/RDAP 도메인 신호, Google/USPTO/WIPO **퀵 체크**, 스타트업 리네임 가이드라인 조사(법적 클리어런스 아님).
+조사일: 2026-09-08 · **개정: 2026-09-10** (고유·마케팅 가능 리네임 후보 확정)  
+범위: 한국 여행·외국인향 **피드 중심** 커뮤니티(인스타형 피드 + 행아웃 + 포럼/가이드).  
+방법: 후보 조어 → Google exact / App Store·Play 검색 → 인접 브랜드·LLC 충돌 → Verisign RDAP(`.com`)·DNS → USPTO/WIPO **퀵 체크**(법적 클리어런스 아님).
 
-> **면책:** 도메인·상표는 등록 직전에 변호사/공식 DB로 재확인 필요. RDAP `404` = *likely available* 신호일 뿐, 구매·예약하지 않음.  
+> **면책:** 도메인·상표는 등록 직전 변호사 + KIPO/USPTO/WIPO 풀 서치 필수. RDAP `404` = *likely available* 신호일 뿐, **구매·예약하지 않음.**  
 > PR: [#17](https://github.com/leeboklee/tourink/pull/17) · branch `cursor/brand-name-research-7c85`
 
 ---
 
-## 결론 (개정)
+## 결론 (2026-09-10)
 
-**지금은 안 바꾸는 게 낫다 — Tourink 유지.**  
-이름은 불완전해도 **딜브레이커가 아니고**, early 단계에선 리네임이 제품 배송·유저 대화보다 주의력을 뺏는다. Hangukly 등은 “나중에 바꿀 때 쓸 후보”로만 보관.
-
-| 선택 | 판정 |
+| 결정 | 내용 |
 | --- | --- |
-| **지금 Tourink 유지** | **권장.** 법적/평판 위기 없음, 발음 가능, opaque travel 브랜드와 같은 패턴 |
-| Hangukly 등 리네임 | **지금은 비권장.** 조건 충족 시에만 재검토(아래) |
+| **라이브 제품명** | **Tourink 유지** (코드·배포 리네임 안 함) |
+| **마케팅 리네임 1순위** | **Seouvia** (서울 + via = “서울/한국을 통과하는 길”) |
+| **2순위** | **Seoubit** (서울 + bit = 피드 조각) |
+| **3순위** | **Seoumora** (서울 + mora/머무름) |
+| **탈락 핵심** | Hangukly≈Hanguly · Tourlya≈Tourly · Seoulyn=SEOULYN LLC · Seouloop≈Seoullo · Meetoya≈MeetYou |
 
-**나중에 리네임을 검토할 조건 (모두 충족 시에만):**
-1. PMF·리텐션이 보이고, 이름이 **실제 CAC/소개 마찰**로 잡힐 때  
-2. `hangukly.com`(또는 확정 후보) **확보 + KIPO/USPTO/WIPO 풀 클리어**  
-3. 리다이렉트·소셜·스토어·코드 문자열을 한 스프린트에 끝낼 여유  
-4. “Tour-in-K”가 유저 인터뷰에서 **반복적으로** 혼란을 줄 때(현재는 가설)
+**목표 충족 판정 (Seouvia):**
+1. **제품 핏** — 한국(서울) 신호 + 여행/경로 은유, 피드·행아웃 앱에 태그라인으로 보완 가능  
+2. **Google exact `"Seouvia"`** — 경쟁 여행/소셜 **고유 브랜드 미발견** (포르투갈어 “se ouvia” 잡음만)  
+3. **스토어** — Apple 검색 0 results; Play exact 앱 없음  
+4. **도메인** — `seouvia.com` / `seouvia.app` RDAP·DNS상 **미등록(resolve 실패 / .com 404)**  
+5. **주의** — 발음 유사 **Soovia**(Travel eSIM, 철자 다름). 음성 검색·ASO에서 혼동 가능 → 로고·철자 강조로 완화. **법률 클리어 전 확정 금지.**
 
 ---
 
-## A. 왜 “안 하는 게 낫나” — early 리네임 비용
+## A. 권장 숏리스트 (마케팅용)
 
-리네임은 이름 바꾸기가 아니라 **인프라·SEO·인지 리셋**이다.
+점수: 한국 신호 · 발음 · 유니크(Google/스토어/LLC) · 도메인 · 마케팅 훅.
 
-| 영역 | 비용 / 리스크 |
+| 순위 | 이름 | 발음 | 훅 | Google / 고유브랜드 | 도메인 (.com) | 리스크 |
+| ---: | --- | --- | --- | --- | --- | --- |
+| **1** | **Seouvia** | see-OH-vee-ə / SOH-vee-ə | Seoul + via | exact 브랜드 없음 | RDAP 404 | **Soovia** eSIM 청각 유사 |
+| **2** | **Seoubit** | SOUL-bit / SEE-oh-bit | Seoul + bit(피드) | exact 브랜드·앱 없음 | RDAP 404 | “bit” 테크 일반어 |
+| **3** | **Seoumora** | see-oh-MOR-ə | Seoul + 머무름 | exact 없음 | RDAP 404 | 길이·발음 학습 필요 |
+| 4 | **Feedoya** | feed-OY-ə | feed + -oya | exact 없음 (Feeda/Feedy 인접) | RDAP 404 | 한국 신호 약함 |
+| 5 | **Seoukoo** | SOUL-koo | Seoul + 구/koo | exact 없음 | RDAP 404 | 장난감·약함 |
+
+### Seouvia 마케팅 스케치
+- 한 줄: **Seouvia — Korea travel, live with locals & travelers**
+- 한글 음차 후보: 서우비아 / 세우비아 (확정은 브랜드 가이드에서)
+- 히어로 예산: 브랜드명 1 + 한 문장 + CTA (피드/행아웃). Korea는 카피로 고정.
+
+### Seouvia 검증 체크리스트 (리네임 전 필수)
+- [ ] `seouvia.com` + `.app` (+ 가능하면 `.kr`) 확보  
+- [ ] KIPO + USPTO + WIPO(Madrid) + EUIPO **유사 포함** 풀 클리어  
+- [ ] Instagram / X / TikTok / YouTube 핸들 확보  
+- [ ] Soovia와 혼동 5–10명 외국인 발음 테스트  
+- [ ] 코드·Vercel·스토어·리다이렉트 스프린트 예산
+
+---
+
+## B. 탈락·주의 목록 (충돌 증거)
+
+| 후보 | 사유 |
 | --- | --- |
-| **도메인** | 신규 `.com`/`.app` 확보, 구 도메인 리다이렉트, 이메일·쿠키·OAuth 콜백 |
-| **Vercel / GitHub** | 프로젝트·환경변수·배포 URL·repo/org 표시명, CI secrets, 문서·README 일괄 |
-| **앱스토어 (예정)** | 리스팅 이름·키워드 재인덱싱, 일시적 랭킹 하락(가이드상 수 주~수 개월 회복 가능), 리뷰/브랜드 검색 단절 |
-| **SEO** | 백링크·브랜드 쿼리·소셜 멘션 이전; “Tourink” 검색 자산 리셋 |
-| **유저 혼란** | 북마크·카톡 공유·“그 앱 뭐였지?” — early라도 이미 live-ish면 비용 존재 |
-| **멘탈 로드** | 로고·카피·법률·핸들 확보 토론이 **피드/행아웃/가이드 배송**을 밀어냄 |
-
-YC식 우선순위: early에는 *make something people want* / talk to users가 병목이지, 브랜드 폴리싱이 아니다. 브랜딩 가이드도 PMF 전에는 **minimum viable brand**로 충분하고, 무거운 리브랜드는 스케일·펀드 단계에 맞추라고 본다.
-
-**Naming debt 관점:** 약한 이름의 “이자”는 매출·팀이 커질수록 커진다. 지금은 이자 ≪ 리네임 원금 + 기회비용 → **크로스오버 전**이면 유지가 합리적.
-
----
-
-## B. 언제 바꾸고 / 언제 유지하나 (가이드 요약)
-
-**유지가 맞는 경우**
-- 법적 취약·욕설·심각한 오해·평판 위기가 **아님**
-- 발음·철자가 학습 가능하고, 제품이 아직 흔들림
-- 예산·주의력이 제품에 묶여 있음
-- 이름 불만이 **창업자 지루함**에 가깝고, 고객은 익숙함(Spellbrand: founder boredom ≠ rename 사유)
-
-**바꿀 때**
-- 상표 분쟁·강제 변경
-- 피벗 후 이름이 사업을 **적극적으로 부정**
-- 측정 가능한 소개/검색 마찰이 크고, 리네임 ROI가 명확
-- M&A·글로벌 스케일에서 이름이 채널을 막음
-
-Tourink는 현재 **“바꿀 사유” 체크리스트에 거의 안 걸림** → 유지.
+| **Hangukly** | **Hanguly**(한국어 학습 앱)와 철자·발음 과근접 |
+| **Tourlya** | **Tourly**(오디오 가이드·다수 여행 앱/회사)와 청각 충돌 |
+| **Seoulyn** | Florida **SEOULYN LLC** Active (sunbiz) — 고유 법인명 충돌 |
+| **Seouloop** | **Seoullo**(외국인 서울 관광 앱)와 철자·발음 근접 |
+| **Meetoya** | **MeetYou**(美柚)와 철자·발음 근접 |
+| **Hanvia** | **Hanvia Studio**(브랜딩 회사) |
+| **Seouora** | **Seoulora**(스토어) / **Seoura**(에이전시) / **Seaoura** 근접 |
+| **Korelya / Korevia / Koravi / Koreel / Koreami / TripNuri / Inkorbit** | VC·물류·건설·미디어·퍼블리싱 등 기존 고유명 (이전 라운드) |
+| **Tourink 리네임 강제** | 딜브레이커 아님 → 라이브는 유지, 후보는 위 숏리스트로 보관 |
 
 ---
 
-## C. “Tour in K” 오독 — 언어·UX 퀵 테이크
+## C. 라이브는 Tourink 유지 — 이유 (요약)
 
-걱정: 사람들이 Tourink를 **Tour-in-K**(한국에서 투어)로 읽는다.
+리네임 = 도메인·SEO·스토어·OAuth·인지 리셋. Early에는 피드/행아웃 배송이 병목.  
+“Tour-in-K” 오독은 **스토리 옵션**이지 기능 결함 아님 → 히어로에 Korea 한 줄이면 보정.
 
-| 청자 | 실제 반응 (추정·관측 가능 패턴) |
-| --- | --- |
-| **외국인 (영어 L1/L2)** | 철자 `Tourink`는 보통 **한 단어 브랜드**(TOOR-ink / TOUR-ink)로 읽힘. “Tour in K”는 **의도적으로 분해**하거나 팀이 설명할 때 나오는 더블리드. 콜드 청취만으로 K=Korea를 확신하진 않음 → **딜브레이커라기보다 ‘의미 불투명’** |
-| **한국인 / 한국 거주자** | **투어잉크**로 음차. “Tour-in-K” 영어 말장난은 팀·마케팅에만 보임. 한글 UI·‘Korea’ 카피가 있으면 오독 이슈 거의 없음 |
-| **UX** | 히어로에 “Korea travel feed…”만 박아도 이름 모호성은 **1초 보정**됨. Creatrip도 이름만으론 Korea가 약하고 태그라인으로 보완 |
-
-**판정:** “Tour-in-K로 읽힐까”는 **기능적 결함이 아니라 스토리텔링 옵션**(원하면 살리고, 싫으면 Tour+ink만 밀면 됨). 리네임 사유로 쓰기엔 약함. 검증이 필요하면 5–10명 외국인에게 “이 앱 이름만 듣고 뭐 하는 앱 같아?”를 물어보면 충분 — 지금 가설만으로 리네임하지 말 것.
+**리네임 실행 조건 (모두 충족 시):**
+1. PMF·리텐션 신호 + 이름이 실제 소개/검색 마찰로 측정될 때  
+2. **Seouvia**(또는 확정 후보) 도메인 + 풀 법률 클리어  
+3. 리다이렉트·소셜·스토어·문자열을 한 스프린트에 끝낼 여유  
+4. Tourink 혼란이 유저 인터뷰에서 **반복**될 때
 
 ---
 
-## D. 경쟁 현실: opaque 이름으로도 이긴다
+## D. 경쟁 네이밍 지형 (참고)
 
-| 브랜드 | 이름 투명도 | 비고 |
+| 유형 | 예 | 교훈 |
 | --- | --- | --- |
-| **Klook** | Keep + looking → 이름만으론 여행 불명 | 제품·공급·마케팅으로 이김 |
-| **Trazy** | 조어 | 한국 액티비티 = 카테고리로 학습 |
-| **Creatrip** | Create+trip, Korea 약함 | “Korea Your Way” 카피로 보정 |
-| **Airbnb / Slack** | 기원 스토리는 나중에야 의미 | 제품이 이름을 정의 |
+| Opaque 글로벌 | Klook, Trazy, Creatrip | 이름만으로 Korea 안 보여도 태그라인·제품으로 이김 |
+| 한국 직설 | VisitKorea, Connect KOR | 브랜드성↓, 서술표 리스크 |
+| 커뮤니티/동행 | Nomax, KOPLE, SeoulTalk | hangout 신호 강함 — 피드+가이드 자리는 여유 |
 
-교훈: **한국 신호가 약한 여행 앱은 흔하고**, 승패는 피드 품질·리텐션·배포다. Tourink도 같은 리그에 서 있음.
-
----
-
-## 1. 경쟁·인접 네이밍 지형
-
-### 글로벌 / 아시아 OTA·플래너
-| 이름 | 포지션 | 네이밍 교훈 |
-| --- | --- | --- |
-| **Klook** | 액티비티 예약 | 짧고 발음 쉬움, 지역 신호 약함 → 글로벌 스케일용 |
-| **KKday** | 로컬 체험 | K + day, 아시아 톤 |
-| **Wanderlog** | 일정 플래너 | Wander + log, 여행 동사 + 기록 |
-| **Trip.me / TripIt** | 여행 연결·정리 | Trip 접두 흔함 |
-| **GetYourGuide / Viator** | 투어 마켓 | 기능 설명형 |
-
-### 한국 특화 (외국인·관광)
-| 이름 | 포지션 | 교훈 |
-| --- | --- | --- |
-| **Creatrip** | 외국인 K-플랫폼 (가이드·예약·커머스) | Create + trip, 한국 신호는 약하나 “Korea Your Way” 태그라인으로 보완 |
-| **Trazy** | 한국 액티비티 샵 | 조어, 한국=카테고리로 포지셔닝 |
-| **VisitKorea** | 공공 관광 | 직설, 브랜드라기보다 기관 |
-| **Seollem** | 솔로 한국 여행 가이드 | 한국어 감성 조어 |
-| **KOPLE** | 한국 여행 커뮤니티·소그룹 트립 | 커뮤니티 톤, Kakao/WhatsApp 연동 |
-| **Trip2Gather / WETRAVER / Nomax** | 동행·버디 | 연결/모임 신호 |
-| **Connect KOR / Kori** | 외국인 생활·만남 앱 | KOR / Kori = 한국 단축 신호 |
-
-### 로컬 소셜 (한국인 중심, 인접)
-**소모임(Somoim), 문토(Munto), 프립(Frip), Meetup, InterNations, Facebook Expats in Korea** — “모임/취미” 네이밍이 강하고, 외국인향 피드 앱 자리는 아직 비어 있음.
-
-**포지션:** OTA도 순수 hangout만도 아닌 **피드 + 가이드 + 행아웃**. 이름보다 **제품 차별화**가 병목.
+Tourink/Seouvia 포지션: OTA도 순수 hangout만도 아닌 **피드 + 행아웃 + 가이드**.
 
 ---
 
-## 2. Tourink 유지 장단 (개정)
+## E. Tourink 유지 시 보정
 
-| | |
-| --- | --- |
-| **Pros** | live-ish 연속성; 리네임 기회비용 회피; Tour+ink / 투어잉크; 발음·철자 학습 가능; 대형 TM 퀵체크에서 뚜렷한 live mark 미발견; opaque travel 브랜드와 동일 패턴; `tourink.app` likely available |
-| **Cons** | 콜드에 한국 신호 약함; Tour → OTA 연상 가능; ink 설명 필요; Tourlink/Tourinx와 청각 유사; `tourink.com` DNS·404(소유 확인) |
-| **유지 시 보정** | 히어로·스토어 서브타이틀에 **Korea**를 브랜드급으로; ASO 키워드에 korea/seoul/expat; “Tour-in-K”는 **강제하지 말고** 선택 스토리로 |
-
----
-
-## 3. 후보 랭킹 (나중에 쓸 때)
-
-> 아래는 **지금 바꾸라는 뜻이 아님.** 향후 리네임 시 shortlist.
-
-점수 축: 영어 발음 · 한국 신호 · 커뮤니티/피드 톤 · 유니크 · 도메인 가능성 · 상표 리스크(퀵체크).
-
-| 순위 | 이름 | 발음 | 한국 | 피드/커뮤니티 | 유니크 | 도메인 신호 | TM 퀵체크 | 한줄 |
-| ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | **Hangukly** | HAN-gook-lee | 강 | 앱다운 -ly | 매우 높음 | `.com`/`.app` likely free | exact hit 거의 없음 | 나중에 1순위 후보 |
-| 2 | **SeoulReel** | SOUL-reel | 서울 강·전국 약 | 릴/피드 강 | 높음 | likely free | clean | 피드 핏, 서울 편중 |
-| 3 | **Korespot** | KOR-spot | 중강 | 스팟 발견 | 높음 | likely free | clean | 장소 디스커버리 |
-| 4 | **WanderKR** | WAN-der KR | KR 명확 | 여행 커뮤니티 | 중 | likely free | Wander Korea 인접 | Wanderlog 연상 |
-| 5 | **Korenest** | kor-NEST | 중강 | 둥지=커뮤니티 | 중 | likely free | 약충돌 | 따뜻한 톤 |
-| 6 | **Korfeed** | KOR-feed | 중강 | feed 직설 | 중 | likely free | 사료·닉 잡음 | 브랜드성↓ |
-| 7 | **Seouldot** | SOUL-dot | 서울 | 테크/앱 | 높음 | likely free | clean | 의미 약 |
-| 8 | **HangoutKR** | hang-out KR | KR | hangout 직설 | 중하 | likely free | 뮤직 태그 | 데이팅 연상 |
-| 9 | **Koreko** | ko-RE-ko | 중 | 귀여움 | 중 | `.com` taken | 미확인 | .com 불리 |
-| 10 | **Tripink** | TRIP-ink | 약 | ink 계승 | 중 | `.com` taken | — | soft rename |
-| 11 | **GoHanguk** | go HAN-gook | 강 | CTA형 | 중하 | likely free | Go! Go! Hanguk | 충돌 |
-| 12 | **InKorea** | in Korea | 매우 강 | 약 | 낮음 | `.com` taken | 서술표 | 부제용 |
-
-### Top 3 도메인 신호 (구매하지 않음)
-
-| 이름 | `.com` | `.app` | 비고 |
-| --- | --- | --- | --- |
-| Hangukly | RDAP 404 → likely available | likely available | 웹 exact 브랜드 거의 없음 |
-| SeoulReel | likely available | likely available | 서울 한정 리스크 |
-| Korespot | likely available | likely available | spot 접미사 혼잡 |
-
-**Taken / 주의:** `inkorea.com`, `tripink.com`, `korely.com`, `seoully.com`, `seouly.com`, `tourly.com`, `tourkr.com`, `mykorea.com`.
+- 랜딩/앱 히어로에 **Korea**를 브랜드급으로  
+- ASO·SEO: korea / seoul / expat / hangout  
+- “Tour-in-K”는 강제하지 말 것  
+- 유저 5–10명 이름 연상 스모크 테스트(선택)
 
 ---
 
-## 4. Hangukly (나중용 메모)
+## F. 조사 로그 (2026-09-10)
 
-- Hanguk + -ly; 한글 표기 통일 필요(한국리 등)
-- 한국 신호·앱 톤은 Tourink보다 강함 → **스케일 후 rename shortlist 1번**
-- 지금은 도메인 사재기·코드 리네임 **하지 않음** (확정·법률 클리어 전)
+| 체크 | Seouvia | Seoubit | Seoumora | Feedoya |
+| --- | --- | --- | --- | --- |
+| Google exact 고유브랜드 | 없음 | 없음 | 없음 | 없음 |
+| Apple search | 0 results | (동일 패턴) | — | 0 |
+| Play exact app | 없음 | 없음 | — | 없음 |
+| `.com` RDAP | 404 | 404 | 404 | 404 |
+| DNS A | NXDOMAIN | — | — | — |
+| USPTO/WIPO API | UI 캡차·API 401 → **수동 풀서치 잔여** | 동 | 동 | 동 |
+| 유사음 주의 | Soovia eSIM | — | — | Feeda / Feedy |
 
----
-
-## 5. 상표·도메인 주의
-
-- Google + RDAP/DNS + USPTO/WIPO UI 퀵룩 수준. KIPO 전부·유사 상표 미조사.
-- 서술명(`InKorea`, `Korfeed`)은 등록·권리 약할 수 있음.
-- 유사음: Tourink↔Tourlink/Tourinx; WanderKR↔Wanderlog; GoHanguk↔Go! Go! Hanguk.
-- “likely available” ≠ 보장. **구매하지 말 것.**
-
----
-
-## 6. 실행 제안 (개정)
-
-1. **제품에 집중.** 피드·행아웃·가이드 배송; 브랜드 토론은 이 문서로 종결.
-2. **유지 보정만:** 랜딩/앱에 Korea를 크게; 스토어·SEO에 korea 키워드; Tour-in-K는 선택 스토리.
-3. **유저 5–10명**에게 이름만으로 연상 테스트(선택). 반복 혼란 없으면 리네임 안 함.
-4. 리네임은 결론의 **4조건** 충족 시에만; 그때 Hangukly shortlist + 풀 법률·도메인.
+유사 USPTO 문자열(Seouvia 주변, exact 아님): SOLUVIA, SOVIA, SEOULVIOSYS 등 — 클래스·상품 다르면 충돌 아닐 수 있으나 **변호사 확인**.
 
 ---
 
-*Updated for PR #17 — verdict flipped to keep Tourink for now.*
+## G. 실행 제안
+
+1. **제품은 Tourink로 계속** — 이 PR에서 리네임 코드 변경 없음.  
+2. 리네임 준비 시 **Seouvia**로 도메인·핸들·법률 클리어 진행.  
+3. Soovia 발음 테스트 실패 시 **Seoubit → Seoumora** 순으로 폴백.  
+4. Hangukly / Tourlya / Seoulyn **재사용 금지**.
+
+---
+
+*Updated for PR #17 — rename candidate locked to Seouvia (product stays Tourink until clearance).*
