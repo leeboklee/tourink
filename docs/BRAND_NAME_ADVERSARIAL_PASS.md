@@ -1,7 +1,7 @@
 # 브랜드명 반대의견(법무·임원) 대응 & 통과 리스트
 
 작성일: 2026-09-10  
-전제: 기존 Top10이 **Seoul\* 8/10** → “한국 전국 앱인데 서울만?” 비판이 타당함.  
+개정: **서울 편중 → 전국형 → “한국 과몰입?”** 까지 3단 비판 반영.  
 라이브명: **Tourink 유지**. 리네임 코드 변경 없음.  
 선행: [`BRAND_NAME_TOP10_REPORT.md`](./BRAND_NAME_TOP10_REPORT.md) · [`BRAND_NAME_RESEARCH.md`](./BRAND_NAME_RESEARCH.md) · PR [#17](https://github.com/leeboklee/tourink/pull/17)
 
@@ -9,27 +9,40 @@
 
 ---
 
-## 0. 한줄 결론
+## 0. 한줄 결론 (보드 선택지 2트랙)
 
-| | |
-| --- | --- |
-| **비판** | Top10 서울 편중 — 부산·제주·전국 확장·투자 스토리에 약함 |
-| **대응** | Seoul 접두 기본 폐기 → **Kore-/Han- 전국형** 재채점 |
-| **통과 1순위** | **Koremora** |
-| **조건부 통과** | Seouvoy 등 Seoul\*는 **보드 승인 미티게이션** 있을 때만 |
+| 비판 단계 | 내용 | 대응 |
+| --- | --- | --- |
+| 1 | Seoul\* 과다 | 전국형 Kore-/Han- |
+| 2 | **한국(Kore/Han) 과몰입** — 피벗·다국가·카테고리 확장에 발목 | **Opaque(불투명) 트랙** 신설 |
 
-### 반대의견 통과 리스트 Top 10 (카피용)
+| 트랙 | 언제 | 통과 1순위 | 리스트 |
+| --- | --- | --- | --- |
+| **A · Scale / Opaque** | 투자·다국가·브랜드가 제품을 정의 | **Hangvoy** | §9 |
+| **B · Niche trust / Korea** | “Korea 전문”으로 CAC·신뢰 빨리 | **Koremora** | §5 |
+| **라이브** | 지금 | **Tourink** | 유지 |
 
-1. **Koremora**  
-2. **Korenest**  
-3. **Korevoy**  
-4. **Hanreel**  
-5. **Koreova**  
-6. **Korespot**  
-7. **Korivyn**  
-8. **Korefeed**  
-9. **Hanfeed**  
-10. **Seouvoy** *(조건부 — 아래 §5)*  
+**권장 기본:** early PMF는 태그라인으로 Korea를 신고, **이름은 Opaque(A)** — Klook/Trazy/Airbnb 패턴.  
+Korea 신호는 스토어 키워드·히어로 카피가 담당.
+
+### A 트랙 (Opaque) Top 10 — 카피용
+
+1. **Hangvoy**  
+2. **Feedvoy**  
+3. **Peervoy**  
+4. **Matevoy**  
+5. **Moraoya**  
+6. **Roamoya**  
+7. **Peerreel**  
+8. **Tourumi**  
+9. **Voyumi**\*  
+10. **Feedoya**  
+
+\* Voyay(AI 투어 앱) 청각 주의.
+
+### B 트랙 (Korea niche) Top 10 — 카피용
+
+1. **Koremora** · 2 **Korenest** · 3 **Korevoy**\* · 4 **Hanreel** · 5 **Koreova** · 6 **Korespot**\* · 7 **Korivyn** · 8 **Korefeed** · 9 **Hanfeed** · 10 **Seouvoy**(조건부)
 
 ---
 
@@ -45,9 +58,10 @@
 | L4 | Reel/Feed/Spot/Nest 일반어 결합은 **식별력 약** → 등록·집행 난이도↑ | 방어력 약 |
 
 **법무 요구 게이트 (통과 조건):**
-1. 전국 신호 접두(`Kore`/`Han`) 또는 **보드 문서화된** Seoul-metonymy + 상시 Korea 태그라인  
+1. **지리 락 회피:** Seoul/Kore/Han 접두에 묶이지 않거나, Niche 트랙이면 전국(Korea)까지는 허용·다국가는 태그라인/서브브랜드로 확장 계획 明文化  
 2. 인접 브랜드 **풀 클리어**(KIPO/USPTO/WIPO) 전 확정 금지  
 3. 도메인·핸들 확보 전 대외 발표 금지  
+4. Opaque 트랙은 **식별력↑·지리 서술↓** — 법무가 Scale 트랙에서 선호 가능
 
 ### 1.2 가상 임원 (CEO / CMO)
 
@@ -57,11 +71,14 @@
 | E2 | Creatrip/Trazy는 Korea 포지션인데 우리는 수도 로컬처럼 보임 | 카테고리 리더십 약화 |
 | E3 | 외국인 유저도 서울 올인 후 지방 확장 — 이름에 Seoul이면 **지방 캠페인 CAC↑** | 성장 마찰 |
 | E4 | “나중에 태그라인으로 고친다”는 early에 이미 **브랜드 부채** | 리네임 이자 |
+| **E5** | **Kore/Han 과몰입** — Japan/TW 확장·카테고리 피벗 시 이름이 발목을 잡음 (Airbnb≠AirBed) | Scale 스토리↓ |
+| **E6** | 투자자에게 “또 하나의 Korea app 이름”으로 보임 | 차별화·글로벌 톤↓ |
 
 **임원 요구 게이트:**
-1. 이름만 듣고 **Korea (not Seoul-only)** 연상 ≥4/5 (내부 스모크)  
-2. 히어로 카피 없이도 전국 확장 스토리가 깨지지 않음  
-3. Seoul\*는 예외 승인 시에만 shortlist 잔류  
+1. 트랙 선택: **A Opaque(스케일)** vs **B Korea niche(신뢰·SEO)** — 혼용 금지(피치 한 줄로 고정)  
+2. A 선택 시: 이름만으로 Korea 안 나와도 OK — **히어로/ASO가 Korea를 담당**  
+3. B 선택 시: “Korea 전문”을 의도적 전략으로 문서화 (Trazy형)  
+4. Seoul\*는 예외 승인 시에만  
 
 ---
 
@@ -162,16 +179,20 @@ Koremora · Korenest · Korevoy · Hanreel · Koreova · Korespot · Korivyn · 
 ## 7. 추천 의사결정 트리
 
 ```
-전국 신호 필수?
- ├─ YES → Koremora → Korenest → Korevoy* → Hanreel → Koreova
- └─ NO(예외 승인) → Seouvoy CONDITIONAL 체크리스트
-법률 인접(* 표시) 있으면 → 풀 클리어 전 확정 금지
-라이브 제품 → Tourink 유지
+지리 신호를 이름에 넣을까?
+ ├─ NO (스케일·피벗·투자 톤) → Track A Opaque
+ │     Hangvoy → Feedvoy → Peervoy → Matevoy → Moraoya …
+ └─ YES
+       ├─ Korea 전국 (niche trust) → Track B
+       │     Koremora → Korenest → Korevoy* …
+       └─ Seoul only → CONDITIONAL Seouvoy (비권장)
+법률 인접(*) → 풀 클리어 전 확정 금지
+라이브 → Tourink 유지
 ```
 
 ---
 
-## 8. 증거 로그 (요지)
+## 8. 증거 로그 (요지) — Track B
 
 | 후보 | `.com` RDAP | Google exact 고유브랜드 | 주의 |
 | --- | --- | --- | --- |
@@ -190,4 +211,58 @@ Koremora · Korenest · Korevoy · Hanreel · Koreova · Korespot · Korivyn · 
 
 ---
 
-*Adversarial pass complete — nationwide-first list locked; Tourink stays live.*
+## 9. Track A — Opaque / 한국 과몰입 해소 (신규)
+
+### 9.1 왜 “한국 몰입”도 문제인가
+
+| 반박(한국 이름 옹호) | 재반박(임원 E5/E6) |
+| --- | --- |
+| Korea면 ASO·콜드 이해 빠름 | 태그라인·키워드로 충분 (Creatrip도 이름만으론 Korea 약) |
+| Trazy도 Korea 특화로 이김 | Trazy는 **불투명 조어** + 카테고리로 Korea를 학습시킴. Kore\*는 이름 자체가 락 |
+| 외국인향이니 Korea가 정직 | 정직 ≠ 스케일. Airbnb는 침대에서 출발해 이름에서 뺐음 |
+
+**점수축 E (Geo-flexibility):** 이름에 국가/도시가 없으면 5, Kore/Han=2, Seoul=1.
+
+`OpaqueScore = 0.25A + 0.30B + 0.15C + 0.30E` (×20)
+
+통과선: OpaqueScore ≥ 84, E ≥ 4.5, Seoul/Kore/Han 접두 **없음**.
+
+### 9.2 Opaque 통과 리스트
+
+| # | 이름 | Opaque | E | 훅 | 주의 | 상태 |
+| ---: | --- | ---: | ---: | --- | --- | --- |
+| 1 | **Hangvoy** | **93** | 5 | hangout + voyage | hang≠Hanguk (발음 고지) | **PASS A** |
+| 2 | **Feedvoy** | **91** | 5 | feed + voyage | feed 일반어 | **PASS A** |
+| 3 | **Peervoy** | **90** | 5 | peer + voyage | — | **PASS A** |
+| 4 | **Matevoy** | **89** | 5 | mate + voyage | 데이팅 연상 소폭 | **PASS A** |
+| 5 | **Moraoya** | **88** | 5 | mora + oya — 머무름 | — | **PASS A** |
+| 6 | **Roamoya** | **87** | 5 | roam + oya | Roamora(별 철자) 존재 | **PASS A\*** |
+| 7 | **Peerreel** | **86** | 5 | peer + reel | reel 일반어 | **PASS A** |
+| 8 | **Tourumi** | **85** | 5 | tour + umi | Tourly 계열과 거리 있음 | **PASS A** |
+| 9 | **Voyumi** | **84** | 5 | voy + umi | **Voyay** 청각 | **PASS A\*** |
+| 10 | **Feedoya** | **84** | 5 | feed + oya | Feeda/Feedy 인접 | **PASS A\*** |
+
+백업: Bondvoy · Loovoy · Livvoy · Relvoy(≈Reloya) · Oyafeed · Habvoy · Cliqvoy · Amovoy(닉 잡음)
+
+### 9.3 Opaque 증거 로그
+
+| 후보 | `.com` | exact 고유브랜드 | 주의 |
+| --- | --- | --- | --- |
+| Hangvoy | 404 | 미발견 | — |
+| Feedvoy | 404 | 미발견 | — |
+| Peervoy | 404 | 미발견 | — |
+| Matevoy | 404 | 미발견 | — |
+| Moraoya | 404 | 미발견 | — |
+| Roamoya | 404 | 미발견 | Roamora 다수 |
+| Peerreel | 404 | 미발견 | — |
+| Tourumi | 404 | 미발견 | — |
+| Voyumi | 404 | 미발견 | Voyay |
+| Feedoya | 404 | 미발견 | Feeda |
+
+### 9.4 Tourink와의 관계
+
+Tourink 자체도 **opaque에 가깝다**. Korea 과몰입 비판을 받아들이면 **지금 유지가 합리적**이고, 리네임 시에도 Kore\*보다 **Hangvoy/Feedvoy**가 비판에 더 잘 맞음.
+
+---
+
+*Revised — dual track: Opaque(Hangvoy) vs Korea-niche(Koremora); Tourink stays live.*
