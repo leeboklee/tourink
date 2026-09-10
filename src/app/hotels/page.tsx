@@ -5,9 +5,9 @@ export default function HotelsPage() {
   return (
     <div>
       <SectionHero
-        eyebrow="Stay"
+        eyebrow="Catalog"
         title="Hotels across Korea"
-        subtitle="Landmark towers to nightlife bases — demo booking, no payment yet."
+        subtitle="Browse landmark stays — live booking waits on partner APIs (Expedia). No fake checkout."
       />
       <div className="grid gap-4 px-4 pb-8 sm:grid-cols-2 lg:px-0">
         {hotels.map((h) => (

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { communityPosts, meetups } from "@/data/mock";
 import { SectionHero } from "@/components/ui";
-import { RsvpButton } from "@/components/RsvpButton";
+import { MeetupCard } from "@/components/MeetupCard";
 
 export const metadata = { title: "Community" };
 
@@ -12,9 +12,9 @@ export default function CommunityPage() {
   return (
     <div>
       <SectionHero
-        eyebrow="Meetups · Ask locals"
+        eyebrow="Ask locals"
         title="Community board"
-        subtitle="Hangouts with RSVP, ask-a-local Q&A, and traveler tips — English-first for inbound visitors."
+        subtitle="Ask-a-local Q&A and traveler tips — hangouts live under Hangouts."
       />
 
       <section className="space-y-3 px-4 pb-6 lg:px-0">
@@ -26,36 +26,7 @@ export default function CommunityPage() {
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           {meetups.slice(0, 4).map((m) => (
-            <article key={m.id} className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-              <div className="flex items-center justify-between gap-2 text-xs text-white/45">
-                <span>
-                  {m.area}, {m.city}
-                </span>
-                <span>{m.when}</span>
-              </div>
-              <h3 className="mt-2 text-base font-semibold">{m.title}</h3>
-              <p className="mt-1 text-sm text-white/65">{m.description}</p>
-              <p className="mt-2 text-xs text-white/40">
-                Host{" "}
-                <Link href={`/u/${m.host}`} className="text-neon-cyan hover:underline">
-                  @{m.host}
-                </Link>
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {m.tags.map((t) => (
-                  <Link
-                    key={t}
-                    href={`/tag/${t}`}
-                    className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-neon-cyan hover:bg-white/10"
-                  >
-                    #{t}
-                  </Link>
-                ))}
-              </div>
-              <div className="mt-3">
-                <RsvpButton spots={m.spots} going={m.going} />
-              </div>
-            </article>
+            <MeetupCard key={m.id} meetup={m} compact />
           ))}
         </div>
       </section>

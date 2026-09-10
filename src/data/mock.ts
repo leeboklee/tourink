@@ -1359,3 +1359,66 @@ export function getHangoutsByHost(handle: string) {
 export function getCommunityByAuthor(handle: string) {
   return communityPosts.filter((p) => p.author === handle);
 }
+
+/** Default Following-tab authors for the demo traveler. */
+export const DEFAULT_FOLLOWING_HANDLES = [
+  "mina.seoul",
+  "busan.wave",
+  "local.yuna",
+  "jeju.trail"
+];
+
+export type AppNotification = {
+  id: string;
+  kind: "like" | "reply" | "rsvp" | "follow" | "mention";
+  actor: string;
+  text: string;
+  href: string;
+  createdAt: string;
+  unread?: boolean;
+};
+
+export const notifications: AppNotification[] = [
+  {
+    id: "n1",
+    kind: "like",
+    actor: "mina.seoul",
+    text: "liked your save on Hongdae neon",
+    href: "/post/p1",
+    createdAt: "12m",
+    unread: true
+  },
+  {
+    id: "n2",
+    kind: "rsvp",
+    actor: "kenji.osaka",
+    text: "RSVP’d to Bukhansan beginner hike",
+    href: "/hangouts",
+    createdAt: "1h",
+    unread: true
+  },
+  {
+    id: "n3",
+    kind: "reply",
+    actor: "local.yuna",
+    text: "replied on Ask locals · eSIM tips",
+    href: "/community",
+    createdAt: "3h"
+  },
+  {
+    id: "n4",
+    kind: "follow",
+    actor: "busan.wave",
+    text: "started following you",
+    href: "/u/busan.wave",
+    createdAt: "1d"
+  },
+  {
+    id: "n5",
+    kind: "mention",
+    actor: "jeju.trail",
+    text: "mentioned you in a Jeju trail tip",
+    href: "/u/jeju.trail",
+    createdAt: "2d"
+  }
+];
