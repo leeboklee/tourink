@@ -9,48 +9,19 @@
 
 ---
 
-## 결론 (2026-09-10)
+## 결론 (2026-09-10 · Top10 개정)
 
 | 결정 | 내용 |
 | --- | --- |
 | **라이브 제품명** | **Tourink 유지** (코드·배포 리네임 안 함) |
-| **마케팅 리네임 1순위** | **Seouvia** (서울 + via = “서울/한국을 통과하는 길”) |
-| **2순위** | **Seoubit** (서울 + bit = 피드 조각) |
-| **3순위** | **Seoumora** (서울 + mora/머무름) |
-| **탈락 핵심** | Hangukly≈Hanguly · Tourlya≈Tourly · Seoulyn=SEOULYN LLC · Seouloop≈Seoullo · Meetoya≈MeetYou |
+| **최종 Top 10 보고서** | [`BRAND_NAME_TOP10_REPORT.md`](./BRAND_NAME_TOP10_REPORT.md) |
+| **합성 1순위** | **Seouvoy** (Seoul + voyage) |
+| **2–3** | **SeoulReel** · **Seoumora** |
+| **탈락 핵심** | Hangukly · Tourlya · Seoulyn · Seouloop · Meetoya · **Seouvibe**(Seoul Vibe 법인들) · Meetkor · Seouza |
 
-**목표 충족 판정 (Seouvia):**
-1. **제품 핏** — 한국(서울) 신호 + 여행/경로 은유, 피드·행아웃 앱에 태그라인으로 보완 가능  
-2. **Google exact `"Seouvia"`** — 경쟁 여행/소셜 **고유 브랜드 미발견** (포르투갈어 “se ouvia” 잡음만)  
-3. **스토어** — Apple 검색 0 results; Play exact 앱 없음  
-4. **도메인** — `seouvia.com` / `seouvia.app` RDAP·DNS상 **미등록(resolve 실패 / .com 404)**  
-5. **주의** — 발음 유사 **Soovia**(Travel eSIM, 철자 다름). 음성 검색·ASO에서 혼동 가능 → 로고·철자 강조로 완화. **법률 클리어 전 확정 금지.**
+**Top 10:** Seouvoy · SeoulReel · Seoumora · Seoubit · Seounova · Seouzen · Korenest · Seouvia · Seoufy · Korespot  
 
----
-
-## A. 권장 숏리스트 (마케팅용)
-
-점수: 한국 신호 · 발음 · 유니크(Google/스토어/LLC) · 도메인 · 마케팅 훅.
-
-| 순위 | 이름 | 발음 | 훅 | Google / 고유브랜드 | 도메인 (.com) | 리스크 |
-| ---: | --- | --- | --- | --- | --- | --- |
-| **1** | **Seouvia** | see-OH-vee-ə / SOH-vee-ə | Seoul + via | exact 브랜드 없음 | RDAP 404 | **Soovia** eSIM 청각 유사 |
-| **2** | **Seoubit** | SOUL-bit / SEE-oh-bit | Seoul + bit(피드) | exact 브랜드·앱 없음 | RDAP 404 | “bit” 테크 일반어 |
-| **3** | **Seoumora** | see-oh-MOR-ə | Seoul + 머무름 | exact 없음 | RDAP 404 | 길이·발음 학습 필요 |
-| 4 | **Feedoya** | feed-OY-ə | feed + -oya | exact 없음 (Feeda/Feedy 인접) | RDAP 404 | 한국 신호 약함 |
-| 5 | **Seoukoo** | SOUL-koo | Seoul + 구/koo | exact 없음 | RDAP 404 | 장난감·약함 |
-
-### Seouvia 마케팅 스케치
-- 한 줄: **Seouvia — Korea travel, live with locals & travelers**
-- 한글 음차 후보: 서우비아 / 세우비아 (확정은 브랜드 가이드에서)
-- 히어로 예산: 브랜드명 1 + 한 문장 + CTA (피드/행아웃). Korea는 카피로 고정.
-
-### Seouvia 검증 체크리스트 (리네임 전 필수)
-- [ ] `seouvia.com` + `.app` (+ 가능하면 `.kr`) 확보  
-- [ ] KIPO + USPTO + WIPO(Madrid) + EUIPO **유사 포함** 풀 클리어  
-- [ ] Instagram / X / TikTok / YouTube 핸들 확보  
-- [ ] Soovia와 혼동 5–10명 외국인 발음 테스트  
-- [ ] 코드·Vercel·스토어·리다이렉트 스프린트 예산
+점수표 A(핏) / B(유니크·리스크) / C(실행) + Composite → 상세는 Top10 보고서.
 
 ---
 
@@ -63,10 +34,13 @@
 | **Seoulyn** | Florida **SEOULYN LLC** Active (sunbiz) — 고유 법인명 충돌 |
 | **Seouloop** | **Seoullo**(외국인 서울 관광 앱)와 철자·발음 근접 |
 | **Meetoya** | **MeetYou**(美柚)와 철자·발음 근접 |
+| **Seouvibe** | **The Seoul Vibe Ltd** · **Seoul Vibe LLC** · **VIBE Seoul GmbH** |
+| **Meetkor** | 화상회의 앱 |
+| **Seouza** | **SEOuza** SEO 브랜드 |
 | **Hanvia** | **Hanvia Studio**(브랜딩 회사) |
 | **Seouora** | **Seoulora**(스토어) / **Seoura**(에이전시) / **Seaoura** 근접 |
 | **Korelya / Korevia / Koravi / Koreel / Koreami / TripNuri / Inkorbit** | VC·물류·건설·미디어·퍼블리싱 등 기존 고유명 (이전 라운드) |
-| **Tourink 리네임 강제** | 딜브레이커 아님 → 라이브는 유지, 후보는 위 숏리스트로 보관 |
+| **Tourink 리네임 강제** | 딜브레이커 아님 → 라이브는 유지, Top10 보고서로 후보 보관 |
 
 ---
 
@@ -77,7 +51,7 @@
 
 **리네임 실행 조건 (모두 충족 시):**
 1. PMF·리텐션 신호 + 이름이 실제 소개/검색 마찰로 측정될 때  
-2. **Seouvia**(또는 확정 후보) 도메인 + 풀 법률 클리어  
+2. **Seouvoy**(또는 Top10 확정 후보) 도메인 + 풀 법률 클리어  
 3. 리다이렉트·소셜·스토어·문자열을 한 스프린트에 끝낼 여유  
 4. Tourink 혼란이 유저 인터뷰에서 **반복**될 때
 
@@ -123,10 +97,11 @@ Tourink/Seouvia 포지션: OTA도 순수 hangout만도 아닌 **피드 + 행아�
 ## G. 실행 제안
 
 1. **제품은 Tourink로 계속** — 이 PR에서 리네임 코드 변경 없음.  
-2. 리네임 준비 시 **Seouvia**로 도메인·핸들·법률 클리어 진행.  
-3. Soovia 발음 테스트 실패 시 **Seoubit → Seoumora** 순으로 폴백.  
-4. Hangukly / Tourlya / Seoulyn **재사용 금지**.
+2. 리네임 준비 시 **Seouvoy** → SeoulReel → Seoumora 순으로 도메인·핸들·법률 클리어.  
+3. Seouvia는 Soovia 발음 테스트 통과 시에만 승격.  
+4. Hangukly / Tourlya / Seoulyn / Seouvibe **재사용 금지**.  
+5. 점수·Top10 상세: `docs/BRAND_NAME_TOP10_REPORT.md`
 
 ---
 
-*Updated for PR #17 — rename candidate locked to Seouvia (product stays Tourink until clearance).*
+*Updated for PR #17 — Top10 locked (composite #1 Seouvoy; product stays Tourink until clearance).*
